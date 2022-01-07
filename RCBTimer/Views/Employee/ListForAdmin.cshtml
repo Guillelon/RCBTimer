@@ -1,0 +1,70 @@
+﻿@model List<DAL.DTO.EmployeeList>
+
+<div class="card">
+    <div class="card-body">
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @ViewBag.SuccessMessage
+            </div>
+        }
+        <div class="row">
+            <div class="col-sm-6 col-md-2">
+                <a class="btn btn-primary btn-block" href="/Employee/Create">Crear nuevo</a>
+            </div>
+        </div>
+        <br />
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        <div style="text-align:center">
+                            Empleados en turno
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var employee in Model.Where(m => m.HasTimeRunning))
+                {
+                    <tr>
+                        <td>
+                            <div id="@employee.Id" class="row">
+                                <div class="col-8">
+                                    @employee.Info
+                                </div>
+                                <div class="col-4">
+                                    <span class="badge badge-primary">@employee.TimeBeginning</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <hr />
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        <div style="text-align:center">
+                            Empleados en descanso
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var employee in Model.Where(m => !m.HasTimeRunning))
+                {
+                    <tr>
+                        <td>
+                            <div id="@employee.Id" class="row toEmployeeInfo">
+                                @employee.Info
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

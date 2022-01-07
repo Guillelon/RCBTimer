@@ -12,6 +12,7 @@ namespace DAL.DTO
         public int Id { get; set; }
         public string Info { get; set; }
         public bool HasTimeRunning { get; set; }
+        public string TimeBeginning { get; set; }
     }
 
     public class EmployeeInfo

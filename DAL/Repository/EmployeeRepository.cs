@@ -34,6 +34,33 @@ namespace DAL.Repository
             return dtos;
         }
 
+        public Employee Create(Employee employee)
+        {
+            context.Employee.Add(employee);
+            context.SaveChanges();
+            return employee;
+        }
+
+        public IList<EmployeeList> GetAllForAdmin()
+        {
+            var employees = context.Employee.ToList();
+            var dtos = new List<EmployeeList>();
+            foreach (var employee in employees)
+            {
+                var dto = new EmployeeList();
+                dto.Info = employee.FullInfo();
+                dto.Id = employee.Id;
+                dto.HasTimeRunning = employee.Workdays.Where(w => w.EndTime == null).Any();
+                if (dto.HasTimeRunning)
+                {
+                    var workday = employee.Workdays.Where(w => w.EndTime == null).FirstOrDefault();
+                    dto.TimeBeginning = workday.BeginningTime.ToString("hh:mm tt");
+                }
+                dtos.Add(dto);
+            }
+            return dtos;
+        }
+
         public EmployeeInfo GetEmployee(int id)
         {
             var employee = context.Employee.Where(e => e.Id == id).FirstOrDefault();

@@ -15,11 +15,23 @@
 
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/app.js"></script>
 </head>
 <body>
     <div class="navbar navbar-expand-md navbar-light">
         <div style="text-align:center;padding-top:5px;padding-bottom:5px">
-            <img src="~/Images/AltLogo.png"  width="150"/>
+            <img src="~/Images/AltLogo.png" width="150" />
+        </div>
+        <div style="padding-top:30px">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <span>@User.Identity.Name</span>
+            }
+            else
+            {
+                <a href="/Account/Login">Login</a>
+            }
         </div>
     </div>
 

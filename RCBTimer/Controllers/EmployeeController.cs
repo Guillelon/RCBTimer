@@ -1,4 +1,5 @@
-﻿using DAL.Repository;
+﻿using DAL.Models;
+using DAL.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,39 @@ namespace RCBTimer.Controllers
         public EmployeeController()
         {
             employeeRepository = new EmployeeRepository();
+        }
+
+        [Authorize]
+        public ActionResult ListForAdmin()
+        {
+            var model = employeeRepository.GetAllForAdmin();
+            if (TempData["SuccessMessage"] != null)
+            {
+                ViewBag.SuccessMessage = TempData["SuccessMessage"].ToString();
+            }
+            return View(model);
+        }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Employee employee)
+        {
+            if(employee.FirstName != null && employee.FirstName.Length > 0 &&
+               employee.LastName != null && employee.LastName.Length > 0 &&
+               employee.Position != null && employee.Position.Length > 0 &&
+               employee.NationalId != null && employee.NationalId.Length > 0)
+            {
+                employeeRepository.Create(employee);
+                TempData["SuccessMessage"] = "Se creó el colaborador con éxito!";
+                return RedirectToAction("ListForAdmin");
+            }
+            ViewBag.ErrorMessage = "Todos los campos son requeridos";
+            return View(employee);
         }
 
         public ActionResult Index()

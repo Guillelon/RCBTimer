@@ -10,6 +10,8 @@ namespace RCBTimer.Controllers
     {
         public ActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("ListForAdmin", "Employee", null);
             return View();
         }
 
