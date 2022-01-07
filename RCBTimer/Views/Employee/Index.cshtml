@@ -1,0 +1,46 @@
+﻿@model List<DAL.DTO.EmployeeList>
+
+<div class="card">
+    <div class="card-body">
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @ViewBag.SuccessMessage
+            </div>
+        }
+        <table class="table table-bordered">
+            <tbody>
+                @foreach (var employee in Model)
+                {
+                    <tr>
+                        <td>
+                            <div id="@employee.Id" class="row toEmployeeInfo">
+                                <div class="col-6">
+                                    @employee.Info
+                                </div>
+                                <div class="col-3" style="text-align:center">
+                                    @if (employee.HasTimeRunning)
+                                    {
+                                        <span class="badge badge-primary">En horario</span>
+                                    }
+                                </div>
+                                <div class="col-3" style="text-align:right">
+                                    <i class="icon-watch2"></i>
+                                    <i class="icon-arrow-right13"></i>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.toEmployeeInfo').click(function (e) {
+            window.location.href = "/Employee/Info/" + this.id;
+        });
+    })
+</script>

@@ -1,0 +1,52 @@
+﻿@model DAL.DTO.EmployeeInfo
+
+<div class="card">
+    <div class="card-body">
+        <div style="text-align:center">
+            <strong class="text-primary">@Model.TodaysInfo</strong>
+            <hr style="margin-bottom:15px;margin-top:15px" />
+            <h3 style="margin-bottom:0px">@Model.Name</h3>
+            <div class="form-group text-center text-muted content-divider">
+                @Model.Position
+            </div>
+            <hr style="margin-bottom:15px;margin-top:15px" />
+            <div style="text-align:center">
+                @if (Model.HasTimeRunning)
+                {
+                    <strong class="text-primary">@Model.Workday.BeginningTime.ToString("hh:mm tt")</strong>
+                    <br />
+                    <strong class="text-secondary">Inicio del turno</strong>
+                }
+                else
+                {
+                    <strong class="text-primary">No se ha iniciado el horario</strong>
+                }
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-2">
+
+                </div>
+                <div class="col-8">
+                    @if (Model.HasTimeRunning)
+                    {
+                        <button class="btn btn-block btn-primary processWorkDay">Terminar horario <i class="icon-watch2"></i></button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-block btn-primary processWorkDay">Iniciar horario <i class="icon-watch2"></i></button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.processWorkDay').click(function (e) {
+            window.location.href = "/Employee/ProcessWorkDay/" + @Model.Id;
+        });
+    })
+</script>

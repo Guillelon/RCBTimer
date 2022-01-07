@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29609.76
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCBTimer", "RCBTimer\RCBTimer.csproj", "{91DCE00D-D5A5-46F7-B22F-2436ECDC3F91}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repository", "Repository", "{0E273EDF-FAD3-4EDF-B543-C6220AA9731D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{99E5543E-3881-4206-8B40-5B4F073C1ADC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91DCE00D-D5A5-46F7-B22F-2436ECDC3F91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91DCE00D-D5A5-46F7-B22F-2436ECDC3F91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91DCE00D-D5A5-46F7-B22F-2436ECDC3F91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91DCE00D-D5A5-46F7-B22F-2436ECDC3F91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99E5543E-3881-4206-8B40-5B4F073C1ADC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99E5543E-3881-4206-8B40-5B4F073C1ADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99E5543E-3881-4206-8B40-5B4F073C1ADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99E5543E-3881-4206-8B40-5B4F073C1ADC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{99E5543E-3881-4206-8B40-5B4F073C1ADC} = {0E273EDF-FAD3-4EDF-B543-C6220AA9731D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DD9BE6EE-DF3A-4EA2-9583-FEC288644510}
+	EndGlobalSection
+EndGlobal

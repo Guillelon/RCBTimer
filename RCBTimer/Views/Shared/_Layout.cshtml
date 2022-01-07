@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Residencial Casa Blanca</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap_limitless.min.css" rel="stylesheet" />
+    <link href="~/Content/layout.min.css" rel="stylesheet" />
+    <link href="~/Content/components.min.css" rel="stylesheet" />
+    <link href="~/Content/colors.min.css" rel="stylesheet" />
+    <link href="~/Content/auto-complete.css" rel="stylesheet" />
+    <link href="~/Content/icomoon/styles.css" rel="stylesheet" />
+    <link href="~/Content/summernote.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-expand-md navbar-light">
+        <div style="text-align:center;padding-top:5px;padding-bottom:5px">
+            <img src="~/Images/AltLogo.png"  width="150"/>
+        </div>
+    </div>
+
+    <div class="page-content">
+        <div class="content-wrapper" style="background-color: #F5F5F5">
+            <div class="content">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</body>
+</html>
