@@ -60,6 +60,10 @@
     <Compile Include="Migrations\202201070106195_MakingEndTimeNullInWorkDat.designer.cs">
       <DependentUpon>202201070106195_MakingEndTimeNullInWorkDat.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202201111740054_AddingMoreInfoToWorkDay.cs" />
+    <Compile Include="Migrations\202201111740054_AddingMoreInfoToWorkDay.designer.cs">
+      <DependentUpon>202201111740054_AddingMoreInfoToWorkDay.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\RCBTimerDBContext.cs" />
@@ -77,6 +81,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202201070106195_MakingEndTimeNullInWorkDat.resx">
       <DependentUpon>202201070106195_MakingEndTimeNullInWorkDat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202201111740054_AddingMoreInfoToWorkDay.resx">
+      <DependentUpon>202201111740054_AddingMoreInfoToWorkDay.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

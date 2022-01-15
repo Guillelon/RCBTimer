@@ -41,6 +41,13 @@ namespace DAL.Repository
             return employee;
         }
 
+        public Employee Edit(Employee employee)
+        {
+            context.Entry(employee).State = EntityState.Modified;
+            context.SaveChanges();
+            return employee;
+        }
+
         public IList<EmployeeList> GetAllForAdmin()
         {
             var employees = context.Employee.ToList();
@@ -61,6 +68,11 @@ namespace DAL.Repository
             return dtos;
         }
 
+        public Employee Get(int id)
+        {
+            return context.Employee.Where(e => e.Id == id).FirstOrDefault();
+        }
+
         public EmployeeInfo GetEmployee(int id)
         {
             var employee = context.Employee.Where(e => e.Id == id).FirstOrDefault();
@@ -70,8 +82,23 @@ namespace DAL.Repository
                 dto.Name = employee.FullName();
                 dto.Position = employee.Position;
                 dto.Id = employee.Id;
-                dto.HasTimeRunning = employee.Workdays.Where(w => w.EndTime == null).Any();
+                dto.HasTimeRunning = employee.Workdays.Where(w => w.EndTime == null).Any();                
                 dto.Workday = employee.Workdays.Where(w => w.EndTime == null).FirstOrDefault();
+                if(dto.Workday != null)
+                {
+                    if (dto.Workday.BreakBeginningTime.HasValue)
+                    {
+                        if (!dto.Workday.BreakEndTime.HasValue)                            
+                        {
+                            dto.BreakEnded = false;
+                            dto.HasBreakRunning = true;
+                        }
+                        else
+                            dto.BreakEnded = true;
+                    }
+                    else
+                        dto.HasBreakRunning = false;
+                }
                 var ci = new CultureInfo("es-ES");
                 var today = DateTime.Now;
                 string todaysInfo = today.Day + " " + today.ToString("MMMM", ci) + " del " + today.ToString("yyyy");
@@ -101,6 +128,20 @@ namespace DAL.Repository
                 context.SaveChanges();
                 return "Se registró con éxito la apertura de horario para " + employee.FirstName;
             }
+        }
+
+        public string ProcessBreak(int id)
+        {
+            var employee = context.Employee.Where(e => e.Id == id).FirstOrDefault();
+            var workDay = employee.Workdays.Where(w => w.EndTime == null).FirstOrDefault();
+            if (workDay != null)
+            {
+                workDay.Break();
+                context.Entry(workDay).State = EntityState.Modified;
+                context.SaveChanges();
+                return "Se registró con éxito el break para " + employee.FirstName;
+            }
+            return null;
         }
     }
 }

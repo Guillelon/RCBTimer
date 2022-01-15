@@ -33,6 +33,12 @@ namespace RCBTimer.Controllers
             return View();
         }
 
+        public ActionResult Edit(int id)
+        {
+            var employee = employeeRepository.Get(id);
+            return View("Create",employee);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Employee employee)
@@ -42,9 +48,18 @@ namespace RCBTimer.Controllers
                employee.Position != null && employee.Position.Length > 0 &&
                employee.NationalId != null && employee.NationalId.Length > 0)
             {
-                employeeRepository.Create(employee);
-                TempData["SuccessMessage"] = "Se creó el colaborador con éxito!";
-                return RedirectToAction("ListForAdmin");
+                if(employee.Id > 0)
+                {
+                    employeeRepository.Edit(employee);
+                    TempData["SuccessMessage"] = "Se editó el colaborador con éxito!";
+                    return RedirectToAction("ListForAdmin");
+                }
+                else
+                {
+                    employeeRepository.Create(employee);
+                    TempData["SuccessMessage"] = "Se creó el colaborador con éxito!";
+                    return RedirectToAction("ListForAdmin");
+                }
             }
             ViewBag.ErrorMessage = "Todos los campos son requeridos";
             return View(employee);
@@ -71,7 +86,13 @@ namespace RCBTimer.Controllers
             var result = employeeRepository.ProcessWorkDay(id);
             TempData["SuccessMessage"] = result;
             return RedirectToAction("Index");
+        }
 
+        public ActionResult ProcessBreak(int id)
+        {
+            var result = employeeRepository.ProcessBreak(id);
+            TempData["SuccessMessage"] = result;
+            return RedirectToAction("Index");
         }
     }
 }

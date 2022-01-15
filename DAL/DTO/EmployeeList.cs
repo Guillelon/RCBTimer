@@ -21,6 +21,8 @@ namespace DAL.DTO
         public string Name { get; set; }
         public string Position { get; set; }
         public bool HasTimeRunning { get; set; }
+        public bool HasBreakRunning { get; set; }
+        public bool BreakEnded { get; set; }
         public Workday Workday { get; set; }
         public string TodaysInfo { get; set; }
     }

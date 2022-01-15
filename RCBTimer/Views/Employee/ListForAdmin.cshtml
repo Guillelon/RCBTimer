@@ -29,7 +29,7 @@
                 {
                     <tr>
                         <td>
-                            <div id="@employee.Id" class="row">
+                            <div id="@employee.Id" class="row toEmployeeEdit">
                                 <div class="col-8">
                                     @employee.Info
                                 </div>
@@ -58,7 +58,7 @@
                 {
                     <tr>
                         <td>
-                            <div id="@employee.Id" class="row toEmployeeInfo">
+                            <div id="@employee.Id" class="row toEmployeeEdit">
                                 @employee.Info
                             </div>
                         </td>
@@ -68,3 +68,11 @@
         </table>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('.toEmployeeEdit').click(function (e) {
+            window.location.href = "/Employee/Edit/" + this.id;
+        });
+    })
+</script>

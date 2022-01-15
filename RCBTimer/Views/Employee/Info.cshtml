@@ -13,9 +13,40 @@
             <div style="text-align:center">
                 @if (Model.HasTimeRunning)
                 {
-                    <strong class="text-primary">@Model.Workday.BeginningTime.ToString("hh:mm tt")</strong>
-                    <br />
-                    <strong class="text-secondary">Inicio del turno</strong>
+                    <div class="row">
+                        <div class="col-12" style="text-align:center">
+                            <strong class="text-primary">@Model.Workday.BeginningTime.ToString("hh:mm tt")</strong>
+                            <br />
+                            <strong class="text-secondary">Inicio del turno</strong>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        @if (!Model.HasBreakRunning && Model.BreakEnded)
+                        {
+                            <div class="col-6">
+                                <strong class="text-primary">@Model.Workday.BreakBeginningTime.Value.ToString("hh:mm tt")</strong>
+                                <br />
+                                <strong class="text-secondary">Inicio del break</strong>
+                            </div>
+                            <div class="col-6">
+                                <strong class="text-primary">@Model.Workday.BreakEndTime.Value.ToString("hh:mm tt")</strong>
+                                <br />
+                                <strong class="text-secondary">Fin del break</strong>
+                            </div>
+                        }
+                        else
+                        {
+                            if (Model.HasBreakRunning)
+                            {
+                                <div class="col-6">
+                                    <strong class="text-primary">@Model.Workday.BreakBeginningTime.Value.ToString("hh:mm tt")</strong>
+                                    <br />
+                                    <strong class="text-secondary">Inicio del break</strong>
+                                </div>
+                            }
+                        }
+                    </div>
                 }
                 else
                 {
@@ -24,20 +55,47 @@
             </div>
             <br />
             <br />
-            <div class="row">
-                <div class="col-2">
+            <div>
+                @if (Model.HasTimeRunning)
+                {
+                    if (!Model.HasBreakRunning && !Model.BreakEnded)
+                    {
+                        <div class="row">
+                            <div class="col-6">
+                                <button class="btn btn-block btn-warning processBreak">Iniciar Break <i class="icon-cup2"></i></button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-block btn-primary processWorkDay">Terminar turno <i class="icon-watch2"></i></button>
+                            </div>
+                        </div>
+                    }
+                    else if (Model.HasBreakRunning)
+                    {
+                        <div class="row">
+                            <div class="col-3">
 
-                </div>
-                <div class="col-8">
-                    @if (Model.HasTimeRunning)
-                    {
-                        <button class="btn btn-block btn-primary processWorkDay">Terminar turno <i class="icon-watch2"></i></button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-block btn-warning processBreak">Terminar Break <i class="icon-cup2"></i></button>
+                            </div>
+                        </div>
                     }
-                    else
+                    else if (Model.BreakEnded)
                     {
-                        <button class="btn btn-block btn-primary processWorkDay">Iniciar turno <i class="icon-watch2"></i></button>
+                        <div class="row">
+                            <div class="col-3">
+
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-block btn-primary processWorkDay">Terminar turno <i class="icon-watch2"></i></button>
+                            </div>
+                        </div>
                     }
-                </div>
+                }
+                else
+                {
+                    <button class="btn btn-block btn-primary processWorkDay">Iniciar turno <i class="icon-watch2"></i></button>
+                }
             </div>
         </div>
     </div>
@@ -47,6 +105,10 @@
     $(document).ready(function () {
         $('.processWorkDay').click(function (e) {
             window.location.href = "/Employee/ProcessWorkDay/" + @Model.Id;
+        });
+
+        $('.processBreak').click(function (e) {
+            window.location.href = "/Employee/ProcessBreak/" + @Model.Id;
         });
     })
 </script>
