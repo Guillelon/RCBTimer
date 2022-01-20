@@ -172,6 +172,7 @@
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -183,6 +184,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\auto-complete.css" />
+    <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -202,6 +204,7 @@
     <Content Include="Images\AltLogo.png" />
     <Content Include="Images\Logo.png" />
     <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\bootstrap-datepicker.min.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -257,6 +260,8 @@
     <Content Include="Views\Employee\Info.cshtml" />
     <Content Include="Views\Employee\ListForAdmin.cshtml" />
     <Content Include="Views\Employee\Create.cshtml" />
+    <Content Include="Views\Report\Workdays.cshtml" />
+    <Content Include="Views\Report\_WorkDays.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

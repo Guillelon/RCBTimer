@@ -1,0 +1,47 @@
+﻿<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-3">
+                <small>Fecha de inicio</small>
+                <input id="beginDate" autocomplete="off" class="datepicker form-control" data-date-format="dd/mm/yyyy">
+            </div>
+            <div class="col-3">
+                <small>Fecha fin</small>
+                <input id="endDate" autocomplete="off" class="datepicker form-control" data-date-format="dd/mm/yyyy">
+            </div>
+            <div class="col-3">
+                <button id="search" style="margin-top:20px" class="btn btn-block btn-primary">
+                    Buscar
+                </button>
+            </div>
+        </div>
+        <hr />
+        <div id="result">
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.datepicker').datepicker({
+
+        });
+
+        $('#search').click(function () {
+            var beginDate = $('#beginDate').val();
+            var endDate = $('#endDate').val();
+            $('#loading').show();
+            $.ajax({
+                url: '/Report/GetWorkDays?beginDate=' + beginDate +
+                                              '&endDate=' + endDate,
+                type: 'GET',
+                success: function (data) {
+                    $('#result').html('');
+                    $('#result').html(data);
+                }
+            });
+        });
+    });
+</script>
+

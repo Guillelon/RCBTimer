@@ -1,0 +1,47 @@
+﻿@model IList<DAL.DTO.WorkdaysReportDTO>
+@if (Model != null && Model.Count > 0)
+{
+    <div class="row">
+        <div class="col-8 col-lg-10">
+
+        </div>
+        <div class="col-4 col-lg-2">
+            <a href="/Report/DownloadWorkdays" target="_blank" class="btn btn-block btn-primary">
+                Descargar
+            </a>
+        </div>
+    </div>
+    <br />
+    <br />
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    Colaborador
+                </th>
+                <th>
+                    Fecha
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var workday in Model)
+            {
+                <tr>
+                    <td>
+                        @workday.EmployeeInfo
+                    </td>
+                    <td>
+                        @workday.BeginningTime.ToString("dd/MM/yyyy")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info" style="text-align:center" role="alert">
+        No hay datos para mostrar
+    </div>
+}

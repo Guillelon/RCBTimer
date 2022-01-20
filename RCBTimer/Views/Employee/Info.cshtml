@@ -4,6 +4,8 @@
     <div class="card-body">
         <div style="text-align:center">
             <strong class="text-primary">@Model.TodaysInfo</strong>
+            <br />
+            <strong class="text-primary">@Model.TodaysHourInfo</strong>
             <hr style="margin-bottom:15px;margin-top:15px" />
             <h3 style="margin-bottom:0px">@Model.Name</h3>
             <div class="form-group text-center text-muted content-divider">
@@ -11,7 +13,7 @@
             </div>
             <hr style="margin-bottom:15px;margin-top:15px" />
             <div style="text-align:center">
-                @if (Model.HasTimeRunning)
+                @if (Model.HasTimeRunning || Model.TimeEnded)
                 {
                     <div class="row">
                         <div class="col-12" style="text-align:center">
@@ -80,7 +82,7 @@
                             </div>
                         </div>
                     }
-                    else if (Model.BreakEnded)
+                    else if (Model.BreakEnded && !Model.TimeEnded)
                     {
                         <div class="row">
                             <div class="col-3">

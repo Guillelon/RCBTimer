@@ -78,7 +78,8 @@ namespace DAL.Repository
         {
             var employee = context.Employee.Where(e => e.Id == id).FirstOrDefault();
             var dto = new EmployeeInfo();
-            if(employee != null)
+            var today = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
+            if (employee != null)
             {
                 dto.Name = employee.FullName();
                 dto.Position = employee.Position;
@@ -100,10 +101,33 @@ namespace DAL.Repository
                     else
                         dto.HasBreakRunning = false;
                 }
-                var ci = new CultureInfo("es-ES");
-                var today = DateTime.Now;
-                string todaysInfo = today.Day + " " + today.ToString("MMMM", ci) + " del " + today.ToString("yyyy") + " " + today.ToShortTimeString();
+                else
+                {
+                    dto.Workday = employee.Workdays.Where(c => c.EndTime != null
+                                                          && c.EndTime.Value.Date == today.Date)
+                                                   .OrderByDescending(w => w.Id)
+                                                   .FirstOrDefault();
+                    if(dto.Workday != null)
+                        dto.TimeEnded = true;
+
+                    if (dto.Workday.BreakBeginningTime.HasValue)
+                    {
+                        if (!dto.Workday.BreakEndTime.HasValue)
+                        {
+                            dto.BreakEnded = false;
+                            dto.HasBreakRunning = true;
+                        }
+                        else
+                            dto.BreakEnded = true;
+                    }
+                    else
+                        dto.HasBreakRunning = false;
+                }
+
+                var ci = new CultureInfo("es-ES");                
+                string todaysInfo = today.Day + " " + today.ToString("MMMM", ci) + " del " + today.ToString("yyyy");
                 dto.TodaysInfo = todaysInfo;
+                dto.TodaysHourInfo = today.ToShortTimeString();
                 return dto;
             }
 

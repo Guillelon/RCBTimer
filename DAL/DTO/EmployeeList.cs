@@ -27,5 +27,6 @@ namespace DAL.DTO
         public bool BreakEnded { get; set; }
         public Workday Workday { get; set; }
         public string TodaysInfo { get; set; }
+        public string TodaysHourInfo { get; set; }
     }
 }
