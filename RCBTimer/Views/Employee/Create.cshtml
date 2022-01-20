@@ -45,7 +45,7 @@
 
                     </div>
                     <div class="col-md-6">
-                        @if (Model.Id > 0)
+                        @if (Model != null && Model.Id > 0)
                         {
                             <button type="submit" class="btn btn-primary btn-block">Editar <i class="icon-pencil ml-2"></i></button>
                         }

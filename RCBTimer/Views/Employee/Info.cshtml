@@ -56,7 +56,7 @@
             <br />
             <br />
             <div>
-                @if (Model.HasTimeRunning)
+                @if (Model.HasTimeRunning || Model.TimeEnded)
                 {
                     if (!Model.HasBreakRunning && !Model.BreakEnded)
                     {
@@ -96,6 +96,10 @@
                 {
                     <button class="btn btn-block btn-primary processWorkDay">Iniciar turno <i class="icon-watch2"></i></button>
                 }
+                @if (Model.TimeEnded)
+                {
+                    <button class="btn btn-block btn-primary processWorkDay">Iniciar nuevo turno <i class="icon-watch2"></i></button>
+                }
             </div>
         </div>
     </div>
@@ -104,11 +108,15 @@
 <script>
     $(document).ready(function () {
         $('.processWorkDay').click(function (e) {
-            window.location.href = "/Employee/ProcessWorkDay/" + @Model.Id;
+            if (confirm("¿Está seguro(a) que desea  realizar esta acción?") == true) {
+                window.location.href = "/Employee/ProcessWorkDay/" + @Model.Id;
+            }
         });
 
         $('.processBreak').click(function (e) {
-            window.location.href = "/Employee/ProcessBreak/" + @Model.Id;
+            if (confirm("¿Está seguro(a) que desea  realizar esta acción?") == true) {
+                window.location.href = "/Employee/ProcessBreak/" + @Model.Id;
+            }
         });
     })
 </script>

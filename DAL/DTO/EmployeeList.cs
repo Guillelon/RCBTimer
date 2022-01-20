@@ -11,6 +11,7 @@ namespace DAL.DTO
     {
         public int Id { get; set; }
         public string Info { get; set; }
+        public string NationalId { get; set; }
         public bool HasTimeRunning { get; set; }
         public string TimeBeginning { get; set; }
     }
@@ -22,6 +23,7 @@ namespace DAL.DTO
         public string Position { get; set; }
         public bool HasTimeRunning { get; set; }
         public bool HasBreakRunning { get; set; }
+        public bool TimeEnded { get; set; }
         public bool BreakEnded { get; set; }
         public Workday Workday { get; set; }
         public string TodaysInfo { get; set; }

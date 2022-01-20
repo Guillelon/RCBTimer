@@ -26,6 +26,7 @@ namespace DAL.Repository
             foreach(var employee in employees)
             {
                 var dto = new EmployeeList();
+                dto.NationalId = employee.NationalId;
                 dto.Info = employee.FullInfo();
                 dto.Id = employee.Id;
                 dto.HasTimeRunning = employee.Workdays.Where(w => w.EndTime == null).Any();
@@ -101,7 +102,7 @@ namespace DAL.Repository
                 }
                 var ci = new CultureInfo("es-ES");
                 var today = DateTime.Now;
-                string todaysInfo = today.Day + " " + today.ToString("MMMM", ci) + " del " + today.ToString("yyyy");
+                string todaysInfo = today.Day + " " + today.ToString("MMMM", ci) + " del " + today.ToString("yyyy") + " " + today.ToShortTimeString();
                 dto.TodaysInfo = todaysInfo;
                 return dto;
             }
