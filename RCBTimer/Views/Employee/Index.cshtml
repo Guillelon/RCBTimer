@@ -23,6 +23,7 @@
                 {
                     <tr>
                         <td>
+                            <input style="display:none" id="@employee.Id-cedula" value="@employee.NationalId" />
                             <div id="@employee.Id" class="row toEmployeeInfo">
                                 <div class="col-6">
                                     @employee.Info
@@ -60,6 +61,7 @@
                 {
                     <tr>
                         <td>
+                            <input style="display:none" id="@employee.Id-cedula" value="@employee.NationalId" />
                             <div id="@employee.Id" class="row toEmployeeInfo">
                                 <div class="col-6">
                                     @employee.Info
@@ -82,10 +84,33 @@
     </div>
 </div>
 
+<div id="securityModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="padding-top:25px; text-align:center">
+                <small>Cédula</small>
+                <input id="nationalIdInput" class="form-control" type="number" />
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
+        var idSelected = 0;
+        var nationalIdSelected = 0;
         $('.toEmployeeInfo').click(function (e) {
-            window.location.href = "/Employee/Info/" + this.id;
+            idSelected = this.id;
+            var toSearch = '#' + idSelected + '-cedula';
+            nationalIdSelected = $(toSearch).val();
+            console.log(nationalIdSelected);
+            $('#securityModal').modal('show');            
+        });
+
+        $('#nationalIdInput').keyup(function () {
+            if (this.value == nationalIdSelected) {
+                window.location.href = "/Employee/Info/" + idSelected;
+            }
         });
     })
 </script>
