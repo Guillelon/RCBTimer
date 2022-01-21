@@ -104,7 +104,8 @@
             var toSearch = '#' + idSelected + '-cedula';
             nationalIdSelected = $(toSearch).val();
             console.log(nationalIdSelected);
-            $('#securityModal').modal('show');            
+            $('#securityModal').modal('show');   
+            $('#nationalIdInput').focus();
         });
 
         $('#nationalIdInput').keyup(function () {
