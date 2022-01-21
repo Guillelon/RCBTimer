@@ -1,4 +1,5 @@
 ﻿using DAL.DTO;
+using DAL.Models;
 using DAL.Repository;
 using System;
 using System.Collections.Generic;
@@ -9,12 +10,17 @@ using System.Web.Mvc;
 
 namespace RCBTimer.Controllers
 {
+
+    [Authorize]
     public class ReportController : Controller
     {
         private ReportRepository reportRepository;
+        private EmployeeRepository employeeRepository;
+
         public ReportController()
         {
             reportRepository = new ReportRepository();
+            employeeRepository = new EmployeeRepository();
         }
 
         public ActionResult Workdays()
@@ -89,6 +95,21 @@ namespace RCBTimer.Controllers
                 return File(new System.Text.UTF8Encoding().GetBytes(lines), "text/csv", "Horas.csv");
             }
             return null;
+        }
+
+        public ActionResult EditWorkDay(int id)
+        {
+            var workday = employeeRepository.GetWorkday(id);
+            return View(workday);
+        }
+
+        [HttpPost]
+        public ActionResult EditWorkDay(Workday model)
+        {
+            employeeRepository.EditWorkDay(model);
+            ViewBag.SuccessMessage = "Se editó con éxito el turno";
+            var workday = employeeRepository.GetWorkday(model.Id);
+            return View(workday);
         }
     }
 }

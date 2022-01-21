@@ -168,5 +168,16 @@ namespace DAL.Repository
             }
             return null;
         }
+
+        public Workday GetWorkday(int id)
+        {
+            return context.Workday.Where(w => w.Id == id).Include(w => w.Employee).FirstOrDefault();
+        }
+
+        public void EditWorkDay(Workday model)
+        {
+            context.Entry(model).State = EntityState.Modified;
+            context.SaveChanges();
+        }
     }
 }

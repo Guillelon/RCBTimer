@@ -262,6 +262,7 @@
     <Content Include="Views\Employee\Create.cshtml" />
     <Content Include="Views\Report\Workdays.cshtml" />
     <Content Include="Views\Report\_WorkDays.cshtml" />
+    <Content Include="Views\Report\EditWorkDay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

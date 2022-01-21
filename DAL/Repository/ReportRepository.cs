@@ -23,6 +23,7 @@ namespace DAL.Repository
                                               w.BeginningTime <= endTime)
                                   .Select(w => new WorkdaysReportDTO
                                   {
+                                      Id = w.Id,
                                       EmployeeInfo = w.Employee.FirstName + " " + w.Employee.LastName,
                                       BeginningTime = w.BeginningTime,
                                       BreakBeginningTime = w.BreakBeginningTime,

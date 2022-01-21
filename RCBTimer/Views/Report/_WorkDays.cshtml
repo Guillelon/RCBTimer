@@ -22,6 +22,9 @@
                 <th>
                     Fecha
                 </th>
+                <th>
+
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -33,6 +36,11 @@
                     </td>
                     <td>
                         @workday.BeginningTime.ToString("dd/MM/yyyy")
+                    </td>
+                    <td style="text-align:center">
+                        <a target="_blank" href="/Report/EditWorkDay/@workday.Id" class="btn btn-primary btn-sm btn-small">
+                            <i class="icon-pencil"></i>
+                        </a>
                     </td>
                 </tr>
             }

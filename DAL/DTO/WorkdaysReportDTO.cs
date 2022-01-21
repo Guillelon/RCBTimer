@@ -8,6 +8,7 @@ namespace DAL.DTO
 {
     public class WorkdaysReportDTO
     {
+        public int Id { get; set; }
         public string EmployeeInfo { get; set; }
         public DateTime BeginningTime { get; set; }
         public DateTime? EndTime { get; set; }
