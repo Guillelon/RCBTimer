@@ -107,18 +107,48 @@
     </div>
 </div>
 
+<div id="successModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="padding-top:25px; text-align:center">
+                <p id="messageText"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
         $('.processWorkDay').click(function (e) {
-            if (confirm("¿Está seguro(a) que desea  realizar esta acción?") == true) {
-                window.location.href = "/Employee/ProcessWorkDay/" + @Model.Id;
+            if (confirm("¿Está seguro(a) que desea realizar esta acción?") == true) {
+                $.ajax({
+                    url: "/Employee/ProcessWorkDay/" + @Model.Id,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#messageText').text(data);
+                        $('#successModal').modal('show');
+                        setTimeout(redirectToIndex, 3000);
+                    }
+                });
             }
         });
 
         $('.processBreak').click(function (e) {
-            if (confirm("¿Está seguro(a) que desea  realizar esta acción?") == true) {
-                window.location.href = "/Employee/ProcessBreak/" + @Model.Id;
+            if (confirm("¿Está seguro(a) que desea realizar esta acción?") == true) {
+                $.ajax({
+                    url: "/Employee/ProcessBreak/" + @Model.Id,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#messageText').text(data);
+                        $('#successModal').modal('show');
+                        setTimeout(redirectToIndex, 3000);
+                    }
+                });
             }
         });
+                
+        var redirectToIndex = function(){
+            window.location.replace("/Employee/Index");
+        };
     })
 </script>

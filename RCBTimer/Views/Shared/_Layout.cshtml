@@ -21,14 +21,16 @@
     <script src="~/Scripts/app.js"></script>
 </head>
 <body>
-    <div class="navbar navbar-expand-md navbar-light">
+    <div class="navbar navbar-expand-lg navbar-light">
         <div style="text-align:center;padding-top:5px;padding-bottom:5px">
             <img src="~/Images/AltLogo.png" width="150" />
         </div>
-        <div style="padding-top:30px">
+        <div style="padding-top:30px;text-align:right">
             @if (User.Identity.IsAuthenticated)
             {
-                <span>@User.Identity.Name</span>
+                <a class="btn-sm btn-light btn-outline" href="/Employee/Index">List</a>
+                
+                <a class="btn-sm btn-primary" href="/Employee/ListForAdmin">Admin</a>
             }
             else
             {

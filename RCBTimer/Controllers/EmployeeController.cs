@@ -81,18 +81,16 @@ namespace RCBTimer.Controllers
             return View(employee);
         }
 
-        public ActionResult ProcessWorkDay(int id)
+        public string ProcessWorkDay(int id)
         {
             var result = employeeRepository.ProcessWorkDay(id);
-            TempData["SuccessMessage"] = result;
-            return RedirectToAction("Index");
+            return result;
         }
 
-        public ActionResult ProcessBreak(int id)
+        public string ProcessBreak(int id)
         {
             var result = employeeRepository.ProcessBreak(id);
-            TempData["SuccessMessage"] = result;
-            return RedirectToAction("Index");
+            return result;
         }
     }
 }

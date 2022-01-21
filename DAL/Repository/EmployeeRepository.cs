@@ -23,7 +23,7 @@ namespace DAL.Repository
         {
             var employees = context.Employee.ToList();
             var dtos = new List<EmployeeList>();
-            foreach(var employee in employees)
+            foreach (var employee in employees)
             {
                 var dto = new EmployeeList();
                 dto.NationalId = employee.NationalId;
@@ -84,13 +84,13 @@ namespace DAL.Repository
                 dto.Name = employee.FullName();
                 dto.Position = employee.Position;
                 dto.Id = employee.Id;
-                dto.HasTimeRunning = employee.Workdays.Where(w => w.EndTime == null).Any();                
+                dto.HasTimeRunning = employee.Workdays.Where(w => w.EndTime == null).Any();
                 dto.Workday = employee.Workdays.Where(w => w.EndTime == null).FirstOrDefault();
-                if(dto.Workday != null)
+                if (dto.Workday != null)
                 {
                     if (dto.Workday.BreakBeginningTime.HasValue)
                     {
-                        if (!dto.Workday.BreakEndTime.HasValue)                            
+                        if (!dto.Workday.BreakEndTime.HasValue)
                         {
                             dto.BreakEnded = false;
                             dto.HasBreakRunning = true;
@@ -107,24 +107,25 @@ namespace DAL.Repository
                                                           && c.EndTime.Value.Date == today.Date)
                                                    .OrderByDescending(w => w.Id)
                                                    .FirstOrDefault();
-                    if(dto.Workday != null)
-                        dto.TimeEnded = true;
-
-                    if (dto.Workday.BreakBeginningTime.HasValue)
+                    if (dto.Workday != null)
                     {
-                        if (!dto.Workday.BreakEndTime.HasValue)
+                        dto.TimeEnded = true;
+                        if (dto.Workday.BreakBeginningTime.HasValue)
                         {
-                            dto.BreakEnded = false;
-                            dto.HasBreakRunning = true;
+                            if (!dto.Workday.BreakEndTime.HasValue)
+                            {
+                                dto.BreakEnded = false;
+                                dto.HasBreakRunning = true;
+                            }
+                            else
+                                dto.BreakEnded = true;
                         }
                         else
-                            dto.BreakEnded = true;
+                            dto.HasBreakRunning = false;
                     }
-                    else
-                        dto.HasBreakRunning = false;
                 }
 
-                var ci = new CultureInfo("es-ES");                
+                var ci = new CultureInfo("es-ES");
                 string todaysInfo = today.Day + " " + today.ToString("MMMM", ci) + " del " + today.ToString("yyyy");
                 dto.TodaysInfo = todaysInfo;
                 dto.TodaysHourInfo = today.ToShortTimeString();
@@ -143,7 +144,6 @@ namespace DAL.Repository
                 workDay.EndWorkDay();
                 context.Entry(workDay).State = EntityState.Modified;
                 context.SaveChanges();
-                return "Se registró con éxito el cierre de horario para " + employee.FirstName;
             }
             else
             {
@@ -151,8 +151,8 @@ namespace DAL.Repository
                 workDay.EmployeeId = employee.Id;
                 context.Workday.Add(workDay);
                 context.SaveChanges();
-                return "Se registró con éxito la apertura de horario para " + employee.FirstName;
             }
+            return employee.FirstName + " te has registrado con éxito";
         }
 
         public string ProcessBreak(int id)
@@ -164,7 +164,7 @@ namespace DAL.Repository
                 workDay.Break();
                 context.Entry(workDay).State = EntityState.Modified;
                 context.SaveChanges();
-                return "Se registró con éxito el break para " + employee.FirstName;
+                return employee.FirstName + " te has registrado con éxito";
             }
             return null;
         }
