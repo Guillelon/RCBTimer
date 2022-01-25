@@ -263,6 +263,8 @@
     <Content Include="Views\Report\Workdays.cshtml" />
     <Content Include="Views\Report\_WorkDays.cshtml" />
     <Content Include="Views\Report\EditWorkDay.cshtml" />
+    <Content Include="Views\Report\RemoveWorkDay.cshtml" />
+    <Content Include="Views\Report\DeleteSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

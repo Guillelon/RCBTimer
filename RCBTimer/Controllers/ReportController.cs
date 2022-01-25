@@ -111,5 +111,18 @@ namespace RCBTimer.Controllers
             var workday = employeeRepository.GetWorkday(model.Id);
             return View(workday);
         }
+
+        public ActionResult RemoveWorkDay(int id)
+        {
+            var model = employeeRepository.GetWorkday(id);
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult RemoveWorkDay(Workday model)
+        {
+            employeeRepository.RemoveWorkDay(model.Id);
+            return View("DeleteSuccess");
+        }
     }
 }

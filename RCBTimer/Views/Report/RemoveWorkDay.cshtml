@@ -1,0 +1,54 @@
+﻿@model DAL.Models.Workday
+<div class="card mb-0">
+    <div class="card-body">
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <div class="alert alert-success" role="alert" style="text-align:center">
+                @ViewBag.SuccessMessage
+            </div>
+        }
+        @using (Html.BeginForm("RemoveWorkDay", "Report", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            <table class="table table-bordered">
+                <tr>
+                    <td colspan="2" style="text-align:center">
+                        @Html.HiddenFor(m => m.Id)
+                        @Html.HiddenFor(m => m.EmployeeId)
+                        <strong>Nombre: </strong> @Model.Employee.FullInfo()
+                        <br />
+                        <strong>Turno del:</strong> @Model.BeginningTime.ToString("dd/MM/yyyy")
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Iniciddo del turno</strong>
+                        @Html.TextBoxFor(m => m.BeginningTime, new { @class = "form-control", disabled="disabled", @readonly = "readonly"  })
+                    </td>
+                    <td>
+                        <strong>Inicio del break</strong>
+                        @Html.TextBoxFor(m => m.BreakBeginningTime, new { @class = "form-control", disabled="disabled", @readonly = "readonly"  })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Fin del break</strong>
+                        @Html.TextBoxFor(m => m.BreakEndTime, new { @class = "form-control", disabled="disabled", @readonly = "readonly"  })
+                    </td>
+                    <td>
+                        <strong>Fin del turno</strong>
+                        @Html.TextBoxFor(m => m.EndTime, new { @class = "form-control",disabled="disabled", @readonly = "readonly"  })
+                    </td>
+                </tr>
+            </table>
+            <hr />
+            <div class="row">
+                <div class="col-3 col-md-4">
+
+                </div>
+                <div class="col-6 col-md-4">
+                    <button class="btn btn-danger btn-block">Eliminar</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>

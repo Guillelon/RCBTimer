@@ -179,5 +179,12 @@ namespace DAL.Repository
             context.Entry(model).State = EntityState.Modified;
             context.SaveChanges();
         }
+
+        public void RemoveWorkDay(int id)
+        {
+            var workday = GetWorkday(id);
+            context.Entry(workday).State = EntityState.Deleted;
+            context.SaveChanges();
+        }
     }
 }
