@@ -104,8 +104,19 @@
             var toSearch = '#' + idSelected + '-cedula';
             nationalIdSelected = $(toSearch).val();
             console.log(nationalIdSelected);
-            $('#securityModal').modal('show');   
-            $('#nationalIdInput').focus();
+            @if (User.Identity.IsAuthenticated)
+            {
+                <text>
+                   window.location.href = "/Employee/Info/" + idSelected;
+                </text>
+            }
+            else
+            {
+                <text>
+                    $('#securityModal').modal('show');
+                    $('#nationalIdInput').focus();
+                </text>
+            }
         });
 
         $('#nationalIdInput').keyup(function () {
