@@ -28,11 +28,13 @@ namespace RCBTimer.Controllers
             return View(model);
         }
 
+        [Authorize]
         public ActionResult Create()
         {
             return View();
         }
 
+        [Authorize]
         public ActionResult Edit(int id)
         {
             var employee = employeeRepository.Get(id);
@@ -40,6 +42,7 @@ namespace RCBTimer.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Employee employee)
         {

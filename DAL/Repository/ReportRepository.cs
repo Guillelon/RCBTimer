@@ -28,7 +28,8 @@ namespace DAL.Repository
                                       BeginningTime = w.BeginningTime,
                                       BreakBeginningTime = w.BreakBeginningTime,
                                       BreakEndTime = w.BreakEndTime,
-                                      EndTime = w.EndTime
+                                      EndTime = w.EndTime,
+                                      Comments = w.Comments
                                   }).ToList();
         }
     }

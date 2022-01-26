@@ -15,5 +15,6 @@ namespace DAL.DTO
         public DateTime? BreakBeginningTime { get; set; }
         public DateTime? BreakEndTime { get; set; }
         public string WorkedTime { get; set; }
+        public string Comments { get; set; }
     }
 }

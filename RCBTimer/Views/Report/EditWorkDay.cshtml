@@ -39,6 +39,12 @@
                         @Html.TextBoxFor(m => m.EndTime, new { @class = "form-control" })
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="2">
+                        <strong>Comentarios</strong>
+                        @Html.TextAreaFor(m => m.Comments, new { @class = "form-control" })
+                    </td>
+                </tr>
             </table>
             <hr />
             <div class="row">
