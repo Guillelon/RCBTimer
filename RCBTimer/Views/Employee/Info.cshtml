@@ -56,6 +56,18 @@
                 }
             </div>
             <br />
+            @if (Model.TimeEnded)
+            {
+                <hr />
+                <div class="row">
+                    <div class="col-12" style="text-align:center">
+                        <strong class="text-primary">@Model.Workday.EndTime.Value.ToString("hh:mm tt")</strong>
+                        <br />
+                        <strong class="text-secondary">Fin del turno</strong>
+                    </div>
+                </div>
+                <hr />
+            }
             <br />
             <div>
                 @if (Model.HasTimeRunning || Model.TimeEnded)
