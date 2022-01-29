@@ -17,9 +17,23 @@ namespace DAL.Repository
             context = new RCBTimerDBContext();
         }
 
-        public IList<WorkdaysReportDTO> GetWorkdaysByDate(DateTime beginTime,  DateTime endTime)
+        public IList<WorkdaysReportDTO> GetWorkdaysByDate(DateTime beginTime,  DateTime endTime, int employeeId)
         {
-            return context.Workday.Where(w => w.BeginningTime >= beginTime &&
+            if (employeeId > 0)
+                return context.Workday.Where(w => w.BeginningTime >= beginTime &&
+                                              w.BeginningTime <= endTime && w.EmployeeId == employeeId)
+                                  .Select(w => new WorkdaysReportDTO
+                                  {
+                                      Id = w.Id,
+                                      EmployeeInfo = w.Employee.FirstName + " " + w.Employee.LastName,
+                                      BeginningTime = w.BeginningTime,
+                                      BreakBeginningTime = w.BreakBeginningTime,
+                                      BreakEndTime = w.BreakEndTime,
+                                      EndTime = w.EndTime,
+                                      Comments = w.Comments
+                                  }).ToList();
+            else
+                return context.Workday.Where(w => w.BeginningTime >= beginTime &&
                                               w.BeginningTime <= endTime)
                                   .Select(w => new WorkdaysReportDTO
                                   {

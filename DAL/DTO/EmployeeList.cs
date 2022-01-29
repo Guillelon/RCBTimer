@@ -14,6 +14,7 @@ namespace DAL.DTO
         public string NationalId { get; set; }
         public bool HasTimeRunning { get; set; }
         public string TimeBeginning { get; set; }
+        public int? LastWorkDayId { get; set; }
     }
 
     public class EmployeeInfo
@@ -26,7 +27,7 @@ namespace DAL.DTO
         public bool TimeEnded { get; set; }
         public bool BreakEnded { get; set; }
         public Workday Workday { get; set; }
-        public string TodaysInfo { get; set; }
+        public string TodaysInfo { get; set; }        
         public string TodaysHourInfo { get; set; }
     }
 }

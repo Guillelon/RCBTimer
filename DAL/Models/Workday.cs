@@ -14,6 +14,7 @@ namespace DAL.Models
         public DateTime? BreakBeginningTime { get; set; }
         public DateTime? BreakEndTime { get; set; }
         public string Comments { get; set; }
+        public string CommentsfromEmployee { get; set; }
 
         public virtual Employee Employee { get; set; }
         public int EmployeeId { get; set; }

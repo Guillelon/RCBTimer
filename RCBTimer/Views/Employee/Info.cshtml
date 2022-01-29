@@ -68,6 +68,10 @@
                 </div>
                 <hr />
             }
+            <div style="text-align:left">
+                @*<strong>Notas:</strong>
+                @Html.TextAreaFor(m => m.Workday.CommentsfromEmployee, new { @class="form-control", @id="comments" })*@
+            </div>
             <br />
             <div>
                 @if (Model.HasTimeRunning || Model.TimeEnded)
@@ -77,9 +81,6 @@
                         <div class="row">
                             <div class="col-6">
                                 <button class="btn btn-block btn-warning processBreak">Iniciar Break <i class="icon-cup2"></i></button>
-                            </div>
-                            <div class="col-6">
-                                <button class="btn btn-block btn-primary processWorkDay">Terminar turno <i class="icon-watch2"></i></button>
                             </div>
                         </div>
                     }
@@ -133,6 +134,7 @@
     $(document).ready(function () {
         $('.processWorkDay').click(function (e) {
             if (confirm("¿Está seguro(a) que desea realizar esta acción?") == true) {
+                var comments = "";
                 $.ajax({
                     url: "/Employee/ProcessWorkDay/" + @Model.Id,
                     type: 'GET',

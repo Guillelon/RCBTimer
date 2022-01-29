@@ -1,4 +1,4 @@
-﻿using DAL.DTO;
+﻿    using DAL.DTO;
 using DAL.Models;
 using DAL.Repository;
 using System;
@@ -28,7 +28,7 @@ namespace RCBTimer.Controllers
             return View();
         }
 
-        public ActionResult GetWorkDays(string beginDate, string endDate)
+        public ActionResult GetWorkDays(string beginDate, string endDate, int employeeId)
         {
             var beginDateFormatted = new DateTime();
             var endDateFormatted = new DateTime();
@@ -53,7 +53,7 @@ namespace RCBTimer.Controllers
                 endDateFormatted = DateTime.Now;
             }
 
-            var workdays = reportRepository.GetWorkdaysByDate(beginDateFormatted, endDateFormatted);
+            var workdays = reportRepository.GetWorkdaysByDate(beginDateFormatted, endDateFormatted, employeeId);
             TempData["WorkdaysToDownload"] = workdays;
             return PartialView("_WorkDays", workdays);
         }
@@ -67,17 +67,17 @@ namespace RCBTimer.Controllers
                     "        Fin del turno,Tiempo Laborado,Comentarios"+ Environment.NewLine;
                 foreach(var dto in dtos)
                 {
-                    var line = dto.EmployeeInfo + "," + dto.BeginningTime.ToString("dd/MM/yyyy HH:mm") + ",";
+                    var line = dto.EmployeeInfo + "," + dto.BeginningTime.ToString("dd/MM/yyyy HH:mm tt") + ",";
                     if (dto.BreakBeginningTime.HasValue)
-                        line += dto.BreakBeginningTime.Value.ToString("dd/MM/yyyy HH:mm") + ",";
+                        line += dto.BreakBeginningTime.Value.ToString("dd/MM/yyyy HH:mm tt") + ",";
                     else
                         line += ",";
                     if (dto.BreakEndTime.HasValue)
-                        line += dto.BreakEndTime.Value.ToString("dd/MM/yyyy HH:mm") + ",";
+                        line += dto.BreakEndTime.Value.ToString("dd/MM/yyyy HH:mm tt") + ",";
                     else
                         line += ",";
                     if (dto.EndTime.HasValue)
-                        line += dto.EndTime.Value.ToString("dd/MM/yyyy HH:mm") + ",";
+                        line += dto.EndTime.Value.ToString("dd/MM/yyyy HH:mm tt") + ",";
                     else
                         line += ",";
 

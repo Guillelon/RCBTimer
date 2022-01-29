@@ -25,6 +25,9 @@
                             Colaboradores en turno
                         </div>
                     </th>
+                    <th>
+
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -32,12 +35,33 @@
                 {
                     <tr>
                         <td>
-                            <div id="@employee.Id" class="row toEmployeeEdit">
+                            <div id="@employee.Id" class="row">
                                 <div class="col-8">
                                     @employee.Info
                                 </div>
                                 <div class="col-4">
                                     <span class="badge badge-primary">@employee.TimeBeginning</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-6" style="text-align:right">
+                                    <a class="btn btn-primary btn-sm btn-small" href="/Employee/Edit/@employee.Id">
+                                        <i class="icon-pencil">
+
+                                        </i>
+                                    </a>
+                                </div>
+                                <div class="col-6" style="text-align:left">
+                                    @if (employee.LastWorkDayId.HasValue)
+                                    {
+                                        <a class="btn btn-primary btn-sm btn-small" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
+                                            <i class="icon-calendar">
+
+                                            </i>
+                                        </a>
+                                    }
                                 </div>
                             </div>
                         </td>
@@ -61,8 +85,29 @@
                 {
                     <tr>
                         <td>
-                            <div id="@employee.Id" class="row toEmployeeEdit">
+                            <div id="@employee.Id" class="row">
                                 @employee.Info
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-6" style="text-align:right">
+                                    <a class="btn btn-primary btn-sm btn-small" href="/Employee/Edit/@employee.Id">
+                                        <i class="icon-pencil">
+
+                                        </i>
+                                    </a>
+                                </div>
+                                <div class="col-6" style="text-align:left">
+                                    @if (employee.LastWorkDayId.HasValue)
+                                    {
+                                        <a class="btn btn-primary btn-sm btn-small" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
+                                            <i class="icon-calendar">
+
+                                            </i>
+                                        </a>
+                                    }
+                                </div>
                             </div>
                         </td>
                     </tr>

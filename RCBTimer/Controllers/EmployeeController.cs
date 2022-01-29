@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace RCBTimer.Controllers
 {
@@ -29,6 +30,18 @@ namespace RCBTimer.Controllers
         }
 
         [Authorize]
+        public string GetEmployeesForAutoComplete(string query)
+        {
+            var employees = employeeRepository.GetEmployeesByAutocomplete(query);
+            return new JavaScriptSerializer().Serialize(employees.Select(e => new
+            {
+                e.Id,
+                Name =
+                e.FirstName + " " + e.LastName
+            }));
+        }
+
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -38,7 +51,7 @@ namespace RCBTimer.Controllers
         public ActionResult Edit(int id)
         {
             var employee = employeeRepository.Get(id);
-            return View("Create",employee);
+            return View("Create", employee);
         }
 
         [HttpPost]
@@ -46,12 +59,12 @@ namespace RCBTimer.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Employee employee)
         {
-            if(employee.FirstName != null && employee.FirstName.Length > 0 &&
+            if (employee.FirstName != null && employee.FirstName.Length > 0 &&
                employee.LastName != null && employee.LastName.Length > 0 &&
                employee.Position != null && employee.Position.Length > 0 &&
                employee.NationalId != null && employee.NationalId.Length > 0)
             {
-                if(employee.Id > 0)
+                if (employee.Id > 0)
                 {
                     employeeRepository.Edit(employee);
                     TempData["SuccessMessage"] = "Se editó el colaborador con éxito!";
@@ -71,7 +84,7 @@ namespace RCBTimer.Controllers
         public ActionResult Index()
         {
             var model = employeeRepository.GetAll();
-            if(TempData["SuccessMessage"] != null)
+            if (TempData["SuccessMessage"] != null)
             {
                 ViewBag.SuccessMessage = TempData["SuccessMessage"].ToString();
             }
@@ -84,15 +97,15 @@ namespace RCBTimer.Controllers
             return View(employee);
         }
 
-        public string ProcessWorkDay(int id)
+        public string ProcessWorkDay(int id, string commentsFromEmployee)
         {
-            var result = employeeRepository.ProcessWorkDay(id);
+            var result = employeeRepository.ProcessWorkDay(id, commentsFromEmployee);
             return result;
         }
 
-        public string ProcessBreak(int id)
+        public string ProcessBreak(int id, string commentsFromEmployee)
         {
-            var result = employeeRepository.ProcessBreak(id);
+            var result = employeeRepository.ProcessBreak(id, commentsFromEmployee);
             return result;
         }
     }

@@ -4,7 +4,7 @@
     @Html.AntiForgeryToken()
     <div class="card mb-0">
         <div class="card-body">
-            @if(ViewBag.ErrorMessage != null)
+            @if (ViewBag.ErrorMessage != null)
             {
                 <div class="alert alert-danger" role="alert">
                     @ViewBag.ErrorMessage
@@ -12,6 +12,7 @@
             }
             <div class="form-group form-group-feedback form-group-feedback-left">
                 @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.IsActive)
                 @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "Nombre" })
                 <div class="form-control-feedback">
                     <i class="icon-user text-muted"></i>
@@ -33,7 +34,7 @@
             </div>
 
             <div class="form-group form-group-feedback form-group-feedback-left">
-                @Html.TextBoxFor(m => m.NationalId, new { @type="number", @class = "form-control", @placeholder = "Documento" })
+                @Html.TextBoxFor(m => m.NationalId, new { @type = "number", @class = "form-control", @placeholder = "Documento" })
                 <div class="form-control-feedback">
                     <i class="icon-certificate text-muted"></i>
                 </div>

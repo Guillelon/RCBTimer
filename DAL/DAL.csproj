@@ -65,6 +65,10 @@
     <Compile Include="Migrations\202201111740054_AddingMoreInfoToWorkDay.designer.cs">
       <DependentUpon>202201111740054_AddingMoreInfoToWorkDay.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202201290152543_AddingIsActiveAndMorecommentstoemployee.cs" />
+    <Compile Include="Migrations\202201290152543_AddingIsActiveAndMorecommentstoemployee.designer.cs">
+      <DependentUpon>202201290152543_AddingIsActiveAndMorecommentstoemployee.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\RCBTimerDBContext.cs" />
@@ -86,6 +90,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202201111740054_AddingMoreInfoToWorkDay.resx">
       <DependentUpon>202201111740054_AddingMoreInfoToWorkDay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202201290152543_AddingIsActiveAndMorecommentstoemployee.resx">
+      <DependentUpon>202201290152543_AddingIsActiveAndMorecommentstoemployee.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

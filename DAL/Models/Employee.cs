@@ -14,8 +14,14 @@ namespace DAL.Models
         public string NationalId { get; set; }
         public string NationalIdType { get; set; }
         public string Position { get; set; }
+        public bool IsActive { get; set; }
 
         public virtual IList<Workday> Workdays { get; set; }
+
+        public Employee()
+        {
+            IsActive = true;
+        }
 
         public string FullName()
         {

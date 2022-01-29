@@ -21,7 +21,7 @@ namespace DAL.Repository
 
         public IList<EmployeeList> GetAll()
         {
-            var employees = context.Employee.ToList();
+            var employees = context.Employee.Where(e=> e.IsActive).ToList();
             var dtos = new List<EmployeeList>();
             foreach (var employee in employees)
             {
@@ -51,7 +51,7 @@ namespace DAL.Repository
 
         public IList<EmployeeList> GetAllForAdmin()
         {
-            var employees = context.Employee.ToList();
+            var employees = context.Employee.Where(e => e.IsActive).ToList();
             var dtos = new List<EmployeeList>();
             foreach (var employee in employees)
             {
@@ -63,6 +63,13 @@ namespace DAL.Repository
                 {
                     var workday = employee.Workdays.Where(w => w.EndTime == null).FirstOrDefault();
                     dto.TimeBeginning = workday.BeginningTime.ToString("hh:mm tt");
+                    dto.LastWorkDayId = workday.Id;
+                }
+                else
+                {
+                    var lastWorkDay = employee.Workdays.OrderByDescending(w => w.Id).FirstOrDefault();
+                    if (lastWorkDay != null)
+                        dto.LastWorkDayId = lastWorkDay.Id;
                 }
                 dtos.Add(dto);
             }
@@ -72,6 +79,13 @@ namespace DAL.Repository
         public Employee Get(int id)
         {
             return context.Employee.Where(e => e.Id == id).FirstOrDefault();
+        }
+
+        public IList<Employee> GetEmployeesByAutocomplete(string query)
+        {
+
+            return context.Employee.Where(w => w.IsActive && (w.FirstName.Contains(query) ||
+                                               w.LastName.Contains(query))).ToList();
         }
 
         public EmployeeInfo GetEmployee(int id)
@@ -135,12 +149,13 @@ namespace DAL.Repository
             return null;
         }
 
-        public string ProcessWorkDay(int id)
+        public string ProcessWorkDay(int id, string commentsFromEmployee)
         {
             var employee = context.Employee.Where(e => e.Id == id).FirstOrDefault();
             var workDay = employee.Workdays.Where(w => w.EndTime == null).FirstOrDefault();
             if (workDay != null)
             {
+                workDay.CommentsfromEmployee = commentsFromEmployee;
                 workDay.EndWorkDay();
                 context.Entry(workDay).State = EntityState.Modified;
                 context.SaveChanges();
@@ -155,12 +170,13 @@ namespace DAL.Repository
             return employee.FirstName + " te has registrado con éxito";
         }
 
-        public string ProcessBreak(int id)
+        public string ProcessBreak(int id, string commentsFromEmployee)
         {
             var employee = context.Employee.Where(e => e.Id == id).FirstOrDefault();
             var workDay = employee.Workdays.Where(w => w.EndTime == null).FirstOrDefault();
             if (workDay != null)
             {
+                workDay.CommentsfromEmployee = commentsFromEmployee;
                 workDay.Break();
                 context.Entry(workDay).State = EntityState.Modified;
                 context.SaveChanges();
