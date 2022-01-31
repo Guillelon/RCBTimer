@@ -30,7 +30,8 @@ namespace DAL.Repository
                                       BreakBeginningTime = w.BreakBeginningTime,
                                       BreakEndTime = w.BreakEndTime,
                                       EndTime = w.EndTime,
-                                      Comments = w.Comments
+                                      Comments = w.Comments,
+                                      EmployeeComments = w.CommentsfromEmployee
                                   }).ToList();
             else
                 return context.Workday.Where(w => w.BeginningTime >= beginTime &&

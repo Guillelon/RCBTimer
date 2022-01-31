@@ -30,4 +30,10 @@ namespace DAL.DTO
         public string TodaysInfo { get; set; }        
         public string TodaysHourInfo { get; set; }
     }
+
+    public class WorkDayPost
+    {
+        public int Id { get; set; }
+        public string Comments { get; set; }
+    }
 }

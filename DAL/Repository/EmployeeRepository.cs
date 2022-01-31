@@ -164,6 +164,7 @@ namespace DAL.Repository
             {
                 workDay = new Workday();
                 workDay.EmployeeId = employee.Id;
+                workDay.CommentsfromEmployee = commentsFromEmployee;
                 context.Workday.Add(workDay);
                 context.SaveChanges();
             }

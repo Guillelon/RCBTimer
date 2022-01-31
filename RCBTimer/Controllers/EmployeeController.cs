@@ -1,4 +1,5 @@
-﻿using DAL.Models;
+﻿using DAL.DTO;
+using DAL.Models;
 using DAL.Repository;
 using System;
 using System.Collections.Generic;
@@ -97,15 +98,19 @@ namespace RCBTimer.Controllers
             return View(employee);
         }
 
-        public string ProcessWorkDay(int id, string commentsFromEmployee)
+        [HttpPost]
+        public string ProcessWorkDay(string query)
         {
-            var result = employeeRepository.ProcessWorkDay(id, commentsFromEmployee);
+            var dto = new JavaScriptSerializer().Deserialize<WorkDayPost>(query);
+            var result = employeeRepository.ProcessWorkDay(dto.Id, dto.Comments);
             return result;
         }
 
-        public string ProcessBreak(int id, string commentsFromEmployee)
+        [HttpPost]
+        public string ProcessBreak(string query)
         {
-            var result = employeeRepository.ProcessBreak(id, commentsFromEmployee);
+            var dto = new JavaScriptSerializer().Deserialize<WorkDayPost>(query);
+            var result = employeeRepository.ProcessBreak(dto.Id, dto.Comments);
             return result;
         }
     }

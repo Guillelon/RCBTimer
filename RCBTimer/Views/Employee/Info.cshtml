@@ -69,14 +69,14 @@
                 <hr />
             }
             <div style="text-align:left">
-                @*<strong>Notas:</strong>
-                @Html.TextAreaFor(m => m.Workday.CommentsfromEmployee, new { @class="form-control", @id="comments" })*@
+                <strong>Notas:</strong>
+                    @Html.TextAreaFor(m => m.Workday.CommentsfromEmployee, new { @class="form-control", @id="comments" })
             </div>
             <br />
             <div>
                 @if (Model.HasTimeRunning || Model.TimeEnded)
                 {
-                    if (!Model.HasBreakRunning && !Model.BreakEnded  && !Model.TimeEnded)
+                    if (!Model.HasBreakRunning && !Model.BreakEnded && !Model.TimeEnded)
                     {
                         <div class="row">
                             <div class="col-6">
@@ -134,10 +134,16 @@
     $(document).ready(function () {
         $('.processWorkDay').click(function (e) {
             if (confirm("¿Está seguro(a) que desea realizar esta acción?") == true) {
-                var comments = "";
+                var comments = $('#comments').val();
+                var dto = {
+                    Id: @Model.Id,
+                    Comments: comments
+                }
+                var  objJson = JSON.stringify(dto);
                 $.ajax({
-                    url: "/Employee/ProcessWorkDay/" + @Model.Id,
-                    type: 'GET',
+                    url: "/Employee/ProcessWorkDay/",
+                    type: 'POST',
+                    data: { 'query': objJson },
                     success: function (data) {
                         $('#messageText').text(data);
                         $('#successModal').modal('show');
@@ -149,9 +155,16 @@
 
         $('.processBreak').click(function (e) {
             if (confirm("¿Está seguro(a) que desea realizar esta acción?") == true) {
+                var comments = $('#comments').val();
+                var dto = {
+                    Id: @Model.Id,
+                    Comments: comments
+                }
+                var  objJson = JSON.stringify(dto);
                 $.ajax({
-                    url: "/Employee/ProcessBreak/" + @Model.Id,
-                    type: 'GET',
+                    url: "/Employee/ProcessBreak/",
+                    type: 'POST',
+                    data: { 'query': objJson },
                     success: function (data) {
                         $('#messageText').text(data);
                         $('#successModal').modal('show');
@@ -160,7 +173,7 @@
                 });
             }
         });
-                
+
         var redirectToIndex = function(){
             window.location.replace("/Employee/Index");
         };

@@ -64,7 +64,7 @@ namespace RCBTimer.Controllers
             {
                 var dtos = (List<WorkdaysReportDTO>)TempData["WorkdaysToDownload"];
                 var lines = "Colaborador,Inicio del turno,Inicio del break,Fin del break," +
-                    "        Fin del turno,Tiempo Laborado,Comentarios"+ Environment.NewLine;
+                    "        Fin del turno,Tiempo Laborado,Comentarios,Comentarios del Empleado"+ Environment.NewLine;
                 foreach(var dto in dtos)
                 {
                     var line = dto.EmployeeInfo + "," + dto.BeginningTime.ToString("dd/MM/yyyy HH:mm tt") + ",";
@@ -90,7 +90,7 @@ namespace RCBTimer.Controllers
                         line += dto.WorkedTime;
                     }
 
-                    line += ","+ dto.Comments + Environment.NewLine;
+                    line += ","+ dto.Comments + "," + dto.EmployeeComments + Environment.NewLine;
                     lines += line;
                 }
                 return File(new System.Text.UTF8Encoding().GetBytes(lines), "text/csv", "Horas.csv");
