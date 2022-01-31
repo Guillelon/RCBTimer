@@ -76,7 +76,7 @@
             <div>
                 @if (Model.HasTimeRunning || Model.TimeEnded)
                 {
-                    if (!Model.HasBreakRunning && !Model.BreakEnded)
+                    if (!Model.HasBreakRunning && !Model.BreakEnded  && !Model.TimeEnded)
                     {
                         <div class="row">
                             <div class="col-6">
