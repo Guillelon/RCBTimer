@@ -194,6 +194,7 @@
     <Content Include="Content\colors.min.css" />
     <Content Include="Content\components.css" />
     <Content Include="Content\components.min.css" />
+    <Content Include="Content\datetimepicker.css" />
     <Content Include="Content\icomoon\fonts\icomoon.svg" />
     <Content Include="Content\icomoon\styles.css" />
     <Content Include="Content\layout.min.css" />
@@ -213,6 +214,7 @@
     <Content Include="Content\icomoon\fonts\icomoon.woff" />
     <Content Include="Scripts\auto-complete.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\datetimepicker.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />

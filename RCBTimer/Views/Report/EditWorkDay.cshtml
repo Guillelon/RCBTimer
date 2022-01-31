@@ -1,7 +1,7 @@
 ﻿@model DAL.Models.Workday
 <div class="card mb-0">
     <div class="card-body">
-        @if(ViewBag.SuccessMessage != null)
+        @if (ViewBag.SuccessMessage != null)
         {
             <div class="alert alert-success" role="alert" style="text-align:center">
                 @ViewBag.SuccessMessage
@@ -11,7 +11,7 @@
         {
             <table class="table table-bordered">
                 <tr>
-                    <td colspan="2" style="text-align:center">
+                    <td style="text-align:center">
                         @Html.HiddenFor(m => m.Id)
                         @Html.HiddenFor(m => m.EmployeeId)
                         <strong>Nombre: </strong> @Model.Employee.FullInfo()
@@ -22,8 +22,10 @@
                 <tr>
                     <td>
                         <strong>Inicio del turno</strong>
-                        @Html.TextBoxFor(m => m.BeginningTime, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.BeginningTime, new { @id = "begin", @class = "form-control" })
                     </td>
+                </tr>
+                <tr>
                     <td>
                         <strong>Inicio del break</strong>
                         @Html.TextBoxFor(m => m.BreakBeginningTime, new { @class = "form-control" })
@@ -34,13 +36,15 @@
                         <strong>Fin del break</strong>
                         @Html.TextBoxFor(m => m.BreakEndTime, new { @class = "form-control" })
                     </td>
+                </tr>
+                <tr>
                     <td>
                         <strong>Fin del turno</strong>
                         @Html.TextBoxFor(m => m.EndTime, new { @class = "form-control" })
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <td>
                         <strong>Comentarios</strong>
                         @Html.TextAreaFor(m => m.Comments, new { @class = "form-control" })
                     </td>
