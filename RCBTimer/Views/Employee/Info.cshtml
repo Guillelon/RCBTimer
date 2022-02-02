@@ -134,6 +134,7 @@
     $(document).ready(function () {
         $('.processWorkDay').click(function (e) {
             if (confirm("¿Está seguro(a) que desea realizar esta acción?") == true) {
+                $(this).attr("disabled", "disabled");
                 var comments = $('#comments').val();
                 var dto = {
                     Id: @Model.Id,
@@ -155,6 +156,7 @@
 
         $('.processBreak').click(function (e) {
             if (confirm("¿Está seguro(a) que desea realizar esta acción?") == true) {
+                $(this).attr("disabled", "disabled");
                 var comments = $('#comments').val();
                 var dto = {
                     Id: @Model.Id,
