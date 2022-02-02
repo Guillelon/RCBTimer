@@ -91,14 +91,14 @@
                         </td>
                         <td>
                             <div class="row">
-                                <div class="col-6" style="text-align:right">
+                                <div class="col-4" style="text-align:center">
                                     <a class="btn btn-primary btn-sm btn-small" href="/Employee/Edit/@employee.Id">
                                         <i class="icon-pencil">
 
                                         </i>
                                     </a>
                                 </div>
-                                <div class="col-6" style="text-align:left">
+                                <div class="col-4" style="text-align:center">
                                     @if (employee.LastWorkDayId.HasValue)
                                     {
                                         <a class="btn btn-primary btn-sm btn-small" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
@@ -107,6 +107,13 @@
                                             </i>
                                         </a>
                                     }
+                                </div>
+                                <div class="col-4" style="text-align:center">
+                                    <a class="btn btn-danger btn-sm btn-small" href="/Employee/DeActivate/@employee.Id">
+                                        <i class="icon-trash">
+
+                                        </i>
+                                    </a>
                                 </div>
                             </div>
                         </td>

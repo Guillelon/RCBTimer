@@ -69,6 +69,10 @@
     <Compile Include="Migrations\202201290152543_AddingIsActiveAndMorecommentstoemployee.designer.cs">
       <DependentUpon>202201290152543_AddingIsActiveAndMorecommentstoemployee.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202202012342338_AddingMoreInfoToTheDeActiveEmployee.cs" />
+    <Compile Include="Migrations\202202012342338_AddingMoreInfoToTheDeActiveEmployee.designer.cs">
+      <DependentUpon>202202012342338_AddingMoreInfoToTheDeActiveEmployee.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\RCBTimerDBContext.cs" />
@@ -93,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202201290152543_AddingIsActiveAndMorecommentstoemployee.resx">
       <DependentUpon>202201290152543_AddingIsActiveAndMorecommentstoemployee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202202012342338_AddingMoreInfoToTheDeActiveEmployee.resx">
+      <DependentUpon>202202012342338_AddingMoreInfoToTheDeActiveEmployee.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

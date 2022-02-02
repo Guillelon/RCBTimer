@@ -13,9 +13,11 @@ namespace DAL.Models
         public string LastName { get; set; }
         public string NationalId { get; set; }
         public string NationalIdType { get; set; }
+        
         public string Position { get; set; }
         public bool IsActive { get; set; }
-
+        public DateTime? DeActivationDate { get; set; }
+        public string DeActivationBy { get; set; }
         public virtual IList<Workday> Workdays { get; set; }
 
         public Employee()
@@ -31,6 +33,13 @@ namespace DAL.Models
         public string FullInfo()
         {
             return FullName() + " - " + Position;
+        }
+
+        public void DeActivate(string userName)
+        {
+            DeActivationBy = userName;
+            IsActive = false;
+            DeActivationDate = DateTime.Now;
         }
     }
 }

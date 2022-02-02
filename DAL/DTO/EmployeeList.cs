@@ -15,6 +15,7 @@ namespace DAL.DTO
         public bool HasTimeRunning { get; set; }
         public string TimeBeginning { get; set; }
         public int? LastWorkDayId { get; set; }
+        public bool Active { get; set; }
     }
 
     public class EmployeeInfo

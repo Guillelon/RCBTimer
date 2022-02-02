@@ -51,12 +51,13 @@ namespace DAL.Repository
 
         public IList<EmployeeList> GetAllForAdmin()
         {
-            var employees = context.Employee.Where(e => e.IsActive).ToList();
+            var employees = context.Employee.ToList();
             var dtos = new List<EmployeeList>();
             foreach (var employee in employees)
             {
                 var dto = new EmployeeList();
                 dto.Info = employee.FullInfo();
+                dto.Active = employee.IsActive;
                 dto.Id = employee.Id;
                 dto.HasTimeRunning = employee.Workdays.Where(w => w.EndTime == null).Any();
                 if (dto.HasTimeRunning)
@@ -202,6 +203,15 @@ namespace DAL.Repository
             var workday = GetWorkday(id);
             context.Entry(workday).State = EntityState.Deleted;
             context.SaveChanges();
+        }
+
+        public Employee DeActivate(int id, string userName)
+        {
+            var employee = Get(id);
+            employee.DeActivate(userName);
+            context.Entry(employee).State = EntityState.Modified;
+            context.SaveChanges();
+            return employee;
         }
     }
 }

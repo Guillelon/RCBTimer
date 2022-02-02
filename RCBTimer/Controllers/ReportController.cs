@@ -34,7 +34,7 @@ namespace RCBTimer.Controllers
             var endDateFormatted = new DateTime();
             try
             {
-                beginDateFormatted = DateTime.ParseExact(beginDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                beginDateFormatted = DateTime.ParseExact(beginDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
             }
             catch
             {
@@ -44,7 +44,7 @@ namespace RCBTimer.Controllers
 
             try
             {
-                endDateFormatted = DateTime.ParseExact(endDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                endDateFormatted = DateTime.ParseExact(endDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
                 endDateFormatted = endDateFormatted.AddDays(1);
                 endDateFormatted = endDateFormatted.AddMinutes(-1);
             }

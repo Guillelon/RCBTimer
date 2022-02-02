@@ -98,6 +98,14 @@ namespace RCBTimer.Controllers
             return View(employee);
         }
 
+        [Authorize]
+        public ActionResult DeActivate(int id)
+        {
+            employeeRepository.DeActivate(id, User.Identity.Name);
+            TempData["SuccessMessage"] = "Se eliminó el empleado con éxito";
+            return RedirectToAction("ListForAdmin");
+        }
+
         [HttpPost]
         public string ProcessWorkDay(string query)
         {
