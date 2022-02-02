@@ -2,10 +2,10 @@
 @if (Model != null && Model.Count > 0)
 {
     <div class="row">
-        <div class="col-8 col-lg-10">
+        <div class="col-4 col-lg-10">
 
         </div>
-        <div class="col-4 col-lg-2">
+        <div class="col-8 col-lg-2">
             <a href="/Report/DownloadWorkdays" target="_blank" class="btn btn-block btn-primary">
                 Descargar
             </a>
@@ -13,44 +13,82 @@
     </div>
     <br />
     <br />
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>
-                    Colaborador
-                </th>
-                <th>
-                    Fecha
-                </th>
-                <th>
-
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var workday in Model)
-            {
+    <div class="d-none d-xl-block">
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>
-                        @workday.EmployeeInfo
-                    </td>
-                    <td>
-                        @workday.BeginningTime.ToString("dd/MM/yyyy")
-                    </td>
-                    <td style="text-align:center">
-                        <a target="_blank" href="/Report/EditWorkDay/@workday.Id" class="btn btn-primary btn-sm btn-small">
-                            <i class="icon-pencil"></i>
-                        </a>
-                        &nbsp;
-                        &nbsp;
-                        <a target="_blank" href="/Report/RemoveWorkDay/@workday.Id" class="btn btn-danger btn-sm btn-small">
-                            <i class="icon-trash"></i>
-                        </a>
-                    </td>
+                    <th>
+                        Colaborador
+                    </th>
+                    <th>
+                        Fecha
+                    </th>
+                    <th>
+
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var workday in Model)
+                {
+                    <tr>
+                        <td>
+                            @workday.EmployeeInfo
+                        </td>
+                        <td>
+                            @workday.BeginningTime.ToString("dd/MM/yyyy")
+                        </td>
+                        <td style="text-align:center">
+                            <a target="_blank" href="/Report/EditWorkDay/@workday.Id" class="btn btn-primary btn-sm btn-small">
+                                <i class="icon-pencil"></i>
+                            </a>
+                            &nbsp;
+                            &nbsp;
+                            <a target="_blank" href="/Report/RemoveWorkDay/@workday.Id" class="btn btn-danger btn-sm btn-small">
+                                <i class="icon-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="d-xs-block d-xl-none">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Colaborador
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var workday in Model)
+                {
+                    <tr>
+                        <td>
+                            @workday.EmployeeInfo
+                            <br />
+                            @workday.BeginningTime.ToString("dd/MM/yyyy")
+                        </td>
+                        <td style="text-align:center">
+                            <a target="_blank" href="/Report/EditWorkDay/@workday.Id" class="btn btn-primary btn-sm btn-small">
+                                <i class="icon-pencil"></i>
+                            </a>
+                            &nbsp;
+                            &nbsp;
+                            <a target="_blank" href="/Report/RemoveWorkDay/@workday.Id" class="btn btn-danger btn-sm btn-small">
+                                <i class="icon-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 else
 {

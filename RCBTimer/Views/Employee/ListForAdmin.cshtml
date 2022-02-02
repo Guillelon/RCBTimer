@@ -17,110 +17,214 @@
             </div>
         </div>
         <br />
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>
-                        <div style="text-align:center">
-                            Colaboradores en turno
-                        </div>
-                    </th>
-                    <th>
-
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var employee in Model.Where(m => m.HasTimeRunning))
-                {
+        <div class="d-none d-xl-block">
+            <table class="table table-bordered">
+                <thead>
                     <tr>
-                        <td>
-                            <div id="@employee.Id" class="row">
-                                <div class="col-8">
+                        <th>
+                            <div style="text-align:center">
+                                Colaboradores en turno
+                            </div>
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var employee in Model.Where(m => m.HasTimeRunning))
+                    {
+                        <tr>
+                            <td>
+                                <div id="@employee.Id" class="row">
+                                    <div class="col-8">
+                                        @employee.Info
+                                    </div>
+                                    <div class="col-4">
+                                        <span class="badge badge-primary">@employee.TimeBeginning</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-6" style="text-align:right">
+                                        <a class="btn btn-primary btn-sm btn-small" href="/Employee/Edit/@employee.Id">
+                                            <i class="icon-pencil">
+
+                                            </i>
+                                        </a>
+                                    </div>
+                                    <div class="col-6" style="text-align:left">
+                                        @if (employee.LastWorkDayId.HasValue)
+                                        {
+                                            <a class="btn btn-primary btn-sm btn-small" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
+                                                <i class="icon-calendar">
+
+                                                </i>
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="d-xs-block d-xl-none">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            <div style="text-align:center">
+                                Colaboradores en turno
+                            </div>
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var employee in Model.Where(m => m.HasTimeRunning))
+                    {
+                        <tr>
+                            <td>
+                                @employee.Info
+                                <br />
+                                <span class="badge badge-primary">@employee.TimeBeginning</span>
+                            </td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-6" style="text-align:right">
+                                        <a class="btn btn-primary btn-sm btn-small" href="/Employee/Edit/@employee.Id">
+                                            <i class="icon-pencil">
+
+                                            </i>
+                                        </a>
+                                    </div>
+                                    <div class="col-6" style="text-align:left">
+                                        @if (employee.LastWorkDayId.HasValue)
+                                        {
+                                            <a class="btn btn-primary btn-sm btn-small" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
+                                                <i class="icon-calendar">
+
+                                                </i>
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <hr />
+        <div class="d-none d-xl-block">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            <div style="text-align:center">
+                                Lista de colaboradores
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var employee in Model.Where(m => !m.HasTimeRunning && m.Active))
+                    {
+                        <tr>
+                            <td>
+                                <div id="@employee.Id" class="row">
                                     @employee.Info
                                 </div>
-                                <div class="col-4">
-                                    <span class="badge badge-primary">@employee.TimeBeginning</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="row">
-                                <div class="col-6" style="text-align:right">
-                                    <a class="btn btn-primary btn-sm btn-small" href="/Employee/Edit/@employee.Id">
-                                        <i class="icon-pencil">
-
-                                        </i>
-                                    </a>
-                                </div>
-                                <div class="col-6" style="text-align:left">
-                                    @if (employee.LastWorkDayId.HasValue)
-                                    {
-                                        <a class="btn btn-primary btn-sm btn-small" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
-                                            <i class="icon-calendar">
+                            </td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-4" style="text-align:center">
+                                        <a class="btn btn-primary btn-sm btn-small" href="/Employee/Edit/@employee.Id">
+                                            <i class="icon-pencil">
 
                                             </i>
                                         </a>
-                                    }
+                                    </div>
+                                    <div class="col-4" style="text-align:center">
+                                        @if (employee.LastWorkDayId.HasValue)
+                                        {
+                                            <a class="btn btn-primary btn-sm btn-small" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
+                                                <i class="icon-calendar">
+
+                                                </i>
+                                            </a>
+                                        }
+                                    </div>
+                                    <div class="col-4" style="text-align:center">
+                                        <a class="btn btn-danger btn-sm btn-small" href="/Employee/DeActivate/@employee.Id">
+                                            <i class="icon-trash">
+
+                                            </i>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <hr />
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>
-                        <div style="text-align:center">
-                            Lista de colaboradores
-                        </div>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var employee in Model.Where(m => !m.HasTimeRunning))
-                {
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="d-xs-block d-xl-none">
+            <table class="table table-bordered">
+                <thead>
                     <tr>
-                        <td>
-                            <div id="@employee.Id" class="row">
-                                @employee.Info
+                        <th>
+                            <div style="text-align:center">
+                                Lista de colaboradores
                             </div>
-                        </td>
-                        <td>
-                            <div class="row">
-                                <div class="col-4" style="text-align:center">
-                                    <a class="btn btn-primary btn-sm btn-small" href="/Employee/Edit/@employee.Id">
-                                        <i class="icon-pencil">
-
-                                        </i>
-                                    </a>
-                                </div>
-                                <div class="col-4" style="text-align:center">
-                                    @if (employee.LastWorkDayId.HasValue)
-                                    {
-                                        <a class="btn btn-primary btn-sm btn-small" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
-                                            <i class="icon-calendar">
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var employee in Model.Where(m => !m.HasTimeRunning && m.Active))
+                    {
+                        <tr>
+                            <td>
+                                @employee.Info
+                                <br />
+                                <br />
+                                <div class="row">
+                                    <div class="col-4" style="text-align:right">
+                                        <a class="btn btn-primary btn-sm btn-small" href="/Employee/Edit/@employee.Id">
+                                            <i class="icon-pencil">
 
                                             </i>
                                         </a>
-                                    }
-                                </div>
-                                <div class="col-4" style="text-align:center">
-                                    <a class="btn btn-danger btn-sm btn-small" href="/Employee/DeActivate/@employee.Id">
-                                        <i class="icon-trash">
+                                    </div>
+                                    <div class="col-4" style="text-align:center">
+                                        @if (employee.LastWorkDayId.HasValue)
+                                        {
+                                            <a class="btn btn-primary btn-sm btn-small" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
+                                                <i class="icon-calendar">
 
-                                        </i>
-                                    </a>
+                                                </i>
+                                            </a>
+                                        }
+                                    </div>
+                                    <div class="col-4" style="text-align:left">
+                                        <a class="btn btn-danger btn-sm btn-small" href="/Employee/DeActivate/@employee.Id">
+                                            <i class="icon-trash">
+
+                                            </i>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
