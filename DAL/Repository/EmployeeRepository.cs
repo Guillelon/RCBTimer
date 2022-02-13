@@ -56,13 +56,14 @@ namespace DAL.Repository
             foreach (var employee in employees)
             {
                 var dto = new EmployeeList();
-                dto.Info = employee.FullInfo();
+                dto.Info = employee.FullName();
                 dto.Active = employee.IsActive;
                 dto.Id = employee.Id;
                 dto.HasTimeRunning = employee.Workdays.Where(w => w.EndTime == null).Any();
                 if (dto.HasTimeRunning)
                 {
                     var workday = employee.Workdays.Where(w => w.EndTime == null).FirstOrDefault();
+                    dto.Workday = workday;
                     dto.TimeBeginning = workday.BeginningTime.ToString("hh:mm tt");
                     dto.LastWorkDayId = workday.Id;
                 }
@@ -70,11 +71,16 @@ namespace DAL.Repository
                 {
                     var lastWorkDay = employee.Workdays.OrderByDescending(w => w.Id).FirstOrDefault();
                     if (lastWorkDay != null)
+                    {
                         dto.LastWorkDayId = lastWorkDay.Id;
+                        dto.Workday = lastWorkDay;
+                    }
+                        
                 }
                 dtos.Add(dto);
             }
-            return dtos;
+            var sorted = dtos.OrderBy(w => w.Info).ToList();
+            return sorted;
         }
 
         public Employee Get(int id)

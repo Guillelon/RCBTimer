@@ -17,35 +17,19 @@ namespace DAL.Repository
             context = new RCBTimerDBContext();
         }
 
-        public IList<WorkdaysReportDTO> GetWorkdaysByDate(DateTime beginTime,  DateTime endTime, int employeeId)
+        public IList<Workday> GetWorkdaysByDate(DateTime beginTime,  DateTime endTime, int employeeId)
         {
+            var dtos = new List<Workday>();
             if (employeeId > 0)
-                return context.Workday.Where(w => w.BeginningTime >= beginTime &&
+                dtos = context.Workday.Where(w => w.BeginningTime >= beginTime &&
                                               w.BeginningTime <= endTime && w.EmployeeId == employeeId)
-                                  .Select(w => new WorkdaysReportDTO
-                                  {
-                                      Id = w.Id,
-                                      EmployeeInfo = w.Employee.FirstName + " " + w.Employee.LastName,
-                                      BeginningTime = w.BeginningTime,
-                                      BreakBeginningTime = w.BreakBeginningTime,
-                                      BreakEndTime = w.BreakEndTime,
-                                      EndTime = w.EndTime,
-                                      Comments = w.Comments,
-                                      EmployeeComments = w.CommentsfromEmployee
-                                  }).ToList();
+                                  .ToList();
             else
-                return context.Workday.Where(w => w.BeginningTime >= beginTime &&
+                dtos = context.Workday.Where(w => w.BeginningTime >= beginTime &&
                                               w.BeginningTime <= endTime)
-                                  .Select(w => new WorkdaysReportDTO
-                                  {
-                                      Id = w.Id,
-                                      EmployeeInfo = w.Employee.FirstName + " " + w.Employee.LastName,
-                                      BeginningTime = w.BeginningTime,
-                                      BreakBeginningTime = w.BreakBeginningTime,
-                                      BreakEndTime = w.BreakEndTime,
-                                      EndTime = w.EndTime,
-                                      Comments = w.Comments
-                                  }).ToList();
+                                  .ToList();
+            var sorted = dtos.OrderBy(w => w.BeginningTime.Date).ThenBy(w => w.Employee.FirstName).ToList();
+            return sorted;
         }
     }
 }

@@ -21,10 +21,24 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>
+                        <th colspan="5">
                             <div style="text-align:center">
                                 Colaboradores en turno
                             </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Inicio del turno
+                        </th>
+                        <th>
+                            Tiempo de break
+                        </th>
+                        <th>
+                            Tiempo total
                         </th>
                         <th>
 
@@ -36,33 +50,28 @@
                     {
                         <tr>
                             <td>
-                                <div id="@employee.Id" class="row">
-                                    <div class="col-8">
-                                        @employee.Info
-                                    </div>
-                                    <div class="col-4">
-                                        <span class="badge badge-primary">@employee.TimeBeginning</span>
-                                    </div>
-                                </div>
+                                @employee.Info
+                            </td>
+                            <td>
+                                @employee.TimeBeginning
+                            </td>
+                            <td>
+                                @employee.Workday.GetMinutesInBreak() mins.
+                            </td>
+                            <td>
+                                @employee.Workday.GetHoursWorking() horas.
                             </td>
                             <td>
                                 <div class="row">
-                                    <div class="col-6" style="text-align:right">
-                                        <a class="btn btn-primary btn-sm btn-small" href="/Employee/Edit/@employee.Id">
-                                            <i class="icon-pencil">
-
-                                            </i>
+                                    <div class="col-6" style="text-align:center">
+                                        <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Employee/Edit/@employee.Id">
+                                            Editar emp.
                                         </a>
                                     </div>
-                                    <div class="col-6" style="text-align:left">
-                                        @if (employee.LastWorkDayId.HasValue)
-                                        {
-                                            <a class="btn btn-primary btn-sm btn-small" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
-                                                <i class="icon-calendar">
-
-                                                </i>
-                                            </a>
-                                        }
+                                    <div class="col-6" style="text-align:center">
+                                        <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Report/EditWorkDay/@employee.Workday.Id">
+                                            Editar turno.
+                                        </a>
                                     </div>
                                 </div>
                             </td>
@@ -80,42 +89,87 @@
                                 Colaboradores en turno
                             </div>
                         </th>
-                        <th>
-
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var employee in Model.Where(m => m.HasTimeRunning))
                     {
-                        <tr>
-                            <td>
-                                @employee.Info
-                                <br />
-                                <span class="badge badge-primary">@employee.TimeBeginning</span>
-                            </td>
-                            <td>
-                                <div class="row">
-                                    <div class="col-6" style="text-align:right">
-                                        <a class="btn btn-primary btn-sm btn-small" href="/Employee/Edit/@employee.Id">
-                                            <i class="icon-pencil">
-
-                                            </i>
-                                        </a>
+                        if (employee.Workday != null)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <i class="icon-user text-muted"></i> @employee.Info
+                                        </div>
+                                        <div class="col-6">
+                                            <i class="icon-enter text-muted"></i> @employee.TimeBeginning
+                                        </div>
                                     </div>
-                                    <div class="col-6" style="text-align:left">
-                                        @if (employee.LastWorkDayId.HasValue)
-                                        {
-                                            <a class="btn btn-primary btn-sm btn-small" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
-                                                <i class="icon-calendar">
-
-                                                </i>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <i class="icon-cup2 text-muted"></i> <span style="margin-top:15px">@employee.Workday.GetMinutesInBreak() min.</span>
+                                            @if (employee.Workday.BreakEndTime.HasValue)
+                                            {
+                                                <i class="icon-check text-muted"></i>
+                                            }
+                                        </div>
+                                        <div class="col-6">
+                                            <i class="icon-watch2 text-muted"></i> <span style="margin-top:15px">@employee.Workday.GetHoursWorking() horas.</span>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-6" style="text-align:center">
+                                            <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Employee/Edit/@employee.Id">
+                                                Editar emp.
                                             </a>
-                                        }
+                                        </div>
+                                        <div class="col-6">
+                                            @if (employee.LastWorkDayId.HasValue)
+                                            {
+                                                <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
+                                                    Editar turno
+                                                </a>
+                                            }
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+
+                            <tr>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <i class="icon-user text-muted"></i> @employee.Info
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-6" style="text-align:center">
+                                            <a class="btn-sm btn-primary" href="/Employee/Edit/@employee.Id">
+                                                Editar emp.
+                                            </a>
+                                        </div>
+                                        <div class="col-6">
+                                            @if (employee.LastWorkDayId.HasValue)
+                                            {
+                                                <a class="btn-sm btn-primary" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
+                                                    Editar turno
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>
@@ -125,10 +179,29 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>
+                        <th colspan="5">
                             <div style="text-align:center">
                                 Lista de colaboradores
+                                <br />
+                                <small>Información del último turno</small>
                             </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Inicio del turno
+                        </th>
+                        <th>
+                            Tiempo de break
+                        </th>
+                        <th>
+                            Tiempo total
+                        </th>
+                        <th>
+
                         </th>
                     </tr>
                 </thead>
@@ -137,36 +210,41 @@
                     {
                         <tr>
                             <td>
-                                <div id="@employee.Id" class="row">
-                                    @employee.Info
-                                </div>
+                                @employee.Info
                             </td>
+                            @if (employee.Workday != null)
+                            {
+                                <td>
+                                    @employee.Workday.BeginningTime.ToString("hh:mm tt")
+                                </td>
+                                <td>
+                                    @employee.Workday.GetMinutesInBreak() mins.
+                                </td>
+                                <td>
+                                    @employee.Workday.GetHoursWorking() horas.
+                                </td>
+                            }
+                            else
+                            {
+                                <td colspan="3" style="text-align:center">
+                                    N/A
+                                </td>
+                            }
                             <td>
                                 <div class="row">
-                                    <div class="col-4" style="text-align:center">
-                                        <a class="btn btn-primary btn-sm btn-small" href="/Employee/Edit/@employee.Id">
-                                            <i class="icon-pencil">
-
-                                            </i>
+                                    <div class="col-6" style="text-align:center">
+                                        <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Employee/Edit/@employee.Id">
+                                            Editar emp.
                                         </a>
                                     </div>
-                                    <div class="col-4" style="text-align:center">
-                                        @if (employee.LastWorkDayId.HasValue)
-                                        {
-                                            <a class="btn btn-primary btn-sm btn-small" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
-                                                <i class="icon-calendar">
-
-                                                </i>
+                                    @if (employee.Workday != null)
+                                    {
+                                        <div class="col-6" style="text-align:center">
+                                            <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Report/Editworkday/@employee.Workday.Id">
+                                                Editar ult turno.
                                             </a>
-                                        }
-                                    </div>
-                                    <div class="col-4" style="text-align:center">
-                                        <a class="btn btn-danger btn-sm btn-small" href="/Employee/DeActivate/@employee.Id">
-                                            <i class="icon-trash">
-
-                                            </i>
-                                        </a>
-                                    </div>
+                                        </div>
+                                    }
                                 </div>
                             </td>
                         </tr>
@@ -181,6 +259,8 @@
                         <th>
                             <div style="text-align:center">
                                 Lista de colaboradores
+                                <br />
+                                <small>Información de último turno</small>
                             </div>
                         </th>
                     </tr>
@@ -188,39 +268,79 @@
                 <tbody>
                     @foreach (var employee in Model.Where(m => !m.HasTimeRunning && m.Active))
                     {
-                        <tr>
-                            <td>
-                                @employee.Info
-                                <br />
-                                <br />
-                                <div class="row">
-                                    <div class="col-4" style="text-align:right">
-                                        <a class="btn btn-primary btn-sm btn-small" href="/Employee/Edit/@employee.Id">
-                                            <i class="icon-pencil">
-
-                                            </i>
-                                        </a>
+                        if (employee.Workday != null)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <i class="icon-user text-muted"></i> @employee.Info
+                                        </div>
+                                        <div class="col-6">
+                                            <i class="icon-enter text-muted"></i> @employee.Workday.BeginningTime.ToString("hh:mm tt")
+                                        </div>
                                     </div>
-                                    <div class="col-4" style="text-align:center">
-                                        @if (employee.LastWorkDayId.HasValue)
-                                        {
-                                            <a class="btn btn-primary btn-sm btn-small" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
-                                                <i class="icon-calendar">
-
-                                                </i>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <i class="icon-cup2 text-muted"></i> <span style="margin-top:15px">@employee.Workday.GetMinutesInBreak() min.</span>
+                                            @if (employee.Workday.BreakEndTime.HasValue)
+                                            {
+                                                <i class="icon-check text-muted"></i>
+                                            }
+                                        </div>
+                                        <div class="col-6">
+                                            <i class="icon-watch2 text-muted"></i> <span style="margin-top:15px">@employee.Workday.GetHoursWorking() horas.</span>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-6" style="text-align:center">
+                                            <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Employee/Edit/@employee.Id">
+                                                Editar emp.
                                             </a>
-                                        }
+                                        </div>
+                                        <div class="col-6" style="text-align:center">
+                                            @if (employee.LastWorkDayId.HasValue)
+                                            {
+                                                <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
+                                                    Editar turno
+                                                </a>
+                                            }
+                                        </div>
                                     </div>
-                                    <div class="col-4" style="text-align:left">
-                                        <a class="btn btn-danger btn-sm btn-small" href="/Employee/DeActivate/@employee.Id">
-                                            <i class="icon-trash">
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
 
-                                            </i>
-                                        </a>
+                            <tr>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <i class="icon-user text-muted"></i> @employee.Info
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-6" style="text-align:center">
+                                            <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Employee/Edit/@employee.Id">
+                                                Editar emp.
+                                            </a>
+                                        </div>
+                                        <div class="col-6" style="text-align:center">
+                                            @if (employee.LastWorkDayId.HasValue)
+                                            {
+                                                <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
+                                                    Editar turno
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>

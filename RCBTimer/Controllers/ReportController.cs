@@ -34,7 +34,7 @@ namespace RCBTimer.Controllers
             var endDateFormatted = new DateTime();
             try
             {
-                beginDateFormatted = DateTime.ParseExact(beginDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                beginDateFormatted = DateTime.ParseExact(beginDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             }
             catch
             {
@@ -44,7 +44,7 @@ namespace RCBTimer.Controllers
 
             try
             {
-                endDateFormatted = DateTime.ParseExact(endDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                endDateFormatted = DateTime.ParseExact(endDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 endDateFormatted = endDateFormatted.AddDays(1);
                 endDateFormatted = endDateFormatted.AddMinutes(-1);
             }
@@ -62,12 +62,12 @@ namespace RCBTimer.Controllers
         {
             if (TempData["WorkdaysToDownload"] != null)
             {
-                var dtos = (List<WorkdaysReportDTO>)TempData["WorkdaysToDownload"];
+                var dtos = (List<Workday>)TempData["WorkdaysToDownload"];
                 var lines = "Colaborador,Inicio del turno,Inicio del break,Fin del break," +
                     "        Fin del turno,Tiempo Laborado,Comentarios,Comentarios del Empleado"+ Environment.NewLine;
                 foreach(var dto in dtos)
                 {
-                    var line = dto.EmployeeInfo + "," + dto.BeginningTime.ToString("dd/MM/yyyy HH:mm tt") + ",";
+                    var line = dto.Employee.FullName() + "," + dto.BeginningTime.ToString("dd/MM/yyyy HH:mm tt") + ",";
                     if (dto.BreakBeginningTime.HasValue)
                         line += dto.BreakBeginningTime.Value.ToString("dd/MM/yyyy HH:mm tt") + ",";
                     else
@@ -86,11 +86,11 @@ namespace RCBTimer.Controllers
                         var timestampA = (dto.BreakBeginningTime.Value - dto.BeginningTime);
                         var timestampB = (dto.EndTime.Value - dto.BreakEndTime.Value);
                         var totalTimeStamp = timestampA + timestampB;
-                        dto.WorkedTime = totalTimeStamp.Hours.ToString() + ":" + totalTimeStamp.Minutes.ToString();
-                        line += dto.WorkedTime;
+                        var workedTime = totalTimeStamp.Hours.ToString() + ":" + totalTimeStamp.Minutes.ToString();
+                        line += workedTime;
                     }
 
-                    line += ","+ dto.Comments + "," + dto.EmployeeComments + Environment.NewLine;
+                    line += ","+ dto.Comments + "," + dto.CommentsfromEmployee + Environment.NewLine;
                     lines += line;
                 }
                 return File(new System.Text.UTF8Encoding().GetBytes(lines), "text/csv", "Horas.csv");

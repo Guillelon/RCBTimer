@@ -1,4 +1,4 @@
-﻿@model IList<DAL.DTO.WorkdaysReportDTO>
+﻿@model IList<DAL.Models.Workday>
 @if (Model != null && Model.Count > 0)
 {
     <div class="row">
@@ -18,10 +18,16 @@
             <thead>
                 <tr>
                     <th>
-                        Colaborador
+                        Nombre
                     </th>
                     <th>
-                        Fecha
+                        Inicio del turno
+                    </th>
+                    <th>
+                        Tiempo de break
+                    </th>
+                    <th>
+                        Tiempo total
                     </th>
                     <th>
 
@@ -33,19 +39,25 @@
                 {
                     <tr>
                         <td>
-                            @workday.EmployeeInfo
+                            @workday.Employee.FullName()
                         </td>
                         <td>
                             @workday.BeginningTime.ToString("dd/MM/yyyy")
                         </td>
+                        <td>
+                            @workday.GetMinutesInBreak() mins.
+                        </td>
+                        <td>
+                            @workday.GetHoursWorking() hrs.
+                        </td>
                         <td style="text-align:center">
-                            <a target="_blank" href="/Report/EditWorkDay/@workday.Id" class="btn btn-primary btn-sm btn-small">
-                                <i class="icon-pencil"></i>
+                            <a target="_blank" href="/Report/EditWorkDay/@workday.Id" class="btn-sm btn-primary">
+                                Editar turno
                             </a>
                             &nbsp;
                             &nbsp;
-                            <a target="_blank" href="/Report/RemoveWorkDay/@workday.Id" class="btn btn-danger btn-sm btn-small">
-                                <i class="icon-trash"></i>
+                            <a target="_blank" href="/Report/RemoveWorkDay/@workday.Id" class="btn-danger btn-sm">
+                                Eliminar turno
                             </a>
                         </td>
                     </tr>
@@ -70,18 +82,18 @@
                 {
                     <tr>
                         <td>
-                            @workday.EmployeeInfo
+                            @workday.
                             <br />
                             @workday.BeginningTime.ToString("dd/MM/yyyy")
                         </td>
                         <td style="text-align:center">
-                            <a target="_blank" href="/Report/EditWorkDay/@workday.Id" class="btn btn-primary btn-sm btn-small">
-                                <i class="icon-pencil"></i>
+                            <a target="_blank" href="/Report/EditWorkDay/@workday.Id" class="btn-sm btn-primary">
+                                Editar turno
                             </a>
-                            &nbsp;
-                            &nbsp;
-                            <a target="_blank" href="/Report/RemoveWorkDay/@workday.Id" class="btn btn-danger btn-sm btn-small">
-                                <i class="icon-trash"></i>
+                            <br />
+                            <br />
+                            <a target="_blank" href="/Report/RemoveWorkDay/@workday.Id" class="btn-danger btn-sm">
+                                Eliminar turno
                             </a>
                         </td>
                     </tr>

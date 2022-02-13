@@ -22,25 +22,50 @@
                 <tr>
                     <td>
                         <strong>Inicio del turno</strong>
-                        @Html.TextBoxFor(m => m.BeginningTime, new { @id = "begin", @class = "form-control" })
+                        <input name="BeginningTime" class="form-control" type="datetime-local" 
+                               value="@Model.BeginningTime.ToString("yyyy-MM-dd HH:mm").Replace(' ','T')"/>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <strong>Inicio del break</strong>
-                        @Html.TextBoxFor(m => m.BreakBeginningTime, new { @class = "form-control" })
+                        @if (Model.BreakBeginningTime.HasValue)
+                        {
+                            <input name="BreakBeginningTime" class="form-control" type="datetime-local"
+                                   value="@Model.BreakBeginningTime.Value.ToString("yyyy-MM-dd HH:mm").Replace(' ','T')" />
+                        }
+                        else
+                        {
+                            <input name="BreakBeginningTime" class="form-control" type="datetime-local" />
+                        }
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <strong>Fin del break</strong>
-                        @Html.TextBoxFor(m => m.BreakEndTime, new { @class = "form-control" })
+                        @if (Model.BreakEndTime.HasValue)
+                        {
+                            <input name="BreakEndTime" class="form-control" type="datetime-local"
+                                   value="@Model.BreakEndTime.Value.ToString("yyyy-MM-dd HH:mm").Replace(' ','T')" />
+                        }
+                        else
+                        {
+                            <input name="BreakEndTime" class="form-control" type="datetime-local" />
+                        }
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <strong>Fin del turno</strong>
-                        @Html.TextBoxFor(m => m.EndTime, new { @class = "form-control" })
+                        @if (Model.EndTime.HasValue)
+                        {
+                            <input name="EndTime" class="form-control" type="datetime-local"
+                                   value="@Model.EndTime.Value.ToString("yyyy-MM-dd HH:mm").Replace(' ','T')" />
+                        }
+                        else
+                        {
+                            <input name="EndTime" class="form-control" type="datetime-local" />
+                        }
                     </td>
                 </tr>
                 <tr>
