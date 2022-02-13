@@ -61,7 +61,7 @@ namespace DAL.Models
             return minutes;
         }
 
-        public int GetHoursWorking()
+        public string GetHoursWorking()
         {
             var hours = 0;
             TimeSpan timestampA;
@@ -100,7 +100,7 @@ namespace DAL.Models
                 }
             }
             var totalTimeStamp = timestampA + timestampB;
-            return Convert.ToInt32(totalTimeStamp.TotalHours);            
+            return totalTimeStamp.Hours.ToString() + ":" + totalTimeStamp.Minutes.ToString();
         }
     }
 }

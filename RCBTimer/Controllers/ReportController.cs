@@ -104,6 +104,11 @@ namespace RCBTimer.Controllers
             return View(workday);
         }
 
+        public ActionResult AddWorkDay(int id)
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult EditWorkDay(Workday model)
         {

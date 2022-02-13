@@ -42,7 +42,7 @@
                             @workday.Employee.FullName()
                         </td>
                         <td>
-                            @workday.BeginningTime.ToString("dd/MM/yyyy")
+                            @workday.BeginningTime.ToString("dd/MM/yyyy hh:mm tt")
                         </td>
                         <td>
                             @workday.GetMinutesInBreak() mins.
@@ -84,7 +84,7 @@
                         <td>
                             @workday.
                             <br />
-                            @workday.BeginningTime.ToString("dd/MM/yyyy")
+                            @workday.BeginningTime.ToString("dd/MM/yyyy hh:mm tt")
                         </td>
                         <td style="text-align:center">
                             <a target="_blank" href="/Report/EditWorkDay/@workday.Id" class="btn-sm btn-primary">

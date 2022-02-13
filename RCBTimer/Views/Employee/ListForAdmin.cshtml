@@ -8,16 +8,20 @@
                 @ViewBag.SuccessMessage
             </div>
         }
-        <div class="row">
-            <div class="col-sm-6 col-md-4 col-6">
-                <a class="btn btn-primary btn-block" href="/Employee/Create">Crear nuevo</a>
-            </div>
-            <div class="col-sm-6 col-md-4 col-6">
-                <a class="btn btn-primary btn-block" href="/Report/Workdays">Reportes</a>
-            </div>
-        </div>
         <br />
         <div class="d-none d-xl-block">
+            <div class="row">
+                <div class="col-md-4">
+                    <a class="btn btn-primary btn-block" href="/Employee/Create">Crear nuevo</a>
+                </div>
+                <div class="col-md-4">
+                    <a class="btn btn-primary btn-block" href="/Report/Workdays">Reportes</a>
+                </div>
+                <div class="col-md-4">
+                    <a class="btn btn-primary btn-block" href="/Report/AddWorkDay">Crear turno</a>
+                </div>
+            </div>
+            <br />
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -81,6 +85,17 @@
             </table>
         </div>
         <div class="d-xs-block d-xl-none">
+            <div class="row">
+                <div class="col-md-4">
+                    <a class="btn btn-primary btn-block" href="/Employee/Create">Crear nuevo</a>
+                </div>
+                <div class="col-md-4">
+                    <a class="btn btn-primary btn-block" href="/Report/Workdays">Reportes</a>
+                </div>
+                <div class="col-md-4">
+                    <a class="btn btn-primary btn-block" href="/Report/AddWorkDay">Crear turno</a>
+                </div>
+            </div>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -198,7 +213,7 @@
                             Tiempo de break
                         </th>
                         <th>
-                            Tiempo total
+                            Tiempo laborado
                         </th>
                         <th>
 
@@ -215,7 +230,7 @@
                             @if (employee.Workday != null)
                             {
                                 <td>
-                                    @employee.Workday.BeginningTime.ToString("hh:mm tt")
+                                    @employee.Workday.BeginningTime.ToString("dd/MM/yyyy hh:mm tt")
                                 </td>
                                 <td>
                                     @employee.Workday.GetMinutesInBreak() mins.
@@ -277,7 +292,7 @@
                                             <i class="icon-user text-muted"></i> @employee.Info
                                         </div>
                                         <div class="col-6">
-                                            <i class="icon-enter text-muted"></i> @employee.Workday.BeginningTime.ToString("hh:mm tt")
+                                            <i class="icon-enter text-muted"></i> @employee.Workday.BeginningTime.ToString("dd/MM/yyyy hh:mm tt")
                                         </div>
                                     </div>
                                     <br />

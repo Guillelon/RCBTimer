@@ -1,0 +1,40 @@
+﻿<div class="row">
+    <div class="col-4">
+
+    </div>
+    <div class="col-4">
+        <small>Seleccionar colaborador</small>
+        <input id="employeeSearchInput" class="form-control" placeholder="Escribir el nombre del colaborador" />
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var employeeId = 0;
+        $('#employeeSearchInput').autocomplete({
+            minChars: 1,
+            source: function (request, response) {
+                $.getJSON('/Employee/GetEmployeesForAutoComplete/', { query: request.term }, function (data) {
+                    console.log(data);
+                    if (data.length > 0) {
+                        response($.map(data, function (value, key) {
+                            return {
+                                label: value.Name,
+                                value: value.Id
+                            }
+                        }));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $('#noClientFoundParcel').hide();
+                employeeId = ui.item.value;
+                $('#clientSearchInputForParcelNew').val(ui.item.label);
+                $('#employeeSearchInput').val(ui.item.label);
+                return false;
+            }
+        });
+
+
+    });
+</script>
