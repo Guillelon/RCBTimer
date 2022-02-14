@@ -51,12 +51,12 @@
                             @workday.GetHoursWorking() hrs.
                         </td>
                         <td style="text-align:center">
-                            <a target="_blank" href="/Report/EditWorkDay/@workday.Id" class="btn-sm btn-primary">
+                            <a target="_blank" href="/Workday/Edit/@workday.Id" class="btn-sm btn-primary">
                                 Editar turno
                             </a>
                             &nbsp;
                             &nbsp;
-                            <a target="_blank" href="/Report/RemoveWorkDay/@workday.Id" class="btn-danger btn-sm">
+                            <a target="_blank" href="/Workday/Remove/@workday.Id" class="btn-danger btn-sm">
                                 Eliminar turno
                             </a>
                         </td>
@@ -82,17 +82,17 @@
                 {
                     <tr>
                         <td>
-                            @workday.
+                            @workday.Employee.FullName()
                             <br />
                             @workday.BeginningTime.ToString("dd/MM/yyyy hh:mm tt")
                         </td>
                         <td style="text-align:center">
-                            <a target="_blank" href="/Report/EditWorkDay/@workday.Id" class="btn-sm btn-primary">
+                            <a target="_blank" href="/Workday/Edit/@workday.Id" class="btn-sm btn-primary">
                                 Editar turno
                             </a>
                             <br />
                             <br />
-                            <a target="_blank" href="/Report/RemoveWorkDay/@workday.Id" class="btn-danger btn-sm">
+                            <a target="_blank" href="/Workday/Remove/@workday.Id" class="btn-danger btn-sm">
                                 Eliminar turno
                             </a>
                         </td>

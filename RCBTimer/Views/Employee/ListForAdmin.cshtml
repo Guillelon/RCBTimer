@@ -8,20 +8,7 @@
                 @ViewBag.SuccessMessage
             </div>
         }
-        <br />
         <div class="d-none d-xl-block">
-            <div class="row">
-                <div class="col-md-4">
-                    <a class="btn btn-primary btn-block" href="/Employee/Create">Crear nuevo</a>
-                </div>
-                <div class="col-md-4">
-                    <a class="btn btn-primary btn-block" href="/Report/Workdays">Reportes</a>
-                </div>
-                <div class="col-md-4">
-                    <a class="btn btn-primary btn-block" href="/Report/AddWorkDay">Crear turno</a>
-                </div>
-            </div>
-            <br />
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -68,12 +55,12 @@
                             <td>
                                 <div class="row">
                                     <div class="col-6" style="text-align:center">
-                                        <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Employee/Edit/@employee.Id">
+                                        <a target="_blank" class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Employee/Edit/@employee.Id">
                                             Editar emp.
                                         </a>
                                     </div>
                                     <div class="col-6" style="text-align:center">
-                                        <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Report/EditWorkDay/@employee.Workday.Id">
+                                        <a target="_blank" class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Workday/Edit/@employee.Workday.Id">
                                             Editar turno.
                                         </a>
                                     </div>
@@ -85,17 +72,6 @@
             </table>
         </div>
         <div class="d-xs-block d-xl-none">
-            <div class="row">
-                <div class="col-md-4">
-                    <a class="btn btn-primary btn-block" href="/Employee/Create">Crear nuevo</a>
-                </div>
-                <div class="col-md-4">
-                    <a class="btn btn-primary btn-block" href="/Report/Workdays">Reportes</a>
-                </div>
-                <div class="col-md-4">
-                    <a class="btn btn-primary btn-block" href="/Report/AddWorkDay">Crear turno</a>
-                </div>
-            </div>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -144,7 +120,7 @@
                                         <div class="col-6">
                                             @if (employee.LastWorkDayId.HasValue)
                                             {
-                                                <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
+                                                <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" target="_blank" href="/Workday/Edit/@employee.LastWorkDayId">
                                                     Editar turno
                                                 </a>
                                             }
@@ -169,14 +145,14 @@
                                     <br />
                                     <div class="row">
                                         <div class="col-6" style="text-align:center">
-                                            <a class="btn-sm btn-primary" href="/Employee/Edit/@employee.Id">
+                                            <a target="_blank" class="btn-sm btn-primary" href="/Employee/Edit/@employee.Id">
                                                 Editar emp.
                                             </a>
                                         </div>
                                         <div class="col-6">
                                             @if (employee.LastWorkDayId.HasValue)
                                             {
-                                                <a class="btn-sm btn-primary" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
+                                                <a target="_blank" class="btn-sm btn-primary" target="_blank" href="/Workday/Edit/@employee.LastWorkDayId">
                                                     Editar turno
                                                 </a>
                                             }
@@ -255,7 +231,7 @@
                                     @if (employee.Workday != null)
                                     {
                                         <div class="col-6" style="text-align:center">
-                                            <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Report/Editworkday/@employee.Workday.Id">
+                                            <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Workday/Edit/@employee.Workday.Id">
                                                 Editar ult turno.
                                             </a>
                                         </div>
@@ -318,7 +294,7 @@
                                         <div class="col-6" style="text-align:center">
                                             @if (employee.LastWorkDayId.HasValue)
                                             {
-                                                <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
+                                                <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" target="_blank" href="/Workday/Edit/@employee.LastWorkDayId">
                                                     Editar turno
                                                 </a>
                                             }
@@ -347,7 +323,7 @@
                                         <div class="col-6" style="text-align:center">
                                             @if (employee.LastWorkDayId.HasValue)
                                             {
-                                                <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" target="_blank" href="/Report/EditWorkDay/@employee.LastWorkDayId">
+                                                <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" target="_blank" href="/Workday/Edit/@employee.LastWorkDayId">
                                                     Editar turno
                                                 </a>
                                             }

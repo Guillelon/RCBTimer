@@ -2,10 +2,10 @@
 <div class="card mb-0">
     <div class="card-body">
         <div class="row">
-            <div class="col-4">
+            <div class="col-md-4 col-2">
 
             </div>
-            <div class="col-4">
+            <div class="col-md-4 col-8">
                 <small>Seleccionar colaborador</small>
                 <input id="employeeSearchInput" class="form-control" placeholder="Escribir el nombre del colaborador" />
             </div>
@@ -13,7 +13,7 @@
         <div id="form" style="display:none">
             <hr />
 
-            @using (Html.BeginForm("EditWorkDay", "Report", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            @using (Html.BeginForm("Edit", "Workday", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 <table class="table table-bordered">
                     <tr>

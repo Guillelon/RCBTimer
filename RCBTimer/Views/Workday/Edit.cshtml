@@ -7,7 +7,7 @@
                 @ViewBag.SuccessMessage
             </div>
         }
-        @using (Html.BeginForm("EditWorkDay", "Report", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        @using (Html.BeginForm("Edit", "Workday", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             <table class="table table-bordered">
                 <tr>

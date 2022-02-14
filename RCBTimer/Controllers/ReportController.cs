@@ -81,14 +81,8 @@ namespace RCBTimer.Controllers
                     else
                         line += ",";
 
-                    if(dto.BreakBeginningTime.HasValue && dto.BreakEndTime.HasValue && dto.EndTime.HasValue)
-                    {
-                        var timestampA = (dto.BreakBeginningTime.Value - dto.BeginningTime);
-                        var timestampB = (dto.EndTime.Value - dto.BreakEndTime.Value);
-                        var totalTimeStamp = timestampA + timestampB;
-                        var workedTime = totalTimeStamp.Hours.ToString() + ":" + totalTimeStamp.Minutes.ToString();
-                        line += workedTime;
-                    }
+                    var workedTime = dto.GetHoursWorking();
+                    line += workedTime;
 
                     line += ","+ dto.Comments + "," + dto.CommentsfromEmployee + Environment.NewLine;
                     lines += line;
@@ -96,56 +90,6 @@ namespace RCBTimer.Controllers
                 return File(new System.Text.UTF8Encoding().GetBytes(lines), "text/csv", "Horas.csv");
             }
             return null;
-        }
-
-        public ActionResult EditWorkDay(int id)
-        {
-            var workday = employeeRepository.GetWorkday(id);
-            return View(workday);
-        }
-
-        public ActionResult AddWorkDay(int? id = null)
-        {
-            var model = new Workday();
-            if (id.HasValue)
-            {
-                var employee = employeeRepository.Get(id.Value);
-                model.Employee = employee;
-            }                
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult EditWorkDay(Workday model)
-        {
-            var workday = new Workday();
-            if(model.Id > 0)
-            {
-                employeeRepository.EditWorkDay(model);
-                ViewBag.SuccessMessage = "Se editó con éxito el turno";
-                workday = employeeRepository.GetWorkday(model.Id);
-            }
-            else
-            {
-                employeeRepository.AddWorkDay(model);
-                ViewBag.SuccessMessage = "Se agregó con éxito el turno";
-                workday = employeeRepository.GetWorkday(model.Id);
-            }
-            return View(workday);
-        }
-
-        public ActionResult RemoveWorkDay(int id)
-        {
-            var model = employeeRepository.GetWorkday(id);
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult RemoveWorkDay(Workday model)
-        {
-            employeeRepository.RemoveWorkDay(model.Id);
-            return View("DeleteSuccess");
-        }
+        }        
     }
 }

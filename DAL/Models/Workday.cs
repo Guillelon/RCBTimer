@@ -102,7 +102,7 @@ namespace DAL.Models
                 }
             }
             var totalTimeStamp = timestampA + timestampB;
-            return totalTimeStamp.Hours.ToString() + ":" + totalTimeStamp.Minutes.ToString();
+            return totalTimeStamp.Hours.ToString("00") + ":" + totalTimeStamp.Minutes.ToString("00");
         }
     }
 }

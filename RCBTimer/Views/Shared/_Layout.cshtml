@@ -12,10 +12,8 @@
     <link href="~/Content/colors.min.css" rel="stylesheet" />
     <link href="~/Content/auto-complete.css" rel="stylesheet" />
     <link href="~/Content/icomoon/styles.css" rel="stylesheet" />
-    <link href="~/Content/summernote.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
     <link href="~/Content/datetimepicker.css" rel="stylesheet" />
-
 
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
@@ -34,21 +32,263 @@
         <div style="text-align:center;padding-top:5px;padding-bottom:5px">
             <img src="~/Images/AltLogo.png" width="150" />
         </div>
-        <div style="padding-top:30px;text-align:right">
+        <div class="d-md-none">
             @if (User.Identity.IsAuthenticated)
             {
-                <a class="btn-sm btn-light btn-outline" href="/Employee/Index">List</a>
-                
-                <a class="btn-sm btn-primary" href="/Employee/ListForAdmin">Admin</a>
+                <button class="navbar-toggler sidebar-mobile-main-toggle" type="button">
+                    <i class="icon-paragraph-justify3"></i>
+                </button>
             }
             else
             {
-                <a href="/Account/Login">Login</a>
+                <div style="margin-top:17px">
+                    <a href="/Account/Login" class="badge badge-primary">
+                        Login
+                    </a>
+                </div>
             }
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-mobile">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+
+                </li>
+
+                <li class="nav-item dropdown">
+
+
+                    <div class="dropdown-menu dropdown-content wmin-md-350">
+                        <div class="dropdown-content-header">
+                        </div>
+
+                        <div class="dropdown-content-body dropdown-scrollable">
+                            <ul class="media-list">
+                                <li class="media">
+                                    <div class="mr-3">
+                                        <a href="#" class="btn bg-transparent border-primary text-primary rounded-round border-2 btn-icon"><i class="icon-git-pull-request"></i></a>
+                                    </div>
+
+                                    <div class="media-body">
+
+                                    </div>
+                                </li>
+
+                                <li class="media">
+                                    <div class="mr-3">
+                                        <a href="#" class="btn bg-transparent border-warning text-warning rounded-round border-2 btn-icon"><i class="icon-git-commit"></i></a>
+                                    </div>
+
+                                    <div class="media-body">
+                                        Add full font overrides for popovers and tooltips
+                                        <div class="text-muted font-size-sm">36 minutes ago</div>
+                                    </div>
+                                </li>
+
+                                <li class="media">
+                                    <div class="mr-3">
+                                        <a href="#" class="btn bg-transparent border-info text-info rounded-round border-2 btn-icon"><i class="icon-git-branch"></i></a>
+                                    </div>
+
+                                    <div class="media-body">
+                                        <a href="#">Chris Arney</a> created a new <span class="font-weight-semibold">Design</span> branch
+                                        <div class="text-muted font-size-sm">2 hours ago</div>
+                                    </div>
+                                </li>
+
+                                <li class="media">
+                                    <div class="mr-3">
+                                        <a href="#" class="btn bg-transparent border-success text-success rounded-round border-2 btn-icon"><i class="icon-git-merge"></i></a>
+                                    </div>
+
+                                    <div class="media-body">
+                                        <a href="#">Eugene Kopyov</a> merged <span class="font-weight-semibold">Master</span> and <span class="font-weight-semibold">Dev</span> branches
+                                        <div class="text-muted font-size-sm">Dec 18, 18:36</div>
+                                    </div>
+                                </li>
+
+                                <li class="media">
+                                    <div class="mr-3">
+                                        <a href="#" class="btn bg-transparent border-primary text-primary rounded-round border-2 btn-icon"><i class="icon-git-pull-request"></i></a>
+                                    </div>
+
+                                    <div class="media-body">
+                                        Have Carousel ignore keyboard events
+                                        <div class="text-muted font-size-sm">Dec 12, 05:46</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="dropdown-content-footer bg-light">
+                            <a href="#" class="text-grey mr-auto">All updates</a>
+                            <div>
+                                <a href="#" class="text-grey" data-popup="tooltip" title="" data-original-title="Mark all as read"><i class="icon-radio-unchecked"></i></a>
+                                <a href="#" class="text-grey ml-2" data-popup="tooltip" title="" data-original-title="Bug tracker"><i class="icon-bug2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <span class="ml-md-3 mr-md-auto" style="color:white">Online</span>
+
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a href="#" class="navbar-nav-link dropdown-toggle caret-0" data-toggle="dropdown">
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a href="#" class="navbar-nav-link dropdown-toggle caret-0" data-toggle="dropdown">
+
+                    </a>
+
+                </li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item dropdown dropdown-user">
+                        <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span><i class="icon-user"></i></span> &nbsp;
+                            <span>@User.Identity.Name</span>
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a href="/Account/ChangePassword" class="dropdown-item"><i class="icon-user-plus"></i> Cambiar Contraseña</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="/Account/LogOff" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
+                        </div>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a href="/Account/Login">Login</a>
+                    </li>
+                }
+            </ul>
         </div>
     </div>
 
     <div class="page-content">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="sidebar sidebar-light sidebar-main sidebar-expand-md">
+                <!-- Sidebar mobile toggler -->
+                <div class="sidebar-mobile-toggler text-center">
+                    <a href="#/" class="sidebar-mobile-main-toggle">
+                        <i class="icon-arrow-left8"></i>
+                    </a>
+                    Navigation
+                    <a href="#/" class="sidebar-mobile-expand">
+                        <i class="icon-screen-full"></i>
+                        <i class="icon-screen-normal"></i>
+                    </a>
+                </div>
+
+                <!-- /sidebar mobile toggler -->
+                <!-- Sidebar content -->
+                <div class="sidebar-content">
+                    @{
+                        string CurrentURL = "";
+                        try
+                        {
+                            CurrentURL = Request.Url.AbsoluteUri;
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                    <div class="sidebar-user">
+                        <div class="card-body">
+                            <div class="media">
+                                <div class="media-body">
+                                    <div class="media-title font-weight-semibold">Admin</div>
+                                    <div class="font-size-xs opacity-50">
+                                        <i class="icon-pin font-size-sm"></i> &nbsp;Panama, Panama
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card card-sidebar-mobile">
+                        <ul class="nav nav-sidebar" data-nav-type="accordion">
+
+                            @{ var configDisplay = "none";
+                                var extraClass = "";
+                                if (CurrentURL.Contains("Employee") && !CurrentURL.Contains("Employee/Index"))
+                                {
+                                    configDisplay = "block";
+                                    extraClass = "nav-item-open";
+                                };
+                            }
+
+                            <li class="nav-item nav-item-submenu @extraClass">
+                                <a href="#/" class="nav-link menu-link parent-link"><i class="icon-people"></i> <span>Empleados</span></a>
+                                <ul class="nav nav-group-sub" data-submenu-title="Layouts" style="display:@configDisplay">
+                                    <li class="nav-item">
+                                        @if (CurrentURL.Contains("Employee/ListForAdmin"))
+                                        {
+                                            <a href="/Employee/ListForAdmin" class="nav-link active"> <i class="icon-list"></i> Ver todos</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="/Employee/ListForAdmin" class="nav-link"> <i class="icon-list"></i> Ver todos</a>
+                                        }
+                                    </li>
+                                    <li class="nav-item">
+                                        @if (CurrentURL.Contains("Employee/Create"))
+                                        {
+                                            <a href="/Employee/Create" class="nav-link active"> <i class="icon-add"></i> Crear</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="/Employee/Create" class="nav-link"> <i class="icon-add"></i> Crear</a>
+                                        }
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                @if (CurrentURL.Contains("Employee/Index"))
+                                {
+                                    <a href="/Employee/Index" class="nav-link active"> <i class="icon-watch2"></i> Turno del día</a>
+                                }
+                                else
+                                {
+                                    <a href="/Employee/Index" class="nav-link"> <i class="icon-watch2"></i> Turno del día</a>
+                                }
+                            </li>
+
+                            <li class="nav-item ">
+                                @if (CurrentURL.Contains("Workday/"))
+                                {
+                                    <a href="/Workday/Add" class="nav-link active"> <i class="icon-calendar"></i> Crear Turno</a>
+                                }
+                                else
+                                {
+                                    <a href="/Workday/Add" class="nav-link"> <i class="icon-calendar"></i> Crear Turno</a>
+                                }
+                            </li>
+
+                            <li class="nav-item ">
+                                @if (CurrentURL.Contains("Report"))
+                                {
+                                    <a href="/Report/Workdays" class="nav-link active"> <i class="icon-database"></i> Reportes</a>
+                                }
+                                else
+                                {
+                                    <a href="/Report/Workdays" class="nav-link"> <i class="icon-database"></i> Reportes</a>
+                                }
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        }
         <div class="content-wrapper" style="background-color: #F5F5F5">
             <div class="content">
                 @RenderBody()

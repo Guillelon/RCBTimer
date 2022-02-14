@@ -173,6 +173,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\WorkdayController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -239,9 +240,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -268,10 +266,10 @@
     <Content Include="Views\Employee\Create.cshtml" />
     <Content Include="Views\Report\Workdays.cshtml" />
     <Content Include="Views\Report\_WorkDays.cshtml" />
-    <Content Include="Views\Report\EditWorkDay.cshtml" />
-    <Content Include="Views\Report\RemoveWorkDay.cshtml" />
-    <Content Include="Views\Report\DeleteSuccess.cshtml" />
-    <Content Include="Views\Report\AddWorkDay.cshtml" />
+    <Content Include="Views\Workday\Edit.cshtml" />
+    <Content Include="Views\Workday\Remove.cshtml" />
+    <Content Include="Views\Workday\DeleteSuccess.cshtml" />
+    <Content Include="Views\Workday\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
