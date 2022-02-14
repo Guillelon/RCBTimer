@@ -44,6 +44,7 @@ namespace DAL.Models
         public int GetMinutesInBreak()
         {
             var minutes = 0;
+            var now = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
             if (BreakBeginningTime.HasValue)
             {
                 if (BreakEndTime.HasValue)
@@ -53,7 +54,7 @@ namespace DAL.Models
                 }
                 else
                 {
-                    var totalTimeStamp = (DateTime.Now - BreakBeginningTime.Value);
+                    var totalTimeStamp = (now - BreakBeginningTime.Value);
                     minutes = Convert.ToInt32(totalTimeStamp.TotalMinutes);
                     OnBreak = true;
                 }
@@ -66,6 +67,7 @@ namespace DAL.Models
             var hours = 0;
             TimeSpan timestampA;
             TimeSpan timestampB;
+            var now = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
             if (BreakBeginningTime.HasValue)
             {
                 if (BreakEndTime.HasValue)
@@ -77,13 +79,13 @@ namespace DAL.Models
                     }
                     else {
                         timestampA = (BreakBeginningTime.Value - BeginningTime);
-                        timestampB = (DateTime.Now - BreakEndTime.Value);                        
+                        timestampB = (now - BreakEndTime.Value);                        
                     }                    
                 }
                 else
                 {
                     timestampA = (BreakBeginningTime.Value - BeginningTime);
-                    timestampB = (DateTime.Now - DateTime.Now);
+                    timestampB = (now - now);
                 }
             }
             else
@@ -91,12 +93,12 @@ namespace DAL.Models
                 if (EndTime.HasValue)
                 {
                     timestampA = (EndTime.Value - BeginningTime);
-                    timestampB = (DateTime.Now - DateTime.Now);
+                    timestampB = (now - now);
                 }
                 else
                 {
-                    timestampA = (DateTime.Now - BeginningTime);
-                    timestampB = (DateTime.Now - DateTime.Now);
+                    timestampA = (now - BeginningTime);
+                    timestampB = (now - now);
                 }
             }
             var totalTimeStamp = timestampA + timestampB;
