@@ -104,17 +104,34 @@ namespace RCBTimer.Controllers
             return View(workday);
         }
 
-        public ActionResult AddWorkDay(int id)
+        public ActionResult AddWorkDay(int? id = null)
         {
-            return View();
+            var model = new Workday();
+            if (id.HasValue)
+            {
+                var employee = employeeRepository.Get(id.Value);
+                model.Employee = employee;
+            }                
+
+            return View(model);
         }
 
         [HttpPost]
         public ActionResult EditWorkDay(Workday model)
         {
-            employeeRepository.EditWorkDay(model);
-            ViewBag.SuccessMessage = "Se editó con éxito el turno";
-            var workday = employeeRepository.GetWorkday(model.Id);
+            var workday = new Workday();
+            if(model.Id > 0)
+            {
+                employeeRepository.EditWorkDay(model);
+                ViewBag.SuccessMessage = "Se editó con éxito el turno";
+                workday = employeeRepository.GetWorkday(model.Id);
+            }
+            else
+            {
+                employeeRepository.AddWorkDay(model);
+                ViewBag.SuccessMessage = "Se agregó con éxito el turno";
+                workday = employeeRepository.GetWorkday(model.Id);
+            }
             return View(workday);
         }
 

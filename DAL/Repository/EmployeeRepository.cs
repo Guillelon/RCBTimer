@@ -204,6 +204,12 @@ namespace DAL.Repository
             context.SaveChanges();
         }
 
+        public void AddWorkDay(Workday model)
+        {
+            context.Workday.Add(model);
+            context.SaveChanges();
+        }
+
         public void RemoveWorkDay(int id)
         {
             var workday = GetWorkday(id);

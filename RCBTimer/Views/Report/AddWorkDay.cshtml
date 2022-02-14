@@ -1,10 +1,88 @@
-﻿<div class="row">
-    <div class="col-4">
+﻿@model DAL.Models.Workday
+<div class="card mb-0">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-4">
 
-    </div>
-    <div class="col-4">
-        <small>Seleccionar colaborador</small>
-        <input id="employeeSearchInput" class="form-control" placeholder="Escribir el nombre del colaborador" />
+            </div>
+            <div class="col-4">
+                <small>Seleccionar colaborador</small>
+                <input id="employeeSearchInput" class="form-control" placeholder="Escribir el nombre del colaborador" />
+            </div>
+        </div>
+        <div id="form" style="display:none">
+            <hr />
+            @using (Html.BeginForm("EditWorkDay", "Report", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <table class="table table-bordered">
+                    <tr>
+                        <td>
+                            @Html.HiddenFor(m => m.EmployeeId, new { id="emplopyeeId" })
+                            <strong>Inicio del turno</strong>
+                            <input id="BeginningTime" name="BeginningTime" class="form-control" type="datetime-local"
+                                   value="@Model.BeginningTime.ToString("yyyy-MM-dd HH:mm").Replace(' ','T')" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Inicio del break</strong>
+                            @if (Model.BreakBeginningTime.HasValue)
+                            {
+                                <input id="BreakBeginningTime" name="BreakBeginningTime" class="form-control" type="datetime-local"
+                                       value="@Model.BreakBeginningTime.Value.ToString("yyyy-MM-dd HH:mm").Replace(' ','T')" />
+                            }
+                            else
+                            {
+                                <input id="BreakBeginningTime" name="BreakBeginningTime" class="form-control" type="datetime-local" />
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Fin del break</strong>
+                            @if (Model.BreakEndTime.HasValue)
+                            {
+                                <input id="BreakEndTime" name="BreakEndTime" class="form-control" type="datetime-local"
+                                       value="@Model.BreakEndTime.Value.ToString("yyyy-MM-dd HH:mm").Replace(' ','T')" />
+                            }
+                            else
+                            {
+                                <input id="BreakEndTime" name="BreakEndTime" class="form-control" type="datetime-local" />
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Fin del turno</strong>
+                            @if (Model.EndTime.HasValue)
+                            {
+                                <input id="EndTime" name="EndTime" class="form-control" type="datetime-local"
+                                       value="@Model.EndTime.Value.ToString("yyyy-MM-dd HH:mm").Replace(' ','T')" />
+                            }
+                            else
+                            {
+                                <input id="EndTime" name="EndTime" class="form-control" type="datetime-local" />
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Comentarios</strong>
+                            @Html.TextAreaFor(m => m.Comments, new { @class = "form-control" })
+                        </td>
+                    </tr>
+                </table>
+                <hr />
+                <div class="row">
+                    <div class="col-3 col-md-4">
+
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <button class="btn btn-primary btn-block">Crear turno</button>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>
 
@@ -14,8 +92,7 @@
         $('#employeeSearchInput').autocomplete({
             minChars: 1,
             source: function (request, response) {
-                $.getJSON('/Employee/GetEmployeesForAutoComplete/', { query: request.term }, function (data) {
-                    console.log(data);
+                $.getJSON('/Employee/GetEmployeesForAutoComplete/', { query: request.term }, function (data) {                    
                     if (data.length > 0) {
                         response($.map(data, function (value, key) {
                             return {
@@ -27,14 +104,27 @@
                 });
             },
             select: function (event, ui) {
-                $('#noClientFoundParcel').hide();
-                employeeId = ui.item.value;
-                $('#clientSearchInputForParcelNew').val(ui.item.label);
                 $('#employeeSearchInput').val(ui.item.label);
+                $('#form').show();
+                $('#emplopyeeId').val(ui.item.value);
                 return false;
             }
         });
 
+        $('#BeginningTime').change(function () {
+            console.log($(this).val());
+            $('#BreakBeginningTime').val($(this).val());
+            $('#BreakEndTime').val($(this).val());
+            $('#EndTime').val($(this).val());
+        })
 
+        $('#BreakBeginningTime').change(function () {
+            $('#BreakEndTime').val($(this).val());
+            $('#EndTime').val($(this).val());
+        })
+
+        $('#BreakEndTime').change(function () {
+            $('#EndTime').val($(this).val());
+        })
     });
 </script>
