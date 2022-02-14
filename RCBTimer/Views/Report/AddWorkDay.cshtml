@@ -12,6 +12,7 @@
         </div>
         <div id="form" style="display:none">
             <hr />
+
             @using (Html.BeginForm("EditWorkDay", "Report", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 <table class="table table-bordered">
