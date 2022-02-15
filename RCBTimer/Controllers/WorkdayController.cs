@@ -22,7 +22,10 @@ namespace RCBTimer.Controllers
         public ActionResult Edit(int id)
         {
             var workday = workdayRepository.Get(id);
-            return View(workday);
+            if(workday != null)
+                return View(workday);
+            else
+                return View("DeleteSuccess");
         }
 
         public ActionResult Add(int? id = null)
@@ -59,7 +62,10 @@ namespace RCBTimer.Controllers
         public ActionResult Remove(int id)
         {
             var model = workdayRepository.Get(id);
-            return View(model);
+            if (model != null)
+                return View(model);
+            else
+                return View("DeleteSuccess");
         }
 
         [HttpPost]
