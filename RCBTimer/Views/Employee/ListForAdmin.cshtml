@@ -1,5 +1,5 @@
 ﻿@model List<DAL.DTO.EmployeeList>
-
+@using System.Globalization
 <div class="card">
     <div class="card-body">
         @if (ViewBag.SuccessMessage != null)
@@ -186,10 +186,7 @@
                             Inicio del turno
                         </th>
                         <th>
-                            Tiempo de break
-                        </th>
-                        <th>
-                            Tiempo laborado
+                            Detalles
                         </th>
                         <th>
 
@@ -205,19 +202,20 @@
                             </td>
                             @if (employee.Workday != null)
                             {
+                        <td>
+                            @employee.Workday.BeginningTime.ToString("dddd", new CultureInfo("es-ES")) @employee.Workday.BeginningTime.ToString("dd") de @employee.Workday.BeginningTime.ToString("MMMM", new CultureInfo("es-ES"))
+                            <br />
+                            @employee.Workday.BeginningTime.ToString("hh:mm tt")
+                        </td>
                                 <td>
-                                    @employee.Workday.BeginningTime.ToString("dd/MM/yyyy hh:mm tt")
-                                </td>
-                                <td>
-                                    @employee.Workday.GetMinutesInBreak() mins.
-                                </td>
-                                <td>
-                                    @employee.Workday.GetHoursWorking() horas.
+                                    <span class="icon-cup2 text-muted"></span> @employee.Workday.GetMinutesInBreak() mins.
+                                    <br />
+                                    <span class="icon-watch2 text-muted"></span> @employee.Workday.GetHoursWorking() horas.
                                 </td>
                             }
                             else
                             {
-                                <td colspan="3" style="text-align:center">
+                                <td colspan="2" style="text-align:center">
                                     N/A
                                 </td>
                             }

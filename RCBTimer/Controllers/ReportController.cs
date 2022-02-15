@@ -67,17 +67,17 @@ namespace RCBTimer.Controllers
                     "        Fin del turno,Tiempo Laborado,Comentarios,Comentarios del Empleado"+ Environment.NewLine;
                 foreach(var dto in dtos)
                 {
-                    var line = dto.Employee.FullName() + "," + dto.BeginningTime.ToString("dd/MM/yyyy HH:mm tt") + ",";
+                    var line = dto.Employee.FullName() + "," + dto.BeginningTime.ToString("dd/MM/yyyy hh:mm tt") + ",";
                     if (dto.BreakBeginningTime.HasValue)
-                        line += dto.BreakBeginningTime.Value.ToString("dd/MM/yyyy HH:mm tt") + ",";
+                        line += dto.BreakBeginningTime.Value.ToString("dd/MM/yyyy hh:mm tt") + ",";
                     else
                         line += ",";
                     if (dto.BreakEndTime.HasValue)
-                        line += dto.BreakEndTime.Value.ToString("dd/MM/yyyy HH:mm tt") + ",";
+                        line += dto.BreakEndTime.Value.ToString("dd/MM/yyyy hh:mm tt") + ",";
                     else
                         line += ",";
                     if (dto.EndTime.HasValue)
-                        line += dto.EndTime.Value.ToString("dd/MM/yyyy HH:mm tt") + ",";
+                        line += dto.EndTime.Value.ToString("dd/MM/yyyy hh:mm tt") + ",";
                     else
                         line += ",";
 

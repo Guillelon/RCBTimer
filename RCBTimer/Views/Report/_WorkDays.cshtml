@@ -1,4 +1,5 @@
 ﻿@model IList<DAL.Models.Workday>
+@using System.Globalization
 @if (Model != null && Model.Count > 0)
 {
     <div class="row">
@@ -15,7 +16,7 @@
     <br />
     <div class="d-none d-xl-block">
         <table class="table table-bordered">
-            <thead>
+            <thead style="text-align:center">
                 <tr>
                     <th>
                         Nombre
@@ -24,13 +25,10 @@
                         Inicio del turno
                     </th>
                     <th>
-                        Tiempo de break
+                        Detalles
                     </th>
                     <th>
-                        Tiempo total
-                    </th>
-                    <th>
-
+                        Acciones del turno
                     </th>
                 </tr>
             </thead>
@@ -42,22 +40,23 @@
                             @workday.Employee.FullName()
                         </td>
                         <td>
-                            @workday.BeginningTime.ToString("dd/MM/yyyy hh:mm tt")
+                            @workday.BeginningTime.ToString("dddd", new CultureInfo("es-ES")) @workday.BeginningTime.ToString("dd") de @workday.BeginningTime.ToString("MMMM", new CultureInfo("es-ES")).Substring(0, 3).ToUpper() de @workday.BeginningTime.ToString("yyyy")
+                            <br />
+                            @workday.BeginningTime.ToString("hh:mm tt")
                         </td>
                         <td>
-                            @workday.GetMinutesInBreak() mins.
-                        </td>
-                        <td>
-                            @workday.GetHoursWorking() hrs.
+                            <span class="icon-cup2 text-muted"></span> @workday.GetMinutesInBreak() mins.
+                            <br />
+                            <span class="icon-watch2 text-muted"></span> @workday.GetHoursWorking() horas.
                         </td>
                         <td style="text-align:center">
                             <a target="_blank" href="/Workday/Edit/@workday.Id" class="btn-sm btn-primary">
-                                Editar turno
+                                Editar
                             </a>
                             &nbsp;
                             &nbsp;
                             <a target="_blank" href="/Workday/Remove/@workday.Id" class="btn-danger btn-sm">
-                                Eliminar turno
+                                Eliminar
                             </a>
                         </td>
                     </tr>
