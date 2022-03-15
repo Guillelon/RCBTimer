@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Tester";
+}
+
+<h2>Tester</h2>
+
+<input data-bind="value: Name, valueUpdate:['afterkeydown'], event: { 'blur': validateAndShow } " />
+
+<input data-bind="delayed: $rooName" />
+
+<script>
+    $(document).ready(function () {
+        function viewModel() {
+            var self = this;
+            self.Name = ko.observable();
+                        
+
+            self.validateAndShow = function () {
+                console.log('validate');
+            }
+
+            ko.bindingHandlers.delayed = {
+                update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+                    console.log(valueAccessor);
+                },
+            };
+        }
+
+        var viewModel = new viewModel();
+        ko.applyBindings(viewModel);
+    })
+</script>

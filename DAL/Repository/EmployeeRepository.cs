@@ -99,7 +99,7 @@ namespace DAL.Repository
         {
             var employee = context.Employee.Where(e => e.Id == id).FirstOrDefault();
             var dto = new EmployeeInfo();
-            var today = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
+            var today = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time"));
             if (employee != null)
             {
                 dto.Name = employee.FullName();

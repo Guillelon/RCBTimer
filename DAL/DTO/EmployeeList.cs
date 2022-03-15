@@ -31,6 +31,51 @@ namespace DAL.DTO
         public Workday Workday { get; set; }
         public string TodaysInfo { get; set; }        
         public string TodaysHourInfo { get; set; }
+
+        public DateTime BeginningTime { get; set; }
+        public DateTime? BreakBeginningTime { get; set; }
+        public DateTime? BreakEndTime { get; set; }
+        public DateTime? EndTime { get; set; }
+
+        public string BeginningTimeFormatted { 
+            get { return BeginningTime.ToString("hh:mm tt"); }
+            set { } 
+        }
+
+        public string BreakBeginningTimeFormatted
+        {
+            get {
+                if (BreakBeginningTime.HasValue)
+                    return BreakBeginningTime.Value.ToString("hh:mm tt");
+                else
+                    return "N/A";
+            }
+            set { }
+        }
+
+        public string BreakEndTimeFormatted
+        {
+            get
+            {
+                if (BreakEndTime.HasValue)
+                    return BreakEndTime.Value.ToString("hh:mm tt");
+                else
+                    return "N/A";
+            }
+            set { }
+        }
+
+        public string EndTimeFormatted
+        {
+            get
+            {
+                if (EndTime.HasValue)
+                    return EndTime.Value.ToString("hh:mm tt");
+                else
+                    return "N/A";
+            }
+            set { }
+        }
     }
 
     public class WorkDayPost

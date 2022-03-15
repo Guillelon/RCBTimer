@@ -100,6 +100,19 @@ namespace RCBTimer.Controllers
             return View(employee);
         }
 
+        public ActionResult InfoV2(int id)
+        {
+            var employee = employeeRepository.GetEmployee(id);
+            return View(employee);
+        }
+
+        public string GetData(int id)
+        {
+            var employee = employeeRepository.GetEmployee(id);
+            var json = new JavaScriptSerializer().Serialize(employee);
+            return json;
+        }
+
         [Authorize]
         public ActionResult DeActivate(int id)
         {
@@ -122,6 +135,11 @@ namespace RCBTimer.Controllers
             var dto = new JavaScriptSerializer().Deserialize<WorkDayPost>(query);
             var result = workdayRepository.ProcessBreak(dto.Id, dto.Comments);
             return result;
+        }
+
+        public ActionResult Tester()
+        {
+            return View();
         }
     }
 }

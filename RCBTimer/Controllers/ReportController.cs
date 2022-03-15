@@ -64,7 +64,7 @@ namespace RCBTimer.Controllers
             {
                 var dtos = (List<Workday>)TempData["WorkdaysToDownload"];
                 var lines = "Colaborador,Inicio del turno,Inicio del break,Fin del break," +
-                    "        Fin del turno,Tiempo Laborado,Comentarios,Comentarios del Empleado"+ Environment.NewLine;
+                    "Fin del turno,Tiempo Laborado,Comentarios,Comentarios del Empleado"+ Environment.NewLine;
                 foreach(var dto in dtos)
                 {
                     var line = dto.Employee.FullName() + "," + dto.BeginningTime.ToString("dd/MM/yyyy hh:mm tt") + ",";
