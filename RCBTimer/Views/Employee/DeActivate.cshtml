@@ -1,0 +1,57 @@
+﻿@model DAL.Models.Employee
+@using (Html.BeginForm("DeActivate", "Employee", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="card mb-0">
+        <div class="card-body">
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ViewBag.ErrorMessage
+                </div>
+            }
+            <div class="form-group form-group-feedback form-group-feedback-left">
+                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.IsActive)
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @disabled = "disabled" })
+                <div class="form-control-feedback">
+                    <i class="icon-user text-muted"></i>
+                </div>
+            </div>
+
+            <div class="form-group form-group-feedback form-group-feedback-left">
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @disabled = "disabled" })
+                <div class="form-control-feedback">
+                    <i class="icon-user text-muted"></i>
+                </div>
+            </div>
+
+            <div class="form-group form-group-feedback form-group-feedback-left">
+                @Html.TextBoxFor(m => m.Position, new { @class = "form-control", @disabled = "disabled" })
+                <div class="form-control-feedback">
+                    <i class="icon-home text-muted"></i>
+                </div>
+            </div>
+
+            <div class="form-group form-group-feedback form-group-feedback-left">
+                @Html.TextBoxFor(m => m.NationalId, new { @type = "number", @class = "form-control", @disabled = "disabled" })
+                <div class="form-control-feedback">
+                    <i class="icon-certificate text-muted"></i>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-6">
+                        <a class="btn btn-default btn-block" href="/Employee/ListForAdmin">
+                            Volver
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-danger btn-block">Eliminar <i class="icon-trash ml-2"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

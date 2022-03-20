@@ -112,18 +112,15 @@
                                     </div>
                                     <br />
                                     <div class="row">
-                                        <div class="col-6" style="text-align:center">
+                                        <div class="col-4" style="text-align:center">
                                             <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Employee/Edit/@employee.Id">
                                                 Editar emp.
                                             </a>
                                         </div>
-                                        <div class="col-6">
-                                            @if (employee.LastWorkDayId.HasValue)
-                                            {
-                                                <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" target="_blank" href="/Workday/Edit/@employee.LastWorkDayId">
-                                                    Editar turno
-                                                </a>
-                                            }
+                                        <div class="col-4" style="text-align:center">
+                                            <a target="_blank" class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Workday/Edit/@employee.Workday.Id">
+                                                Editar turno.
+                                            </a>
                                         </div>
                                     </div>
                                 </td>
@@ -221,19 +218,24 @@
                             }
                             <td>
                                 <div class="row">
-                                    <div class="col-6" style="text-align:center">
+                                    <div class="col-4" style="text-align:center">
                                         <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Employee/Edit/@employee.Id">
                                             Editar emp.
                                         </a>
                                     </div>
                                     @if (employee.Workday != null)
                                     {
-                                        <div class="col-6" style="text-align:center">
+                                        <div class="col-4" style="text-align:center">
                                             <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Workday/Edit/@employee.Workday.Id">
                                                 Editar ult turno.
                                             </a>
                                         </div>
                                     }
+                                    <div class="col-4" style="text-align:center">
+                                        <a class="btn-sm btn-danger" style="padding-left:3px;padding-right:3px" href="/Employee/DeActivate/@employee.Id">
+                                            Elim emp.
+                                        </a>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -284,18 +286,24 @@
                                     </div>
                                     <br />
                                     <div class="row">
-                                        <div class="col-6" style="text-align:center">
+                                        <div class="col-4" style="text-align:center">
                                             <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Employee/Edit/@employee.Id">
                                                 Editar emp.
                                             </a>
                                         </div>
-                                        <div class="col-6" style="text-align:center">
+                                        <div class="col-4" style="text-align:center">
                                             @if (employee.LastWorkDayId.HasValue)
                                             {
                                                 <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" target="_blank" href="/Workday/Edit/@employee.LastWorkDayId">
                                                     Editar turno
                                                 </a>
                                             }
+                                        </div>
+
+                                        <div class="col-4" style="text-align:center">
+                                            <a class="btn-sm btn-danger" style="padding-left:3px;padding-right:3px" href="/Employee/DeActivate/@employee.Id">
+                                                Elim emp.
+                                            </a>
                                         </div>
                                     </div>
                                 </td>
@@ -313,18 +321,23 @@
                                     </div>
                                     <br />
                                     <div class="row">
-                                        <div class="col-6" style="text-align:center">
+                                        <div class="col-4" style="text-align:center">
                                             <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Employee/Edit/@employee.Id">
                                                 Editar emp.
                                             </a>
                                         </div>
-                                        <div class="col-6" style="text-align:center">
+                                        <div class="col-4" style="text-align:center">
                                             @if (employee.LastWorkDayId.HasValue)
                                             {
                                                 <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" target="_blank" href="/Workday/Edit/@employee.LastWorkDayId">
                                                     Editar turno
                                                 </a>
                                             }
+                                        </div>
+                                        <div class="col-4" style="text-align:center">
+                                            <a class="btn-sm btn-danger" style="padding-left:3px;padding-right:3px" href="/Employee/DeActivate/@employee.Id">
+                                                Elim emp.
+                                            </a>
                                         </div>
                                     </div>
                                 </td>

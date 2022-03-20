@@ -113,10 +113,17 @@ namespace RCBTimer.Controllers
             return json;
         }
 
-        [Authorize]
         public ActionResult DeActivate(int id)
         {
-            employeeRepository.DeActivate(id, User.Identity.Name);
+            var employee = employeeRepository.Get(id);
+            return View(employee);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult DeActivate(Employee employee)
+        {
+            employeeRepository.DeActivate(employee.Id, User.Identity.Name);
             TempData["SuccessMessage"] = "Se eliminó el empleado con éxito";
             return RedirectToAction("ListForAdmin");
         }

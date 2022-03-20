@@ -274,6 +274,7 @@
     <Content Include="Views\Workday\Add.cshtml" />
     <Content Include="Views\Employee\InfoV2.cshtml" />
     <Content Include="Views\Employee\Tester.cshtml" />
+    <Content Include="Views\Employee\DeActivate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
