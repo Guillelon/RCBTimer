@@ -21,6 +21,14 @@ namespace RCBTimer.Controllers
             workdayRepository = new WorkdayRepository();
         }
 
+        public ActionResult Landing()
+        {
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("ListForAdmin");
+            else
+                return RedirectToAction("Index");
+        }
+
         [Authorize]
         public ActionResult ListForAdmin()
         {
