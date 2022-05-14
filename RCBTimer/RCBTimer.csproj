@@ -204,6 +204,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\AltLogo.png" />
+    <Content Include="Images\bigLoading.gif" />
     <Content Include="Images\fav.ico" />
     <Content Include="Images\Logo.png" />
     <Content Include="Scripts\app.js" />
@@ -216,6 +217,7 @@
     <Content Include="Content\icomoon\fonts\icomoon.woff" />
     <Content Include="Scripts\auto-complete.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\DateTimeFormatter.js" />
     <Content Include="Scripts\datetimepicker.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -275,6 +277,8 @@
     <Content Include="Views\Employee\InfoV2.cshtml" />
     <Content Include="Views\Employee\Tester.cshtml" />
     <Content Include="Views\Employee\DeActivate.cshtml" />
+    <Content Include="Views\Workday\Today.cshtml" />
+    <Content Include="Views\Workday\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

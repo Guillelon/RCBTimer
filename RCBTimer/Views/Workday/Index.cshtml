@@ -1,0 +1,229 @@
+﻿<div id="WorkdayHub">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-xs-12 col-md-2">
+                    <div class="card">
+                        <div class="card-header">
+                            Crear nuevo
+                        </div>
+                        <div class="card-body" style="text-align:center">
+                            <a class="btn btn-info" href="/Workday/Add">
+                                <span class="icon-add"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            Buscar por día
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-9">
+                                    <input data-bind="value: Date" autocomplete="off" class="datepicker form-control" data-date-format="dd/mm/yyyy">
+                                </div>
+                                <div class="col-2">
+                                    <button data-bind="click: SearchByDate" class="btn btn-info btn-xs">
+                                        <span class="icon-search4"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            Buscar por colaborador
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-9">
+                                    <input data-bind="value: EmployeeText" id="employeeSearchInput" class="form-control" placeholder="Escribir el nombre del colaborador" />
+                                </div>
+                                <div class="col-2">
+                                    <button data-bind="click: SearchByEmployee" class="btn btn-info btn-xs">
+                                        <span class="icon-search4"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div data-bind="visible: !Loading()">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                Inicio del turno
+                            </th>
+                            <th>
+                                Acciones
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: Workdays">
+                        <tr>
+                            <td>
+                                <span data-bind="text: Name"></span>
+                            </td>
+                            <td>
+                                <span data-bind="text: BeginningTimeDateFormat"></span>
+                                <br />
+                                <span data-bind="text: BeginningTimeDateTime"></span>
+                            </td>
+                            <td style="text-align:center">
+                                <button data-bind="click: function() { $root.Edit(Id) }" class="btn-sm btn-primary btn">
+                                    Editar
+                                </button>
+                                &nbsp;
+                                &nbsp;
+                                <button class="btn-danger btn-sm btn">
+                                    Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div data-bind="visible: Loading()" style="text-align:center; padding-top:25px; padding-bottom:25px">
+                <img width="80" src="~/Images/bigLoading.gif" />
+            </div>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.datepicker').datepicker({
+            dateFormat: 'dd/mm/yy'
+        });
+
+        function viewModel() {
+            var self = this;
+            self.Workdays = ko.observableArray();
+            self.Date = ko.observable();
+            self.Employee = ko.observable();
+            self.EmployeeText = ko.observable();
+            self.Loading = ko.observable(true);
+
+            self.GetData = function () {
+                self.Loading(true);
+                $.ajax({
+                    url: '/Workday/GetData',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            self.Workdays.push(new WorkDay(data[i]));
+                        }
+                        self.Loading(false);
+                    }
+                });
+            }
+
+            self.SearchByDate = function () {
+                self.Loading(true);
+                self.EmployeeText(null);
+                var date = self.Date();
+                self.Workdays([]);
+                $.ajax({
+                    url: '/Workday/GetByDate?date=' + date,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            self.Workdays.push(new WorkDay(data[i]));
+                        }
+                        self.Loading(false);
+                    }
+                });
+            }
+
+            self.SearchByEmployee = function () {
+                self.Loading(true);
+                self.Date(null);
+                var id = self.Employee();
+                self.Workdays([]);
+                $.ajax({
+                    url: '/Workday/GetByEmployee?id=' + id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            self.Workdays.push(new WorkDay(data[i]));
+                        }
+                        self.Loading(false);
+                    }
+                });
+            }
+
+            self.Edit = function (id) {
+                $('#editModal').modal('show');
+                console.log(id);
+            }
+
+            $('#employeeSearchInput').autocomplete({
+                minChars: 1,
+                source: function (request, response) {
+                    $.getJSON('/Employee/GetEmployeesForAutoComplete/', { query: request.term }, function (data) {                        
+                        if (data.length > 0) {
+                            response($.map(data, function (value, key) {
+                                return {
+                                    label: value.Name,
+                                    value: value.Id
+                                }
+                            }));
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    self.Employee(ui.item.value);
+                    self.EmployeeText(ui.item.label);
+                    return false;
+                }
+            });
+        }
+
+        function WorkDay(data) {
+            var self = this;
+            self.Id = data.Id;
+            self.Name = ko.observable(data.EmployeeInfo);
+            var date = new Date(data.BeginningTimeDate);
+            var formattedDate = weekDaysEs[date.getDay()] + ', ' + date.getDate() + ' de ' + monthsEs[date.getMonth()] + ' de ' + date.getUTCFullYear();
+            self.BeginningTimeDateFormat = ko.observable(formattedDate);
+            self.BeginningTimeDateTime = ko.observable(FormattedTime(date));
+        }
+
+        var viewModel = new viewModel();
+        ko.applyBindings(viewModel, document.getElementById('WorkdayHub'));
+        viewModel.GetData();
+    });
+</script>

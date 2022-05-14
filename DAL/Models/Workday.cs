@@ -20,6 +20,8 @@ namespace DAL.Models
         public virtual Employee Employee { get; set; }
         public int EmployeeId { get; set; }
 
+        public virtual IList<Break> Breaks { get; set; }
+
         [NotMapped]
         public bool OnBreak { get; set; }
 

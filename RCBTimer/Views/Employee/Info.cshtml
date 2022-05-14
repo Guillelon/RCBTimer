@@ -142,7 +142,7 @@
                 }
                 var  objJson = JSON.stringify(dto);
                 $.ajax({
-                    url: "/Employee/ProcessWorkDay/",
+                    url: "/Workday/ProcessWorkDay/",
                     type: 'POST',
                     data: { 'query': objJson },
                     success: function (data) {
@@ -164,7 +164,7 @@
                 }
                 var  objJson = JSON.stringify(dto);
                 $.ajax({
-                    url: "/Employee/ProcessBreak/",
+                    url: "/Workday/ProcessBreak/",
                     type: 'POST',
                     data: { 'query': objJson },
                     success: function (data) {
@@ -177,7 +177,7 @@
         });
 
         var redirectToIndex = function(){
-            window.location.replace("/Employee/Index");
+            window.location.replace("/Workday/Today");
         };
     })
 </script>

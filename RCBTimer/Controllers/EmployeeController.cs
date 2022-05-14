@@ -134,23 +134,7 @@ namespace RCBTimer.Controllers
             employeeRepository.DeActivate(employee.Id, User.Identity.Name);
             TempData["SuccessMessage"] = "Se eliminó el empleado con éxito";
             return RedirectToAction("ListForAdmin");
-        }
-
-        [HttpPost]
-        public string ProcessWorkDay(string query)
-        {
-            var dto = new JavaScriptSerializer().Deserialize<WorkDayPost>(query);
-            var result = workdayRepository.ProcessWorkDay(dto.Id, dto.Comments);
-            return result;
-        }
-
-        [HttpPost]
-        public string ProcessBreak(string query)
-        {
-            var dto = new JavaScriptSerializer().Deserialize<WorkDayPost>(query);
-            var result = workdayRepository.ProcessBreak(dto.Id, dto.Comments);
-            return result;
-        }
+        }        
 
         public ActionResult Tester()
         {

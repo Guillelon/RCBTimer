@@ -39,7 +39,7 @@
             $('#loading').show();
             $.ajax({
                 url: '/Report/GetWorkDays?beginDate=' + beginDate +
-                    '&endDate=' + endDate + '&employeeId='+ employeeId,
+                     '&endDate=' + endDate + '&employeeId='+ employeeId,
                 type: 'GET',
                 success: function (data) {
                     $('#result').html('');
@@ -71,7 +71,6 @@
                 return false;
             }
         });
-
 
     });
 </script>

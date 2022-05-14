@@ -28,6 +28,7 @@
     <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="~/Scripts/datetimepicker.js"></script>
+    <script src="~/Scripts/DateTimeFormatter.js"></script>
 </head>
 <body>
     <div class="navbar navbar-expand-lg navbar-light">
@@ -252,27 +253,50 @@
                                     </li>
                                 </ul>
                             </li>
+                            @{ configDisplay = "none";
+                                extraClass = "";
+                                if (CurrentURL.Contains("Workday"))
+                                {
+                                    configDisplay = "block";
+                                    extraClass = "nav-item-open";
+                                };
+                            }
+                            <li class="nav-item nav-item-submenu @extraClass">
+                                <a href="#/" class="nav-link menu-link parent-link"><i class="icon-calendar"></i> <span>Turnos</span></a>
+                                <ul class="nav nav-group-sub" data-submenu-title="Layouts" style="display:@configDisplay">
+                                    <li class="nav-item">
+                                        @if (CurrentURL.Contains("Workday/Today"))
+                                        {
+                                            <a href="/Workday/Today" class="nav-link active"> <i class="icon-watch2"></i> Turno del día</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="/Workday/Today" class="nav-link"> <i class="icon-watch2"></i> Turno del día</a>
+                                        }
+                                    </li>
 
-                            <li class="nav-item">
-                                @if (CurrentURL.Contains("Employee/Index"))
-                                {
-                                    <a href="/Employee/Index" class="nav-link active"> <i class="icon-watch2"></i> Turno del día</a>
-                                }
-                                else
-                                {
-                                    <a href="/Employee/Index" class="nav-link"> <i class="icon-watch2"></i> Turno del día</a>
-                                }
-                            </li>
+                                    <li class="nav-item ">
+                                        @if (CurrentURL.Contains("Workday/Index"))
+                                        {
+                                            <a href="/Workday/Index" class="nav-link active"> <i class="icon-list"></i> Ver Todos</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="/Workday/Index" class="nav-link"> <i class="icon-list"></i> Ver Todos</a>
+                                        }
+                                    </li>
 
-                            <li class="nav-item ">
-                                @if (CurrentURL.Contains("Workday/"))
-                                {
-                                    <a href="/Workday/Add" class="nav-link active"> <i class="icon-calendar"></i> Crear Turno</a>
-                                }
-                                else
-                                {
-                                    <a href="/Workday/Add" class="nav-link"> <i class="icon-calendar"></i> Crear Turno</a>
-                                }
+                                    <li class="nav-item ">
+                                        @if (CurrentURL.Contains("Workday/Add"))
+                                        {
+                                            <a href="/Workday/Add" class="nav-link active"> <i class="icon-add"></i> Crear Turno</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="/Workday/Add" class="nav-link"> <i class="icon-add"></i> Crear Turno</a>
+                                        }
+                                    </li>
+                                </ul>
                             </li>
 
                             <li class="nav-item ">

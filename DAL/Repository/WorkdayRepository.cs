@@ -1,7 +1,10 @@
-﻿using DAL.Models;
+﻿using DAL.DTO;
+using DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,6 +60,47 @@ namespace DAL.Repository
         public Workday Get(int id)
         {
             return context.Workday.Where(w => w.Id == id).Include(w => w.Employee).FirstOrDefault();
+        }
+
+        public IList<WorkdayDTO> GetLast()
+        {
+            return context.Workday.OrderByDescending(w => w.Id)
+                                  .Take(20)
+                                  .Include(w => w.Employee)
+                                  .Select(w => new WorkdayDTO {
+                                      Id = w.Id,
+                                      EmployeeInfo = w.Employee.FirstName + " " + w.Employee.LastName,
+                                      BeginningTimeDate = w.BeginningTime                            
+                                  })
+                                  .ToList();
+        }
+
+        public IList<WorkdayDTO> GetByDate(DateTime date)
+        {
+            return context.Workday.Where(w => DbFunctions.TruncateTime(w.BeginningTime) == date.Date)
+                                  .OrderByDescending(w => w.Id)
+                                  .Include(w => w.Employee)
+                                  .Select(w => new WorkdayDTO
+                                  {
+                                      Id = w.Id,
+                                      EmployeeInfo = w.Employee.FirstName + " " + w.Employee.LastName,
+                                      BeginningTimeDate = w.BeginningTime
+                                  })
+                                  .ToList();
+        }
+
+        public IList<WorkdayDTO> GetByEmployee(int id)
+        {
+            return context.Workday.Where(w => w.EmployeeId == id)
+                                  .OrderByDescending(w => w.Id)
+                                  .Include(w => w.Employee)
+                                  .Select(w => new WorkdayDTO
+                                  {
+                                      Id = w.Id,
+                                      EmployeeInfo = w.Employee.FirstName + " " + w.Employee.LastName,
+                                      BeginningTimeDate = w.BeginningTime
+                                  })
+                                  .ToList();
         }
 
         public void Edit(Workday model)

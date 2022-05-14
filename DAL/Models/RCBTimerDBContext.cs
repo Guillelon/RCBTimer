@@ -11,5 +11,6 @@ namespace DAL.Models
     {
         public DbSet<Employee> Employee { get; set; }
         public DbSet<Workday> Workday { get; set; }
+        public DbSet<Break> Break { get; set; }
     }
 }
