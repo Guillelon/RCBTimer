@@ -101,9 +101,8 @@ namespace DAL.Repository
                         "CONVERT(TIME, W.EndTime - W.BeginningTime) AS 'TotalWorkedTime' " +
                         "FROM Workdays W " +
                         "LEFT JOIN BREAKS B ON W.ID = B.WorkdayId and B.ISACTIVE = 1 " +
-                        "LEFT JOIN Employees E ON W.EmployeeId = E.Id " +
-                        "WHERE W.ISACTIVE = 1 " +
-                        "WHERE W.ID = " + id + " AND B.ISACTIVE = 1 " +
+                        "LEFT JOIN Employees E ON W.EmployeeId = E.Id " +                        
+                        "WHERE W.ID = " + id + " AND W.ISACTIVE = 1 " +
                         "GROUP BY W.Id, E.FIRSTNAME, E.LASTNAME,E.Position, " +
                                  "W.BeginningTime, W.EndTime, W.Comments," +
                                  "CONVERT(TIME, W.EndTime - W.BeginningTime) ";

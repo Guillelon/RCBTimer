@@ -29,7 +29,8 @@ namespace DAL.Repository
                 dto.NationalId = employee.NationalId;
                 dto.Info = employee.FullInfo();
                 dto.Id = employee.Id;
-                dto.HasTimeRunning = employee.Workdays.Where(w => w.EndTime == null).Any();
+                dto.HasTimeRunning = employee.Workdays.Where(w => w.IsActive 
+                                                               && w.EndTime == null).Any();
                 dtos.Add(dto);
             }
             return dtos;
@@ -66,10 +67,10 @@ namespace DAL.Repository
                 dto.Active = employee.IsActive;
                 dto.Position = employee.Position;
                 dto.Id = employee.Id;
-                dto.HasTimeRunning = employee.Workdays.Where(w => w.EndTime == null).Any();
+                dto.HasTimeRunning = employee.Workdays.Where(w => w.IsActive && w.EndTime == null).Any();
                 if (dto.HasTimeRunning)
                 {
-                    var workday = employee.Workdays.Where(w => w.EndTime == null).FirstOrDefault();
+                    var workday = employee.Workdays.Where(w => w.IsActive && w.EndTime == null).FirstOrDefault();
                     dto.Workday = new WorkdayDTO();
                     dto.Workday.BeginningTime = workday.BeginningTime;              
                     dto.LastWorkDayId = workday.Id;
@@ -119,7 +120,7 @@ namespace DAL.Repository
                 dto.Position = employee.Position;
                 dto.Id = employee.Id;
                 dto.HasTimeRunning = employee.Workdays.Where(w => w.EndTime == null).Any();
-                dto.Workday = employee.Workdays.Where(w => w.EndTime == null).FirstOrDefault();
+                dto.Workday = employee.Workdays.Where(w => w.IsActive && w.EndTime == null).FirstOrDefault();
                 if (dto.Workday != null)
                 {
                     if (dto.Workday.BreakBeginningTime.HasValue)
@@ -137,7 +138,7 @@ namespace DAL.Repository
                 }
                 else
                 {
-                    dto.Workday = employee.Workdays.Where(c => c.EndTime != null
+                    dto.Workday = employee.Workdays.Where(c => c.IsActive && c.EndTime != null
                                                           && c.EndTime.Value.Date == today.Date)
                                                    .OrderByDescending(w => w.Id)
                                                    .FirstOrDefault();
