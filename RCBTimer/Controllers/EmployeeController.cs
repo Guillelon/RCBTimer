@@ -1,6 +1,7 @@
 ﻿using DAL.DTO;
 using DAL.Models;
 using DAL.Repository;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,18 +27,27 @@ namespace RCBTimer.Controllers
             if (User.Identity.IsAuthenticated)
                 return RedirectToAction("ListForAdmin");
             else
-                return RedirectToAction("Index");
+                return RedirectToAction("Today","Workday",null);
         }
 
         [Authorize]
         public ActionResult ListForAdmin()
         {
-            var model = employeeRepository.GetAllForAdmin();
             if (TempData["SuccessMessage"] != null)
             {
                 ViewBag.SuccessMessage = TempData["SuccessMessage"].ToString();
             }
-            return View(model);
+            return View();
+        }
+
+        public string GetDataforListForAdmin()
+        {
+            var model = employeeRepository.GetAllForAdmin();
+            return JsonConvert.SerializeObject(model, Formatting.Indented,
+                    new JsonSerializerSettings
+                    {
+                        DateFormatHandling = DateFormatHandling.IsoDateFormat
+                    });
         }
 
         [Authorize]
@@ -77,7 +87,7 @@ namespace RCBTimer.Controllers
             {
                 if (employee.Id > 0)
                 {
-                    employeeRepository.Edit(employee);
+                    //employeeRepository.Edit(employee);
                     TempData["SuccessMessage"] = "Se editó el colaborador con éxito!";
                     return RedirectToAction("ListForAdmin");
                 }
@@ -100,18 +110,6 @@ namespace RCBTimer.Controllers
                 ViewBag.SuccessMessage = TempData["SuccessMessage"].ToString();
             }
             return View(model);
-        }
-
-        public ActionResult Info(int id)
-        {
-            var employee = employeeRepository.GetEmployee(id);
-            return View(employee);
-        }
-
-        public ActionResult InfoV2(int id)
-        {
-            var employee = employeeRepository.GetEmployee(id);
-            return View(employee);
         }
 
         public string GetData(int id)
@@ -139,6 +137,30 @@ namespace RCBTimer.Controllers
         public ActionResult Tester()
         {
             return View();
+        }
+
+        public string GetEmployee(int id)
+        {
+            var employee = employeeRepository.Get(id);
+            var dto = new EmployeeDTO { 
+                Id = employee.Id,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                Position = employee.Position,
+                NationalId = employee.NationalId
+             };
+            var json = new JavaScriptSerializer().Serialize(dto);
+            return json;
+        }
+
+        [HttpPost]
+        public string EditEmployee(string query)
+        {
+            var dto = new JavaScriptSerializer()
+                      .Deserialize<EmployeeDTO>(query);
+            employeeRepository.Edit(dto.Id, dto.FirstName, dto.LastName,
+                                    dto.Position, dto.NationalId);
+            return "200";
         }
     }
 }

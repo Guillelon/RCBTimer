@@ -11,11 +11,12 @@ namespace DAL.DTO
     {
         public int Id { get; set; }
         public string Info { get; set; }
+        public string Position { get; set; }
         public string NationalId { get; set; }
         public bool HasTimeRunning { get; set; }
         public string TimeBeginning { get; set; }
         public int? LastWorkDayId { get; set; }
-        public Workday Workday { get; set; }
+        public WorkdayDTO Workday { get; set; }
         public bool Active { get; set; }
     }
 
@@ -80,7 +81,16 @@ namespace DAL.DTO
 
     public class WorkDayPost
     {
-        public int Id { get; set; }
+        public int EmployeeId { get; set; }
         public string Comments { get; set; }
+    }
+
+    public class EmployeeDTO
+    {
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string NationalId { get; set; }
+        public string Position { get; set; }
     }
 }

@@ -42,8 +42,14 @@ namespace DAL.Repository
             return employee;
         }
 
-        public Employee Edit(Employee employee)
+        public Employee Edit(int id, string firstName, string lastName,
+                             string position, string nationalId)
         {
+            var employee = Get(id);
+            employee.FirstName = firstName;
+            employee.LastName = lastName;
+            employee.Position = position;
+            employee.NationalId = nationalId;
             context.Entry(employee).State = EntityState.Modified;
             context.SaveChanges();
             return employee;
@@ -51,21 +57,25 @@ namespace DAL.Repository
 
         public IList<EmployeeList> GetAllForAdmin()
         {
-            var employees = context.Employee.ToList();
+            var employees = context.Employee.Where(e => e.IsActive).ToList();
             var dtos = new List<EmployeeList>();
             foreach (var employee in employees)
             {
                 var dto = new EmployeeList();
                 dto.Info = employee.FullName();
                 dto.Active = employee.IsActive;
+                dto.Position = employee.Position;
                 dto.Id = employee.Id;
                 dto.HasTimeRunning = employee.Workdays.Where(w => w.EndTime == null).Any();
                 if (dto.HasTimeRunning)
                 {
                     var workday = employee.Workdays.Where(w => w.EndTime == null).FirstOrDefault();
-                    dto.Workday = workday;
-                    dto.TimeBeginning = workday.BeginningTime.ToString("hh:mm tt");
+                    dto.Workday = new WorkdayDTO();
+                    dto.Workday.BeginningTime = workday.BeginningTime;              
                     dto.LastWorkDayId = workday.Id;
+                    dto.Workday.BeginningTime = workday.BeginningTime;
+                    dto.Workday.WorkedTime = workday.GetHoursWorking();
+                    dto.Workday.BreakTime = workday.GetMinutesInBreak();
                 }
                 else
                 {
@@ -73,7 +83,10 @@ namespace DAL.Repository
                     if (lastWorkDay != null)
                     {
                         dto.LastWorkDayId = lastWorkDay.Id;
-                        dto.Workday = lastWorkDay;
+                        dto.Workday = new WorkdayDTO();
+                        dto.Workday.BeginningTime = lastWorkDay.BeginningTime;
+                        dto.Workday.WorkedTime = lastWorkDay.GetHoursWorking();
+                        dto.Workday.BreakTime = lastWorkDay.GetMinutesInBreak();
                     }
                         
                 }
@@ -155,7 +168,7 @@ namespace DAL.Repository
 
             return null;
         }
-        
+
         public Employee DeActivate(int id, string userName)
         {
             var employee = Get(id);

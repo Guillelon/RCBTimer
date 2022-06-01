@@ -27,9 +27,6 @@
                     <th>
                         Detalles
                     </th>
-                    <th>
-                        Acciones del turno
-                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -49,16 +46,6 @@
                             <br />
                             <span class="icon-watch2 text-muted"></span> @workday.GetHoursWorking() horas.
                         </td>
-                        <td style="text-align:center">
-                            <a target="_blank" href="/Workday/Edit/@workday.Id" class="btn-sm btn-primary">
-                                Editar
-                            </a>
-                            &nbsp;
-                            &nbsp;
-                            <a target="_blank" href="/Workday/Remove/@workday.Id" class="btn-danger btn-sm">
-                                Eliminar
-                            </a>
-                        </td>
                     </tr>
                 }
             </tbody>
@@ -71,9 +58,6 @@
                     <th>
                         Colaborador
                     </th>
-                    <th>
-
-                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -84,16 +68,6 @@
                             @workday.Employee.FullName()
                             <br />
                             @workday.BeginningTime.ToString("dd/MM/yyyy hh:mm tt")
-                        </td>
-                        <td style="text-align:center">
-                            <a target="_blank" href="/Workday/Edit/@workday.Id" class="btn-sm btn-primary">
-                                Editar turno
-                            </a>
-                            <br />
-                            <br />
-                            <a target="_blank" href="/Workday/Remove/@workday.Id" class="btn-danger btn-sm">
-                                Eliminar turno
-                            </a>
                         </td>
                     </tr>
                 }

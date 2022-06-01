@@ -55,43 +55,85 @@
             </div>
             <hr />
             <div data-bind="visible: !Loading()">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>
-                                Nombre
-                            </th>
-                            <th>
-                                Inicio del turno
-                            </th>
-                            <th>
-                                Acciones
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody data-bind="foreach: Workdays">
-                        <tr>
-                            <td>
-                                <span data-bind="text: Name"></span>
-                            </td>
-                            <td>
-                                <span data-bind="text: BeginningTimeDateFormat"></span>
-                                <br />
-                                <span data-bind="text: BeginningTimeDateTime"></span>
-                            </td>
-                            <td style="text-align:center">
-                                <button data-bind="click: function() { $root.Edit(Id) }" class="btn-sm btn-primary btn">
-                                    Editar
-                                </button>
-                                &nbsp;
-                                &nbsp;
-                                <button class="btn-danger btn-sm btn">
-                                    Eliminar
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="d-none d-xl-block">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Nombre
+                                </th>
+                                <th>
+                                    Inicio del turno
+                                </th>
+                                <th>
+                                    Detalles
+                                </th>
+                                <th>
+                                    Acciones
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: Workdays">
+                            <tr>
+                                <td>
+                                    <span data-bind="text: Name"></span>
+                                </td>
+                                <td>
+                                    <span data-bind="text: BeginningTimeDateFormat"></span>
+                                    <br />
+                                    <span data-bind="text: BeginningTimeDateTime"></span>
+                                </td>
+                                <td>
+                                    <span class="icon-cup2 text-muted"></span> <span data-bind="text: BreakMinutes"></span> mins.
+                                    <br />
+                                    <span class="icon-watch2 text-muted"></span> <span data-bind="text: TotalWorkedTime"></span> horas.
+                                </td>
+                                <td style="text-align:center">
+                                    <button data-bind="click: function() { $root.Edit(Id) }" class="btn-sm btn-primary btn">
+                                        Editar
+                                    </button>
+                                    &nbsp;
+                                    &nbsp;
+                                    <button data-bind="click: function() { $root.Delete(Id) }" class="btn-danger btn-sm btn">
+                                        Eliminar
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-xs-block d-xl-none">
+                    <table class="table table-bordered">
+                        <tbody data-bind="foreach: Workdays">
+                            <tr>
+                                <td>
+                                    <span class="icon-user text-muted"></span>
+                                    <span data-bind="text: Name"></span>
+                                    <br />
+                                    <span class="icon-calendar text-muted"></span>
+                                    <span data-bind="text: BeginningTimeDateFormat"></span>
+                                    &nbsp;
+                                    <span data-bind="text: BeginningTimeDateTime"></span>
+                                    <br />
+                                    <span class="icon-cup2 text-muted"></span>
+                                    <span data-bind="text: BreakMinutes"></span> mins.
+                                    <br />
+                                    <span class="icon-watch2 text-muted"></span>
+                                    <span data-bind="text: TotalWorkedTime"></span> horas.
+                                    <hr />
+                                    <button data-bind="click: function() { $root.Edit(Id) }" class="btn-sm btn-primary btn">
+                                        Editar
+                                    </button>
+                                    &nbsp;
+                                    &nbsp;
+                                    <button data-bind="click: function() { $root.Delete(Id) }" class="btn-danger btn-sm btn">
+                                        Eliminar
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div data-bind="visible: Loading()" style="text-align:center; padding-top:25px; padding-bottom:25px">
                 <img width="80" src="~/Images/bigLoading.gif" />
@@ -99,25 +141,76 @@
         </div>
     </div>
 
-    <div id="editModal" class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
+    <div id="editDeleteModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" style="max-width:700px" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Modal body text goes here.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td style="text-align:center" colspan="2">
+                                    <strong>Nombre: </strong> <span data-bind="text: EmployeeToEdit"></span>
+                                    <br />
+                                    <strong>Turno del:</strong> <span data-bind="text: WorkdayTimeToEdit"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Inicio del turno</strong>
+                                    <input data-bind="value: BeginningTimeToEdit, disable: DeleteMode" class="form-control" type="datetime-local" />
+                                </td>
+                                <td>
+                                    <strong>Fin del turno</strong>
+                                    <input data-bind="value: EndTimeToEdit, disable: DeleteMode" class="form-control" type="datetime-local" />
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody data-bind="foreach: BreaksToEdit">
+                            <tr>
+                                <td colspan="2" style="text-align:center">
+                                    <strong>Break <span data-bind="text: $index() + 1"></span></strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Inicio</strong>
+                                    <input data-bind="value: $data.BeginningTime, disable:$root.DeleteMode" class="form-control" type="datetime-local" />
+                                </td>
+                                <td>
+                                    <strong>Fin</strong>
+                                    <input data-bind="value: $data.EndTime, disable:$root.DeleteMode" class="form-control" type="datetime-local" />
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr />
+                    <div class="row">
+                        <div class="col-2">
+
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="btn btn-light btn-block" data-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="col-4">
+                            <div data-bind="if: DeleteMode">
+                                <button data-bind="click: AcceptDelete" class="btn btn-danger btn-block">Eliminar</button>
+                            </div>
+                            <div data-bind="if: !DeleteMode()">
+                                <button data-bind="click: AcceptEdit" class="btn btn-primary btn-block">Editar</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 
 <script>
@@ -134,6 +227,14 @@
             self.EmployeeText = ko.observable();
             self.Loading = ko.observable(true);
 
+            self.EmployeeToEdit = ko.observable();
+            self.WorkDayToEditId = 0;
+            self.WorkdayTimeToEdit = ko.observable();
+            self.BeginningTimeToEdit = ko.observable();
+            self.EndTimeToEdit = ko.observable();
+            self.BreaksToEdit = ko.observableArray();
+            self.DeleteMode = ko.observable(false);
+
             self.GetData = function () {
                 self.Loading(true);
                 $.ajax({
@@ -141,6 +242,7 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
+                        console.log(data);
                         for (var i = 0; i < data.length; i++) {
                             self.Workdays.push(new WorkDay(data[i]));
                         }
@@ -186,14 +288,81 @@
             }
 
             self.Edit = function (id) {
-                $('#editModal').modal('show');
-                console.log(id);
+                self.DeleteMode(false);
+                self.GetWorkDay(id);
+            }
+
+            self.Delete = function (id) {
+                self.DeleteMode(true);
+                self.GetWorkDay(id);
+            }
+
+            self.AcceptEdit = function () {
+                var dto = {
+                    Id: self.WorkDayToEditId,
+                    BeginningTime: self.BeginningTimeToEdit(),
+                    EndTime: self.EndTimeToEdit(),
+                    Breaks: []
+                }
+                for (var i = 0; i < self.BreaksToEdit().length; i++) {
+                    dto.Breaks.push(self.BreaksToEdit()[i]);
+                }
+                var objJson = JSON.stringify(dto);
+
+                $.ajax({
+                    url: '/Workday/EditWorkday/',
+                    type: 'POST',
+                    data: { 'query': objJson },
+                    dataType: 'json',
+                    success: function (data) {
+                        var oldElement = ko.utils.arrayFirst(self.Workdays(), function (item) {
+                            return item.Id == data.Id;
+                        });
+                        var newElement = new WorkDay(data);
+                        self.Workdays.replace(oldElement, newElement);
+                        $('#editDeleteModal').modal('hide');
+                    }
+                });
+            }
+
+            self.AcceptDelete = function () {
+                $.ajax({
+                    url: '/Workday/DeleteWorkday/' + self.WorkDayToEditId,
+                    type: 'GET',
+                    success: function (data) {
+                        self.Workdays.remove(function (workday) {
+                            return workday.Id == data;
+                        });
+                        $('#editDeleteModal').modal('hide');
+                    }
+                });
+            }
+
+            self.GetWorkDay = function (id) {
+                $.ajax({
+                    url: '/Workday/GetWorkDayByEdit/' + id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        var formatDate = new Date(data.BeginningTime);
+                        self.WorkDayToEditId = data.Id;
+                        self.EmployeeToEdit(data.EmployeeName);
+                        self.BeginningTimeToEdit(data.BeginningTime);
+                        self.EndTimeToEdit(data.EndTime);
+                        self.WorkdayTimeToEdit(FormattedDate(formatDate));
+                        self.BreaksToEdit([]);
+                        for (var i = 0; i < data.Breaks.length; i++) {
+                            self.BreaksToEdit.push(data.Breaks[i]);
+                        }
+                        $('#editDeleteModal').modal('show');
+                    }
+                });
             }
 
             $('#employeeSearchInput').autocomplete({
                 minChars: 1,
                 source: function (request, response) {
-                    $.getJSON('/Employee/GetEmployeesForAutoComplete/', { query: request.term }, function (data) {                        
+                    $.getJSON('/Employee/GetEmployeesForAutoComplete/', { query: request.term }, function (data) {
                         if (data.length > 0) {
                             response($.map(data, function (value, key) {
                                 return {
@@ -216,10 +385,23 @@
             var self = this;
             self.Id = data.Id;
             self.Name = ko.observable(data.EmployeeInfo);
-            var date = new Date(data.BeginningTimeDate);
+            var date = new Date(data.BeginningTime);
             var formattedDate = weekDaysEs[date.getDay()] + ', ' + date.getDate() + ' de ' + monthsEs[date.getMonth()] + ' de ' + date.getUTCFullYear();
             self.BeginningTimeDateFormat = ko.observable(formattedDate);
             self.BeginningTimeDateTime = ko.observable(FormattedTime(date));
+            self.BreakMinutes = ko.observable(data.BreakMinutes);
+            if (data.BreakMinutes != null) {
+                self.BreakMinutes(data.BreakMinutes);
+            }
+            else {
+                self.BreakMinutes('N/A');
+            }
+            self.TotalWorkedTime = ko.observable();
+            if (data.TotalWorkedTime != null) {
+                self.TotalWorkedTime(SubtractMinutesToTimestamp(data.TotalWorkedTime, data.BreakMinutes));
+            }
+            else
+                self.TotalWorkedTime('N/A');
         }
 
         var viewModel = new viewModel();

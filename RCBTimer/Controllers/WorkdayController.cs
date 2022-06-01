@@ -12,17 +12,26 @@ using System.Web.Script.Serialization;
 
 namespace RCBTimer.Controllers
 {
+    [Authorize]
     public class WorkdayController : Controller
     {
         private EmployeeRepository employeeRepository;
         private WorkdayRepository workdayRepository;
+        private JsonSerializerSettings jsonConverterSettings;
 
         public WorkdayController()
         {
             employeeRepository = new EmployeeRepository();
             workdayRepository = new WorkdayRepository();
+            var dateConverter = new Newtonsoft.Json.Converters.IsoDateTimeConverter
+            {
+                DateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm"
+            };
+            jsonConverterSettings = new JsonSerializerSettings();
+            jsonConverterSettings.Converters.Add(dateConverter);
         }
 
+        [AllowAnonymous]
         public ActionResult Today()
         {
             var model = employeeRepository.GetAll();
@@ -95,29 +104,27 @@ namespace RCBTimer.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public string ProcessWorkDay(string query)
         {
             var dto = new JavaScriptSerializer().Deserialize<WorkDayPost>(query);
-            var result = workdayRepository.ProcessWorkDay(dto.Id, dto.Comments);
+            var result = workdayRepository.ProcessWorkDay(dto.EmployeeId, dto.Comments);
             return result;
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public string ProcessBreak(string query)
         {
             var dto = new JavaScriptSerializer().Deserialize<WorkDayPost>(query);
-            var result = workdayRepository.ProcessBreak(dto.Id, dto.Comments);
+            var result = workdayRepository.ProcessBreak(dto.EmployeeId, dto.Comments);
             return result;
         }
 
         public string GetData()
         {
-            var workdays = workdayRepository.GetLast();
-            return JsonConvert.SerializeObject(workdays, Formatting.Indented,
-                    new JsonSerializerSettings
-                    {
-                        DateFormatHandling = DateFormatHandling.IsoDateFormat
-                    });
+            var workdays = workdayRepository.GetLast();            
+            return JsonConvert.SerializeObject(workdays, Formatting.Indented, jsonConverterSettings);
         }
 
         public string GetByDate(string date)
@@ -133,21 +140,65 @@ namespace RCBTimer.Controllers
                 beginDateFormatted = DateTime.Now;
             }
             var workdays = workdayRepository.GetByDate(beginDateFormatted);
-            return JsonConvert.SerializeObject(workdays, Formatting.Indented,
+            return JsonConvert.SerializeObject(workdays, Formatting.Indented, jsonConverterSettings);
+        }
+
+        public string GetByEmployee(int id)
+        {
+            var workdays = workdayRepository.GetByEmployee(id);
+            return JsonConvert.SerializeObject(workdays, Formatting.Indented, jsonConverterSettings);
+        }
+
+        [AllowAnonymous]
+        public ActionResult FromEmployee(int id)
+        {
+            return View("FromEmployeeV2", id);
+        }
+
+        [AllowAnonymous]
+        public string GetDataForEmployee(int id)
+        {
+            var employee = workdayRepository.GetEmployeeV2(id);
+            return JsonConvert.SerializeObject(employee, Formatting.Indented,
                     new JsonSerializerSettings
                     {
                         DateFormatHandling = DateFormatHandling.IsoDateFormat
                     });
         }
 
-        public string GetByEmployee(int id)
+        public string GetWorkDayByEdit(int id)
         {
-            var workdays = workdayRepository.GetByEmployee(id);
-            return JsonConvert.SerializeObject(workdays, Formatting.Indented,
-                    new JsonSerializerSettings
-                    {
-                        DateFormatHandling = DateFormatHandling.IsoDateFormat
-                    });
+            var model = workdayRepository.Get(id);
+            var dto = new WorkdayToEdit();
+            dto.Id = model.Id;
+            dto.EmployeeName = model.Employee.FullName();
+            dto.BeginningTime = model.BeginningTime;
+            dto.EndTime = model.EndTime;
+            foreach(var tBreak in model.Breaks)
+            {
+                var breakDto = new BreakDTO();
+                breakDto.Id = tBreak.Id;
+                breakDto.BeginningTime = tBreak.BeginningTime;
+                breakDto.EndTime = tBreak.EndTime;
+                dto.Breaks.Add(breakDto);
+            }
+            return JsonConvert.SerializeObject(dto, Formatting.Indented, jsonConverterSettings);
+        }
+
+        [HttpPost]
+        public string EditWorkday(string query)
+        {
+            var dto = new JavaScriptSerializer()
+                      .Deserialize<WorkdayToEdit>(query);
+            workdayRepository.EditV2(dto);
+            var toReturn = workdayRepository.GetById(dto.Id);
+            return JsonConvert.SerializeObject(toReturn, Formatting.Indented, jsonConverterSettings);
+        }
+
+        public string DeleteWorkday(int id)
+        {
+            workdayRepository.Delete(id, User.Identity.Name);
+            return id.ToString();
         }
     }
 }

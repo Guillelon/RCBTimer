@@ -1,351 +1,333 @@
-﻿@model List<DAL.DTO.EmployeeList>
-@using System.Globalization
-<div class="card">
-    <div class="card-body">
-        @if (ViewBag.SuccessMessage != null)
-        {
-            <div class="alert alert-success" role="alert">
-                @ViewBag.SuccessMessage
-            </div>
-        }
-        <div class="d-none d-xl-block">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th colspan="5">
-                            <div style="text-align:center">
-                                Colaboradores en turno
-                            </div>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>
-                            Nombre
-                        </th>
-                        <th>
-                            Inicio del turno
-                        </th>
-                        <th>
-                            Tiempo de break
-                        </th>
-                        <th>
-                            Tiempo total
-                        </th>
-                        <th>
+﻿<div id="EmployeeListHub">
+    <div class="card">
+        <div class="card-body">
+            <div style="display:none" data-bind="visible: Loaded">
+                <div class="d-none d-xl-block">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th colspan="5">
+                                    <div style="text-align:center">
+                                        Colaboradores en turno
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Nombre
+                                </th>
+                                <th>
+                                    Inicio del turno
+                                </th>
+                                <th>
+                                    Tiempo de break
+                                </th>
+                                <th>
+                                    Tiempo total
+                                </th>
+                                <th>
 
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var employee in Model.Where(m => m.HasTimeRunning))
-                    {
-                        <tr>
-                            <td>
-                                @employee.Info
-                            </td>
-                            <td>
-                                @employee.TimeBeginning
-                            </td>
-                            <td>
-                                @employee.Workday.GetMinutesInBreak() mins.
-                            </td>
-                            <td>
-                                @employee.Workday.GetHoursWorking() horas.
-                            </td>
-                            <td>
-                                <div class="row">
-                                    <div class="col-6" style="text-align:center">
-                                        <a target="_blank" class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Employee/Edit/@employee.Id">
-                                            Editar emp.
-                                        </a>
-                                    </div>
-                                    <div class="col-6" style="text-align:center">
-                                        <a target="_blank" class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Workday/Edit/@employee.Workday.Id">
-                                            Editar turno.
-                                        </a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        <div class="d-xs-block d-xl-none">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>
-                            <div style="text-align:center">
-                                Colaboradores en turno
-                            </div>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var employee in Model.Where(m => m.HasTimeRunning))
-                    {
-                        if (employee.Workday != null)
-                        {
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: EmployeesOnWork">
                             <tr>
                                 <td>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <i class="icon-user text-muted"></i> @employee.Info
-                                        </div>
-                                        <div class="col-6">
-                                            <i class="icon-enter text-muted"></i> @employee.TimeBeginning
-                                        </div>
-                                    </div>
+                                    <span data-bind="text: Info"></span>
                                     <br />
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <i class="icon-cup2 text-muted"></i> <span style="margin-top:15px">@employee.Workday.GetMinutesInBreak() min.</span>
-                                            @if (employee.Workday.BreakEndTime.HasValue)
-                                            {
-                                                <i class="icon-check text-muted"></i>
-                                            }
-                                        </div>
-                                        <div class="col-6">
-                                            <i class="icon-watch2 text-muted"></i> <span style="margin-top:15px">@employee.Workday.GetHoursWorking() horas.</span>
-                                        </div>
-                                    </div>
-                                    <br />
-                                    <div class="row">
-                                        <div class="col-4" style="text-align:center">
-                                            <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Employee/Edit/@employee.Id">
-                                                Editar emp.
-                                            </a>
-                                        </div>
-                                        <div class="col-4" style="text-align:center">
-                                            <a target="_blank" class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Workday/Edit/@employee.Workday.Id">
-                                                Editar turno.
-                                            </a>
-                                        </div>
+                                    <small data-bind="text: Position"></small>
+                                </td>
+                                <td>
+                                    <span data-bind="text: BeginningTime"></span>
+                                </td>
+                                <td>
+                                    <span data-bind="text: BreakTime"></span> mins.
+                                </td>
+                                <td>
+                                    <span data-bind="text: WorkedTime"></span> horas.
+                                </td>
+                                <td>
+                                    <div style="text-align:center">
+                                        <button data-bind="click: $root.EditEmployee" class="btn-sm btn-primary btn">
+                                            Editar empleado
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
-                        }
-                        else
-                        {
-
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-xs-block d-xl-none">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div style="text-align:center">
+                                        Colaboradores en turno
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: EmployeesOnWork">
                             <tr>
                                 <td>
                                     <div class="row">
-                                        <div class="col-6">
-                                            <i class="icon-user text-muted"></i> @employee.Info
+                                        <div class="col-12">
+                                            <i class="icon-user text-muted"></i>
+                                            <span data-bind="text: Info"></span> -
+                                            <span data-bind="text: Position"></span>
                                         </div>
                                     </div>
-                                    <br />
-                                    <div class="row">
+                                    <div class="row" style="margin-top:10px">
+                                        <div class="col-4">
+                                            <i class="icon-enter text-muted"></i>
+                                            <span data-bind="text: BeginningTime"></span>
+                                        </div>
+                                        <div class="col-3">
+                                            <i class="icon-cup2 text-muted"></i>
+                                            <span data-bind="text: BreakTime"></span>
+                                        </div>
+                                        <div class="col-5">
+                                            <i class="icon-watch2 text-muted"></i>
+                                            <span data-bind="text: WorkedTime"></span> hrs.
+                                        </div>
                                     </div>
+                                    <hr />
+                                    <div style="text-align:center">
+                                        <button data-bind="click: $root.EditEmployee" class="btn-sm btn-primary btn">
+                                            Editar empleado
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <hr />
+                <div class="d-none d-xl-block">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th colspan="5">
+                                    <div style="text-align:center">
+                                        Lista de colaboradores
+                                        <br />
+                                        <small>Información del último turno</small>
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Nombre
+                                </th>
+                                <th>
+                                    Inicio del turno
+                                </th>
+                                <th>
+                                    Detalles
+                                </th>
+                                <th>
+
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: EmployeesOutWork">
+                            <tr>
+                                <td>
+                                    <span data-bind="text: Info"></span>
+                                </td>
+                                <td>
+                                    <span data-bind="text:BeginningDate"></span>
                                     <br />
+                                    <span data-bind="text:BeginningTime"></span>
+                                </td>
+                                <td>
+                                    <span class="icon-cup2 text-muted"></span> <span data-bind="text:BreakTime"></span> mins.
+                                    <br />
+                                    <span class="icon-watch2 text-muted"></span> <span data-bind="text:WorkedTime"></span> horas.
+                                </td>
+                                <td>
                                     <div class="row">
                                         <div class="col-6" style="text-align:center">
-                                            <a target="_blank" class="btn-sm btn-primary" href="/Employee/Edit/@employee.Id">
-                                                Editar emp.
-                                            </a>
+                                            <button data-bind="click: $root.EditEmployee" class="btn btn-sm btn-primary">
+                                                Editar empleado
+                                            </button>
                                         </div>
-                                        <div class="col-6">
-                                            @if (employee.LastWorkDayId.HasValue)
-                                            {
-                                                <a target="_blank" class="btn-sm btn-primary" target="_blank" href="/Workday/Edit/@employee.LastWorkDayId">
-                                                    Editar turno
-                                                </a>
-                                            }
+                                        <div class="col-6" style="text-align:center">
+                                            <button class="btn btn-sm btn-danger">
+                                                Elim empleado
+                                            </button>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-        </div>
-        <hr />
-        <div class="d-none d-xl-block">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th colspan="5">
-                            <div style="text-align:center">
-                                Lista de colaboradores
-                                <br />
-                                <small>Información del último turno</small>
-                            </div>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>
-                            Nombre
-                        </th>
-                        <th>
-                            Inicio del turno
-                        </th>
-                        <th>
-                            Detalles
-                        </th>
-                        <th>
-
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var employee in Model.Where(m => !m.HasTimeRunning && m.Active))
-                    {
-                        <tr>
-                            <td>
-                                @employee.Info
-                            </td>
-                            @if (employee.Workday != null)
-                            {
-                        <td>
-                            @employee.Workday.BeginningTime.ToString("dddd", new CultureInfo("es-ES")) @employee.Workday.BeginningTime.ToString("dd") de @employee.Workday.BeginningTime.ToString("MMMM", new CultureInfo("es-ES"))
-                            <br />
-                            @employee.Workday.BeginningTime.ToString("hh:mm tt")
-                        </td>
-                                <td>
-                                    <span class="icon-cup2 text-muted"></span> @employee.Workday.GetMinutesInBreak() mins.
-                                    <br />
-                                    <span class="icon-watch2 text-muted"></span> @employee.Workday.GetHoursWorking() horas.
-                                </td>
-                            }
-                            else
-                            {
-                                <td colspan="2" style="text-align:center">
-                                    N/A
-                                </td>
-                            }
-                            <td>
-                                <div class="row">
-                                    <div class="col-4" style="text-align:center">
-                                        <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Employee/Edit/@employee.Id">
-                                            Editar emp.
-                                        </a>
-                                    </div>
-                                    @if (employee.Workday != null)
+                        </tbody>
+                    </table>
+                </div>
+                @*
+                    <div class="d-xs-block d-xl-none">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <div style="text-align:center">
+                                            Lista de colaboradores
+                                            <br />
+                                            <small>Información de último turno</small>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var employee in Model.Where(m => !m.HasTimeRunning && m.Active))
+                                {
+                                    if (employee.Workday != null)
                                     {
-                                        <div class="col-4" style="text-align:center">
-                                            <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Workday/Edit/@employee.Workday.Id">
-                                                Editar ult turno.
-                                            </a>
-                                        </div>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <i class="icon-user text-muted"></i> @employee.Info
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <i class="icon-enter text-muted"></i> @employee.Workday.BeginningTime.ToString("dd/MM/yyyy hh:mm tt")
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <i class="icon-cup2 text-muted"></i> <span style="margin-top:15px">@employee.Workday.GetMinutesInBreak() min.</span>
+                                                        @if (employee.Workday.BreakEndTime.HasValue)
+                                                        {
+                                                            <i class="icon-check text-muted"></i>
+                                                        }
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <i class="icon-watch2 text-muted"></i> <span style="margin-top:15px">@employee.Workday.GetHoursWorking() horas.</span>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-4" style="text-align:center">
+                                                        <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Employee/Edit/@employee.Id">
+                                                            Editar emp.
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-4" style="text-align:center">
+                                                        @if (employee.LastWorkDayId.HasValue)
+                                                        {
+                                                            <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" target="_blank" href="/Workday/Edit/@employee.LastWorkDayId">
+                                                                Editar turno
+                                                            </a>
+                                                        }
+                                                    </div>
+
+                                                    <div class="col-4" style="text-align:center">
+                                                        <a class="btn-sm btn-danger" style="padding-left:3px;padding-right:3px" href="/Employee/DeActivate/@employee.Id">
+                                                            Elim emp.
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     }
-                                    <div class="col-4" style="text-align:center">
-                                        <a class="btn-sm btn-danger" style="padding-left:3px;padding-right:3px" href="/Employee/DeActivate/@employee.Id">
-                                            Elim emp.
-                                        </a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                                    else
+                                    {
+
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <i class="icon-user text-muted"></i> @employee.Info
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-4" style="text-align:center">
+                                                        <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Employee/Edit/@employee.Id">
+                                                            Editar emp.
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-4" style="text-align:center">
+                                                        @if (employee.LastWorkDayId.HasValue)
+                                                        {
+                                                            <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" target="_blank" href="/Workday/Edit/@employee.LastWorkDayId">
+                                                                Editar turno
+                                                            </a>
+                                                        }
+                                                    </div>
+                                                    <div class="col-4" style="text-align:center">
+                                                        <a class="btn-sm btn-danger" style="padding-left:3px;padding-right:3px" href="/Employee/DeActivate/@employee.Id">
+                                                            Elim emp.
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>*@
+            </div>
+            <div style="text-align:center" data-bind="visible: !Loaded()">
+                <img src="~/Images/bigLoading.gif" width="60" />
+            </div>
         </div>
-        <div class="d-xs-block d-xl-none">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>
-                            <div style="text-align:center">
-                                Lista de colaboradores
-                                <br />
-                                <small>Información de último turno</small>
-                            </div>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var employee in Model.Where(m => !m.HasTimeRunning && m.Active))
-                    {
-                        if (employee.Workday != null)
-                        {
-                            <tr>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <i class="icon-user text-muted"></i> @employee.Info
-                                        </div>
-                                        <div class="col-6">
-                                            <i class="icon-enter text-muted"></i> @employee.Workday.BeginningTime.ToString("dd/MM/yyyy hh:mm tt")
-                                        </div>
-                                    </div>
-                                    <br />
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <i class="icon-cup2 text-muted"></i> <span style="margin-top:15px">@employee.Workday.GetMinutesInBreak() min.</span>
-                                            @if (employee.Workday.BreakEndTime.HasValue)
-                                            {
-                                                <i class="icon-check text-muted"></i>
-                                            }
-                                        </div>
-                                        <div class="col-6">
-                                            <i class="icon-watch2 text-muted"></i> <span style="margin-top:15px">@employee.Workday.GetHoursWorking() horas.</span>
-                                        </div>
-                                    </div>
-                                    <br />
-                                    <div class="row">
-                                        <div class="col-4" style="text-align:center">
-                                            <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Employee/Edit/@employee.Id">
-                                                Editar emp.
-                                            </a>
-                                        </div>
-                                        <div class="col-4" style="text-align:center">
-                                            @if (employee.LastWorkDayId.HasValue)
-                                            {
-                                                <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" target="_blank" href="/Workday/Edit/@employee.LastWorkDayId">
-                                                    Editar turno
-                                                </a>
-                                            }
-                                        </div>
+    </div>
 
-                                        <div class="col-4" style="text-align:center">
-                                            <a class="btn-sm btn-danger" style="padding-left:3px;padding-right:3px" href="/Employee/DeActivate/@employee.Id">
-                                                Elim emp.
-                                            </a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                        else
-                        {
+    <div id="editModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Empleado</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-group-feedback form-group-feedback-left">
+                        <input data-bind="value: EmployeeFirstName" placeholder="Nombre" class="form-control" />
+                        <div class="form-control-feedback">
+                            <i class="icon-user text-muted"></i>
+                        </div>
+                    </div>
 
-                            <tr>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <i class="icon-user text-muted"></i> @employee.Info
-                                        </div>
-                                    </div>
-                                    <br />
-                                    <div class="row">
-                                        <div class="col-4" style="text-align:center">
-                                            <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" href="/Employee/Edit/@employee.Id">
-                                                Editar emp.
-                                            </a>
-                                        </div>
-                                        <div class="col-4" style="text-align:center">
-                                            @if (employee.LastWorkDayId.HasValue)
-                                            {
-                                                <a class="btn-sm btn-primary" style="padding-left:3px;padding-right:3px" target="_blank" href="/Workday/Edit/@employee.LastWorkDayId">
-                                                    Editar turno
-                                                </a>
-                                            }
-                                        </div>
-                                        <div class="col-4" style="text-align:center">
-                                            <a class="btn-sm btn-danger" style="padding-left:3px;padding-right:3px" href="/Employee/DeActivate/@employee.Id">
-                                                Elim emp.
-                                            </a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
+                    <div class="form-group form-group-feedback form-group-feedback-left">
+                        <input data-bind="value: EmployeeLastName" placeholder="Apellido" class="form-control" />
+                        <div class="form-control-feedback">
+                            <i class="icon-user text-muted"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-group-feedback form-group-feedback-left">
+                        <input data-bind="value: EmployeePosition" placeholder="Cargo" class="form-control" />
+                        <div class="form-control-feedback">
+                            <i class="icon-home text-muted"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-group-feedback form-group-feedback-left">
+                        <input data-bind="value: EmployeeDocument" placeholder="Documento" class="form-control" />
+                        <div class="form-control-feedback">
+                            <i class="icon-certificate text-muted"></i>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-2">
+
+                        </div>
+                        <div class="col-4">
+                            <button type="button" class="btn btn-light btn-block" data-dismiss="modal">Cerrar</button>
+                        </div>
+                        <div class="col-4">
+                            <button data-bind="click: EditEmployeePost" type="button" class="btn btn-primary btn-block">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -355,5 +337,103 @@
         $('.toEmployeeEdit').click(function (e) {
             window.location.href = "/Employee/Edit/" + this.id;
         });
+
+        function viewModel() {
+            var self = this;
+            self.Loaded = ko.observable(false);
+            self.EmployeesOnWork = ko.observableArray();
+            self.EmployeesOutWork = ko.observableArray();
+
+            self.EmployeeFirstName = ko.observable();
+            self.EmployeeLastName = ko.observable();
+            self.EmployeePosition = ko.observable();
+            self.EmployeeDocument = ko.observable();
+
+            self.GetData = function () {
+                self.Loaded(false);
+                $.ajax({
+                    url: '/Employee/GetDataforListForAdmin/',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        self.EmployeesOnWork([]);
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].HasTimeRunning) {
+                                self.EmployeesOnWork.push(new Workday(data[i]));
+                            }
+                            else {
+                                self.EmployeesOutWork.push(new Workday(data[i]));
+                            }
+                        }
+                        self.Loaded(true);
+                    }
+                });
+            }
+
+            self.EditEmployee = function (data) {
+                $.ajax({
+                    url: '/Employee/GetEmployee/' + data.Id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        self.Id = data.Id;
+                        self.EmployeeFirstName(data.FirstName);
+                        self.EmployeeLastName(data.LastName);
+                        self.EmployeePosition(data.Position);
+                        self.EmployeeDocument(data.NationalId);
+                        $('#editModal').modal('show');
+                    }
+                });
+            }
+
+            self.EditEmployeePost = function () {
+                var dto = {
+                    Id: self.Id,
+                    FirstName: self.EmployeeFirstName(),
+                    LastName: self.EmployeeLastName(),
+                    Position: self.EmployeePosition(),
+                    NationalId: self.EmployeeDocument(),
+                }
+                var objJson = JSON.stringify(dto);
+
+                $.ajax({
+                    url: '/Employee/EditEmployee/',
+                    type: 'POST',
+                    data: { 'query': objJson },
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#editModal').modal('hide');
+                        self.GetData();
+                    }
+                });
+            }
+        }
+
+        function Workday(data) {
+            var self = this;
+            self.Id = data.Id;
+
+            self.Info = ko.observable(data.Info);
+            self.Position = ko.observable(data.Position);
+            self.BeginningDate = ko.observable();
+            self.BeginningTime = ko.observable();
+            self.EndTime = ko.observable();
+            self.BreakTime = ko.observable();
+            self.WorkedTime = ko.observable();
+            if (data.Workday != null)
+            {
+                var date = new Date(data.Workday.BeginningTime);
+                self.BeginningTime(FormatAMPM(date));
+                self.BeginningDate(FormattedDate(date));
+                self.EndTime(data.EndTime);
+                self.BreakTime(data.Workday.BreakTime);
+                self.WorkedTime(data.Workday.WorkedTime);
+            }
+        }
+
+        var viewModel = new viewModel();
+        ko.applyBindings(viewModel, document.getElementById('EmployeeListHub'));
+        viewModel.GetData();
     })
 </script>

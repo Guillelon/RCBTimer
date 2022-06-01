@@ -21,11 +21,11 @@ namespace DAL.Repository
         {
             var dtos = new List<Workday>();
             if (employeeId > 0)
-                dtos = context.Workday.Where(w => w.BeginningTime >= beginTime &&
+                dtos = context.Workday.Where(w => w.IsActive && w.BeginningTime >= beginTime &&
                                               w.BeginningTime <= endTime && w.EmployeeId == employeeId)
                                   .ToList();
             else
-                dtos = context.Workday.Where(w => w.BeginningTime >= beginTime &&
+                dtos = context.Workday.Where(w => w.IsActive && w.BeginningTime >= beginTime &&
                                               w.BeginningTime <= endTime)
                                   .ToList();
             var sorted = dtos.OrderBy(w => w.BeginningTime.Date).ThenBy(w => w.Employee.FirstName).ToList();

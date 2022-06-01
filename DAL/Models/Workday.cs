@@ -10,6 +10,9 @@ namespace DAL.Models
     public class Workday
     {
         public int Id { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime? DeActivationDate { get; set; }
+        public string DeActivationBy { get; set; }
         public DateTime BeginningTime { get; set; }
         public DateTime? EndTime { get; set; }
         public DateTime? BreakBeginningTime { get; set; }
@@ -22,12 +25,32 @@ namespace DAL.Models
 
         public virtual IList<Break> Breaks { get; set; }
 
-        [NotMapped]
-        public bool OnBreak { get; set; }
-
         public Workday()
         {
             BeginningTime = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time"));
+            IsActive = true;
+        }
+
+        public bool OnActiveBreak()
+        {
+            if (Breaks != null && Breaks.Count > 0)
+            {
+                if (Breaks.Where(b => b.EndTime.HasValue).Any())
+                    return true;
+            }
+
+            return false;
+        }
+
+        public Break GetActiveBreak()
+        {
+            if (Breaks != null && Breaks.Count > 0)
+            {
+                var tBreak = Breaks.Where(b => !b.EndTime.HasValue).FirstOrDefault();
+                if (tBreak != null)
+                    return tBreak;
+            }
+            return null;
         }
 
         public void EndWorkDay()
@@ -47,20 +70,20 @@ namespace DAL.Models
         {
             var minutes = 0;
             var now = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time"));
-            if (BreakBeginningTime.HasValue)
+            foreach (var tBreak in Breaks.Where(b => b.IsActive))
             {
-                if (BreakEndTime.HasValue)
+                if (tBreak.EndTime.HasValue)
                 {
-                    var totalTimeStamp = (BreakEndTime.Value - BreakBeginningTime.Value);
-                    minutes = Convert.ToInt32(totalTimeStamp.TotalMinutes);
+                    var totalTimeStamp = (tBreak.EndTime.Value - tBreak.BeginningTime);
+                    minutes += Convert.ToInt32(totalTimeStamp.TotalMinutes);
                 }
                 else
                 {
-                    var totalTimeStamp = (now - BreakBeginningTime.Value);
-                    minutes = Convert.ToInt32(totalTimeStamp.TotalMinutes);
-                    OnBreak = true;
+                    var totalTimeStamp = (now - tBreak.BeginningTime);
+                    minutes += Convert.ToInt32(totalTimeStamp.TotalMinutes);
                 }
             }
+
             return minutes;
         }
 
@@ -70,41 +93,27 @@ namespace DAL.Models
             TimeSpan timestampA;
             TimeSpan timestampB;
             var now = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time"));
-            if (BreakBeginningTime.HasValue)
+            if (EndTime.HasValue)
             {
-                if (BreakEndTime.HasValue)
-                {
-                    if (EndTime.HasValue)
-                    {
-                        timestampA = (BreakBeginningTime.Value - BeginningTime);
-                        timestampB = (EndTime.Value - BreakEndTime.Value);                        
-                    }
-                    else {
-                        timestampA = (BreakBeginningTime.Value - BeginningTime);
-                        timestampB = (now - BreakEndTime.Value);                        
-                    }                    
-                }
-                else
-                {
-                    timestampA = (BreakBeginningTime.Value - BeginningTime);
-                    timestampB = (now - now);
-                }
+                timestampA = (EndTime.Value - BeginningTime);
+                timestampB = (now - now);
             }
             else
             {
-                if (EndTime.HasValue)
-                {
-                    timestampA = (EndTime.Value - BeginningTime);
-                    timestampB = (now - now);
-                }
-                else
-                {
-                    timestampA = (now - BeginningTime);
-                    timestampB = (now - now);
-                }
+                timestampA = (now - BeginningTime);
+                timestampB = (now - now);
             }
             var totalTimeStamp = timestampA + timestampB;
+            var breakTimeinMinutes = GetMinutesInBreak();
+            totalTimeStamp = totalTimeStamp.Add(new TimeSpan(0, -(breakTimeinMinutes), 0));
             return totalTimeStamp.Hours.ToString("00") + ":" + totalTimeStamp.Minutes.ToString("00");
+        }
+
+        public void DeActivate(string userName)
+        {
+            DeActivationBy = userName;
+            IsActive = false;
+            DeActivationDate = DateTime.Now;
         }
     }
 }

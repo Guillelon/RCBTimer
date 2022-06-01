@@ -77,6 +77,10 @@
     <Compile Include="Migrations\202205141832234_AddingBreaksAsATable.designer.cs">
       <DependentUpon>202205141832234_AddingBreaksAsATable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202205312256107_AddingIsActiveToWorkdays.cs" />
+    <Compile Include="Migrations\202205312256107_AddingIsActiveToWorkdays.designer.cs">
+      <DependentUpon>202205312256107_AddingIsActiveToWorkdays.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Break.cs" />
     <Compile Include="Models\Employee.cs" />
@@ -109,6 +113,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202205141832234_AddingBreaksAsATable.resx">
       <DependentUpon>202205141832234_AddingBreaksAsATable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205312256107_AddingIsActiveToWorkdays.resx">
+      <DependentUpon>202205312256107_AddingIsActiveToWorkdays.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

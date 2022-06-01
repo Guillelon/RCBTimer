@@ -20,7 +20,10 @@
             </div>
         </div>
         <hr />
-        <div id="result">
+        <div id="loading" style="display:none;text-align:center">
+            <img src="~/Images/bigLoading.gif" width="45" />
+        </div>
+        <div id="result" style="display:none">
 
         </div>
     </div>
@@ -37,6 +40,7 @@
             var beginDate = $('#beginDate').val();
             var endDate = $('#endDate').val();
             $('#loading').show();
+            $('#result').hide();
             $.ajax({
                 url: '/Report/GetWorkDays?beginDate=' + beginDate +
                      '&endDate=' + endDate + '&employeeId='+ employeeId,
@@ -44,6 +48,8 @@
                 success: function (data) {
                     $('#result').html('');
                     $('#result').html(data);
+                    $('#result').show();
+                    $('#loading').hide();
                 }
             });
         });

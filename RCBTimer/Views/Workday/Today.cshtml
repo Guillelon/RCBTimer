@@ -106,7 +106,7 @@
             @if (User.Identity.IsAuthenticated)
             {
                 <text>
-                   window.location.href = "/Employee/Info/" + idSelected;
+                   window.location.href = "/Workday/FromEmployee/" + idSelected;
                 </text>
             }
             else
@@ -120,7 +120,7 @@
 
         $('#nationalIdInput').keyup(function () {
             if (this.value == nationalIdSelected) {
-                window.location.href = "/Employee/Info/" + idSelected;
+                window.location.href = "/Workday/FromEmployee/" + idSelected;
             }
         });
     })
