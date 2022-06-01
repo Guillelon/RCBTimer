@@ -258,13 +258,14 @@
 
                         </div>
                         <div class="col-4">
-                            <div data-bind="if: !DeleteMode()">
-                                <button type="button" class="btn btn-light btn-block" data-dismiss="modal">Cerrar</button>
-                            </div>
+                            <button type="button" class="btn btn-light btn-block" data-dismiss="modal">Cerrar</button>
                         </div>
                         <div class="col-4">
                             <div data-bind="if: DeleteMode">
                                 <button data-bind="click: DeleteEmployeePost" type="button" class="btn btn-danger btn-block">Eliminar</button>
+                            </div>
+                            <div data-bind="if: !DeleteMode()">
+                                <button data-bind="click: EditEmployeePost" type="button" class="btn btn-primary btn-block">Guardar</button>
                             </div>
                         </div>
                     </div>
@@ -317,6 +318,7 @@
             }
 
             self.EditEmployee = function (data) {
+                self.DeleteMode(false);
                 self.Get(data.Id);
             }
 
