@@ -394,14 +394,14 @@
                 self.BreakMinutes(data.BreakMinutes);
             }
             else {
-                self.BreakMinutes('N/A');
+                self.BreakMinutes('--');
             }
             self.TotalWorkedTime = ko.observable();
             if (data.TotalWorkedTime != null) {
                 self.TotalWorkedTime(SubtractMinutesToTimestamp(data.TotalWorkedTime, data.BreakMinutes));
             }
             else
-                self.TotalWorkedTime('N/A');
+                self.TotalWorkedTime('--');
         }
 
         var viewModel = new viewModel();
