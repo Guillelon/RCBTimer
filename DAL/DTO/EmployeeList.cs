@@ -81,6 +81,7 @@ namespace DAL.DTO
 
     public class WorkDayPost
     {
+        public int Id { get; set; }
         public int EmployeeId { get; set; }
         public string Comments { get; set; }
     }

@@ -108,7 +108,7 @@ namespace RCBTimer.Controllers
         public string ProcessWorkDay(string query)
         {
             var dto = new JavaScriptSerializer().Deserialize<WorkDayPost>(query);
-            var result = workdayRepository.ProcessWorkDay(dto.EmployeeId, dto.Comments);
+            var result = workdayRepository.ProcessWorkDay(dto.Id, dto.EmployeeId, dto.Comments);
             return result;
         }
 
@@ -117,7 +117,7 @@ namespace RCBTimer.Controllers
         public string ProcessBreak(string query)
         {
             var dto = new JavaScriptSerializer().Deserialize<WorkDayPost>(query);
-            var result = workdayRepository.ProcessBreak(dto.EmployeeId, dto.Comments);
+            var result = workdayRepository.ProcessBreak(dto.Id, dto.EmployeeId, dto.Comments);
             return result;
         }
 

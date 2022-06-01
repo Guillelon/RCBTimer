@@ -29,6 +29,7 @@ namespace DAL.Models
         {
             BeginningTime = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time"));
             WorkdayId = workId;
+            IsActive = true;
         }
 
         public void Finish()

@@ -63,10 +63,10 @@
                     <div style="text-align:center">
                         <div data-bind="if: !HasTimeRunning()">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-3">
 
                                 </div>
-                                <div class="col-4">
+                                <div class="col-6">
                                     <button data-bind="click: Process" class="btn btn-primary btn-block">
                                         Iniciar Turno <i class="icon-watch2"></i>
                                     </button>
@@ -122,11 +122,11 @@
 
         function viewModel() {
             var self = this;
-            self.Id = @Model;
+            self.Id = 0;
             self.Breaks = ko.observableArray();
             self.TodaysInfo = ko.observable();
             self.TodaysHourInfo = ko.observable();
-            self.EmployeeId = 0;
+            self.EmployeeId = @Model;
             self.EmployeeName = ko.observable();
             self.EmployeePosition = ko.observable();
             self.BeginningTimeHours = ko.observable();
@@ -138,13 +138,14 @@
 
             self.GetData = function () {
                 $.ajax({
-                    url: '/Workday/GetDataForEmployee/' + self.Id,
+                    url: '/Workday/GetDataForEmployee/' + self.EmployeeId,
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
                         console.log(data);
                         //Today
                         var today = new Date();
+                        self.Id = data.Id;
                         self.TodaysInfo(data.TodaysInfo);
                         self.TodaysHourInfo(FormatAMPM(today));
                         self.CommentsfromEmployee(data.CommentsfromEmployee);
@@ -169,6 +170,7 @@
 
             self.Process = function () {
                 var dto = {
+                    Id: self.Id,
                     EmployeeId: self.EmployeeId,
                     Comments: self.CommentsfromEmployee()
                 }
@@ -187,6 +189,7 @@
 
             self.ProcessBreak = function () {
                 var dto = {
+                    Id: self.Id,
                     EmployeeId: self.EmployeeId,
                     Comments: self.CommentsfromEmployee()
                 }

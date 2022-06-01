@@ -20,10 +20,11 @@ namespace DAL.Repository
             context = new RCBTimerDBContext();
         }
 
-        public string ProcessWorkDay(int id, string commentsFromEmployee)
+        public string ProcessWorkDay(int id, int employeeId,string commentsFromEmployee)
         {
-            var employee = context.Employee.Where(e => e.Id == id).FirstOrDefault();
-            var workDay = employee.Workdays.Where(w => w.EndTime == null).FirstOrDefault();
+            var employee = context.Employee.Where(e => e.Id == employeeId).FirstOrDefault();
+            var workDay = employee.Workdays.Where(w => w.IsActive && w.Id == id)
+                                           .FirstOrDefault();
             if (workDay != null)
             {
                 workDay.CommentsfromEmployee = commentsFromEmployee;
@@ -42,10 +43,10 @@ namespace DAL.Repository
             return employee.FirstName + " te has registrado con éxito";
         }
 
-        public string ProcessBreak(int id, string commentsFromEmployee)
+        public string ProcessBreak(int id, int employeeId,string commentsFromEmployee)
         {
-            var employee = context.Employee.Where(e => e.Id == id).FirstOrDefault();
-            var workDay = employee.Workdays.Where(w => w.EndTime == null).FirstOrDefault();
+            var employee = context.Employee.Where(e => e.Id == employeeId).FirstOrDefault();
+            var workDay = context.Workday.Where(w => w.Id == id).FirstOrDefault();
             if (workDay != null)
             {
                 var tBreak = workDay.GetActiveBreak();
@@ -189,6 +190,7 @@ namespace DAL.Repository
                 var workday = employee.Workdays.Where(w => w.IsActive && w.EndTime == null).FirstOrDefault();
                 if (workday != null)
                 {
+                    dto.Id = workday.Id; 
                     dto.CommentsfromEmployee = workday.CommentsfromEmployee;
                     dto.BeginningTime = workday.BeginningTime;
                     dto.Breaks = workday.Breaks.Where(b => b.IsActive).Select(b => new BreakDTO
@@ -205,7 +207,6 @@ namespace DAL.Repository
                     dto.HasTimeRunning = false;
                     dto.BeginningTime = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time")); ;
                 }
-
 
                 var ci = new CultureInfo("es-ES");
                 string todaysInfo = today.Day + " " + today.ToString("MMMM", ci) + " del " + today.ToString("yyyy");
