@@ -163,8 +163,6 @@ namespace RCBTimer.Controllers
                     new JsonSerializerSettings
                     {
                         DateFormatHandling = DateFormatHandling.IsoDateFormat,
-                        DateTimeZoneHandling = DateTimeZoneHandling.Local
-
                     });
         }
 
