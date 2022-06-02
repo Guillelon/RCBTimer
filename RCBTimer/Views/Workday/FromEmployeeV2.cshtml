@@ -1,119 +1,129 @@
 ﻿@model int
 
-<div id="EmployeeWorkdayHub">
-    <div class="card">
-        <div class="card-body">
-            <div style="display:none" data-bind="visible: Loaded">
-                <div style="text-align:center">
-                    <strong class="text-primary">
-                        <span data-bind="text: TodaysInfo"></span>
-                    </strong>
-                    <br />
-                    <strong class="text-primary">
-                        <span data-bind="text: TodaysHourInfo"></span>
-                    </strong>
-                    <hr style="margin-bottom:15px;margin-top:15px" />
-                    <h3 style="margin-bottom:0px">
-                        <span data-bind="text: EmployeeName"></span>
-                    </h3>
-                    <div data-bind="text: EmployeePosition" class="form-group text-center text-muted content-divider">
-
-                    </div>
-                    <hr style="margin-bottom:15px;margin-top:15px" />
+    <div id="EmployeeWorkdayHub">
+        <div class="card">
+            <div class="card-body">
+                <div style="display:none" data-bind="visible: Loaded">
                     <div style="text-align:center">
-                        <div data-bind="if: !HasTimeRunning()">
-                            <strong class="text-primary">No se ha iniciado el turno</strong>
+                        <strong class="text-primary">
+                            <span data-bind="text: TodaysInfo"></span>
+                        </strong>
+                        <br />
+                        <strong class="text-primary">
+                            <span data-bind="text: TodaysHourInfo"></span>
+                        </strong>
+                        <hr style="margin-bottom:15px;margin-top:15px" />
+                        <h3 style="margin-bottom:0px">
+                            <span data-bind="text: EmployeeName"></span>
+                        </h3>
+                        <div data-bind="text: EmployeePosition" class="form-group text-center text-muted content-divider">
+
                         </div>
-                        <div data-bind="if: HasTimeRunning()">
-                            <div class="row">
-                                <div class="col-12" style="text-align:center">
-                                    <strong class="text-primary" data-bind="text: BeginningTimeHours"></strong>
-                                    <br />
-                                    <strong class="text-secondary">Inicio del turno</strong>
+                        <hr style="margin-bottom:15px;margin-top:15px" />
+                        <div style="text-align:center">
+                            <div data-bind="if: !HasTimeRunning()">
+                                <strong class="text-primary">No se ha iniciado el turno</strong>
+                            </div>
+                            <div data-bind="if: HasTimeRunning()">
+                                <div class="row">
+                                    <div class="col-12" style="text-align:center">
+                                        <strong class="text-primary" data-bind="text: BeginningTimeHours"></strong>
+                                        <br />
+                                        <strong class="text-secondary">Inicio del turno</strong>
+                                    </div>
+                                </div>
+                                <div data-bind="foreach: Breaks">
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <strong class="text-primary" data-bind="text: BeginningTime">
+
+                                            </strong>
+                                            <br />
+                                            <strong class="text-secondary">Inicio del break</strong>
+                                        </div>
+                                        <div class="col-6" data-bind="visible: Ended">
+                                            <strong class="text-primary" data-bind="text: EndTime">
+
+                                            </strong>
+                                            <br />
+                                            <strong class="text-secondary">Fin del break</strong>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div data-bind="foreach: Breaks">
-                                <hr />
+                        </div>
+                        <br />
+                        <div style="text-align:left">
+                            <strong>Notas:</strong>
+                            <textarea class="form-control"
+                                      data-bind="value: CommentsfromEmployee"></textarea>
+                        </div>
+                        <hr />
+                        <div style="text-align:center">
+                            <div data-bind="if: !HasTimeRunning()">
+                                <div class="row">
+                                    <div class="col-3">
+
+                                    </div>
+                                    <div class="col-6">
+                                        <button data-bind="click: Process, disable: Processing" class="btn btn-primary btn-block">
+                                            Iniciar Turno <i class="icon-watch2"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div data-bind="if: HasTimeRunning()">
                                 <div class="row">
                                     <div class="col-6">
-                                        <strong class="text-primary" data-bind="text: BeginningTime">
-
-                                        </strong>
-                                        <br />
-                                        <strong class="text-secondary">Inicio del break</strong>
+                                        <div data-bind="if: HasBreakRunning()">
+                                            <button data-bind="click: ProcessBreak, disable: Processing" class="btn btn-warning btn-block">
+                                                Terminar Break <i class="icon-cup2"></i>
+                                            </button>
+                                        </div>
+                                        <div data-bind="if: !HasBreakRunning()">
+                                            <button data-bind="click: ProcessBreak, disable: Processing" class="btn btn-warning btn-block">
+                                                Iniciar Break <i class="icon-cup2"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div class="col-6" data-bind="visible: Ended">
-                                        <strong class="text-primary" data-bind="text: EndTime">
-
-                                        </strong>
-                                        <br />
-                                        <strong class="text-secondary">Fin del break</strong>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                    <div style="text-align:left">
-                        <strong>Notas:</strong>
-                        <textarea class="form-control"
-                                  data-bind="value: CommentsfromEmployee"></textarea>
-                    </div>
-                    <hr />
-                    <div style="text-align:center">
-                        <div data-bind="if: !HasTimeRunning()">
-                            <div class="row">
-                                <div class="col-3">
-
-                                </div>
-                                <div class="col-6">
-                                    <button data-bind="click: Process, disable: Processing" class="btn btn-primary btn-block">
-                                        Iniciar Turno <i class="icon-watch2"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div data-bind="if: HasTimeRunning()">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div data-bind="if: HasBreakRunning()">
-                                        <button data-bind="click: ProcessBreak, disable: Processing" class="btn btn-warning btn-block">
-                                            Terminar Break <i class="icon-cup2"></i>
+                                    <div class="col-6" data-bind="if: !HasBreakRunning()">
+                                        <button data-bind="click: Process, disable: Processing" class="btn btn-primary btn-block">
+                                            Terminar Turno <i class="icon-watch2"></i>
                                         </button>
                                     </div>
-                                    <div data-bind="if: !HasBreakRunning()">
-                                        <button data-bind="click: ProcessBreak, disable: Processing" class="btn btn-warning btn-block">
-                                            Iniciar Break <i class="icon-cup2"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-6" data-bind="if: !HasBreakRunning()">
-                                    <button data-bind="click: Process, disable: Processing" class="btn btn-primary btn-block">
-                                        Terminar Turno <i class="icon-watch2"></i>
-                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div style="text-align:center" data-bind="visible: !Loaded()">
+                    <img src="~/Images/bigLoading.gif" width="60" />
+                </div>
             </div>
-            <div style="text-align:center" data-bind="visible: !Loaded()">
-                <img src="~/Images/bigLoading.gif" width="60" />
+
+        </div>
+
+        <div id="successModal" class="modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style="padding-top:25px; text-align:center">
+                        <p data-bind="text: ReturnMessage"></p>
+                    </div>
+                </div>
             </div>
         </div>
 
-    </div>
-
-    <div id="successModal" class="modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body" style="padding-top:25px; text-align:center">
-                    <p data-bind="text: ReturnMessage"></p>
+        <div id="testerModal" class="modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style="padding-top:25px; text-align:center">
+                        <textarea class="form-control" rows="4" id="tester"></textarea>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 <script>
     $(document).ready(function () {
         var redirectToIndex = function(){
@@ -143,6 +153,8 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
+                        $('#tester').val(JSON.stringify(data));
+                        $('#testerModal').modal('show');
                         console.log(data);
                         //Today
                         var today = new Date();
