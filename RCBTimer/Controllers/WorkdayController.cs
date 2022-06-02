@@ -162,7 +162,7 @@ namespace RCBTimer.Controllers
             return JsonConvert.SerializeObject(employee, Formatting.Indented,
                     new JsonSerializerSettings
                     {
-                        DateFormatHandling = DateFormatHandling.IsoDateFormat,
+                        DateFormatHandling = DateFormatHandling.IsoDateFormat
                     });
         }
 
