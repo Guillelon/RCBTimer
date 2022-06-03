@@ -191,7 +191,7 @@ namespace DAL.Repository
                 {
                     dto.Id = workday.Id; 
                     dto.CommentsfromEmployee = workday.CommentsfromEmployee;
-                    dto.BeginningTime = workday.BeginningTime;
+                    dto.BeginningTime = workday.BeginningTime;                    
                     dto.Breaks = workday.Breaks.Where(b => b.IsActive).Select(b => new BreakDTO
                     {
                         BeginningTime = b.BeginningTime,

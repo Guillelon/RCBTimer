@@ -72,7 +72,25 @@ namespace DAL.DTO
         public bool HasBreakRunning { get; set; }
 
         public DateTime? BeginningTime { get; set; }
+        public string BeginningTimeDate { get; set; }
+        public string BeginningTimeHour {
+            get
+            {
+                return BeginningTime.Value.ToString("hh:mm tt");
+            }
+        }
         public DateTime? EndTime { get; set; }
+        public string EndTimeDate { get; set; }
+        public string EndTimeHour
+        {
+            get
+            {
+                if (EndTime.HasValue)
+                    return EndTime.Value.ToString("hh:mm tt");
+                else
+                    return string.Empty;
+            }
+        }
         public IList<BreakDTO> Breaks { get; set; }
 
         public WorkdayForEmployeeDTO()
@@ -86,6 +104,8 @@ namespace DAL.DTO
         public string EmployeeName { get; set; }
         public string EmployeePosition { get; set; }
         public DateTime BeginningTime { get; set; }
+        public string BeginningTimeDate { get; set; }
+        public string BeginningTimeHour { get; set; }
         public DateTime? EndTime { get; set; }
         public IList<BreakDTO> Breaks { get; set; }
 
@@ -98,6 +118,25 @@ namespace DAL.DTO
     {
         public int Id { get; set; }
         public DateTime BeginningTime { get; set; }
+        public string BeginningTimeDate { get; set; }
+        public string BeginningTimeHour
+        {
+            get
+            {
+                return BeginningTime.ToString("hh:mm tt");
+            }
+        }
         public DateTime? EndTime { get; set; }
+        public string EndTimeDate { get; set; }
+        public string EndTimeHour
+        {
+            get
+            {
+                if (EndTime.HasValue)
+                    return EndTime.Value.ToString("hh:mm tt");
+                else
+                    return string.Empty;
+            }
+        }
     }
 }

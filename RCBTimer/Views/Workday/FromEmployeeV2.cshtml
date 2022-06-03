@@ -153,8 +153,6 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
-                        $('#tester').val(JSON.stringify(data));
-                        //$('#testerModal').modal('show');
                         console.log(data);
                         //Today
                         var today = new Date();
@@ -168,7 +166,7 @@
                         self.EmployeeId = data.EmployeeId;
                         //BeginningTime
                         var beginningTime = new Date(data.BeginningTime);
-                        self.BeginningTimeHours(FormatAMPM(beginningTime));
+                        self.BeginningTimeHours(data.BeginningTimeHour);
                         self.HasTimeRunning(data.HasTimeRunning);
                         //Break
                         self.HasBreakRunning(data.HasBreakRunning);
@@ -230,12 +228,12 @@
         {
             var self = this;
             var beginning = new Date(data.BeginningTime);
-            self.BeginningTime = ko.observable(FormatAMPM(beginning));
+            self.BeginningTime = ko.observable(data.BeginningTimeHour);
             self.EndTime = ko.observable();
             self.Ended = ko.observable(false);
             if (data.EndTime != null) {
                 var end = new Date(data.EndTime);
-                self.EndTime(FormatAMPM(end));
+                self.EndTime(data.EndTimeHour);
                 self.Ended(true);
             }
         }
