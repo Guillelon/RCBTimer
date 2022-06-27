@@ -39,6 +39,7 @@ namespace RCBTimer.Controllers
             {
                 ViewBag.SuccessMessage = TempData["SuccessMessage"].ToString();
             }
+            var json = new JavaScriptSerializer().Serialize(model);
             return View(model);
         }
 
@@ -159,11 +160,12 @@ namespace RCBTimer.Controllers
         public string GetDataForEmployee(int id)
         {
             var employee = workdayRepository.GetEmployeeV2(id);
-            return JsonConvert.SerializeObject(employee, Formatting.Indented,
+            var json = JsonConvert.SerializeObject(employee, Formatting.Indented,
                     new JsonSerializerSettings
                     {
                         DateFormatHandling = DateFormatHandling.IsoDateFormat
                     });
+            return json;
         }
 
         public string GetWorkDayByEdit(int id)
