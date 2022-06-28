@@ -30,22 +30,16 @@ namespace RCBTimer.Controllers.Api
         }
 
         // GET api/<controller>
-        public string GetBoard()
+        public object GetBoard()
         {
             var model = employeeRepository.GetAll();
-            var json = new JavaScriptSerializer().Serialize(model);
-            return json;
+            return model;
         }
 
-        public string GetDataForEmployee(int id)
+        public object GetDataForEmployee(int id)
         {
             var employee = workdayRepository.GetEmployeeV2(id);
-            var json = JsonConvert.SerializeObject(employee, Formatting.Indented,
-                    new JsonSerializerSettings
-                    {
-                        DateFormatHandling = DateFormatHandling.IsoDateFormat
-                    });
-            return json;
+            return employee;
         }
 
         [HttpPost]
