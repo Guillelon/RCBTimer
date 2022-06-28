@@ -1,5 +1,6 @@
 ﻿using DAL.Repository;
 using Newtonsoft.Json;
+using RCBTimer.Models.Api;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,32 @@ namespace RCBTimer.Controllers.Api
             var model = employeeRepository.GetAll();
             var json = new JavaScriptSerializer().Serialize(model);
             return json;
+        }
+
+        public string GetDataForEmployee(int id)
+        {
+            var employee = workdayRepository.GetEmployeeV2(id);
+            var json = JsonConvert.SerializeObject(employee, Formatting.Indented,
+                    new JsonSerializerSettings
+                    {
+                        DateFormatHandling = DateFormatHandling.IsoDateFormat
+                    });
+            return json;
+        }
+
+        [HttpPost]
+        public string Process([FromBody] WorkdayViewModel value)
+        {
+            var result = string.Empty;
+            if (value.ProcessBreak)
+            {
+                result = workdayRepository.ProcessBreak(value.WorkdayId, value.EmployeeId, value.Comments);
+            }
+            else
+            {
+                result = workdayRepository.ProcessWorkDay(value.WorkdayId, value.EmployeeId, value.Comments);
+            }                
+            return "200";
         }
 
         // GET api/<controller>/5
