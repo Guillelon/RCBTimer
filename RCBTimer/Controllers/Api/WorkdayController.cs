@@ -40,7 +40,7 @@ namespace RCBTimer.Controllers.Api
 
         public object GetDataForEmployee(int id)
         {
-            var employee = workdayRepository.GetByEmployee(id);
+            var employee = workdayRepository.GetEmployeeV2(id);
             return employee;
         }
 
