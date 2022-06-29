@@ -23,6 +23,7 @@ namespace RCBTimer
         public static void Register(HttpConfiguration config)
         {
             // Web API routes
+            config.EnableCors();
             config.MapHttpAttributeRoutes();
             config.Formatters.JsonFormatter.SupportedMediaTypes
                              .Add(new MediaTypeHeaderValue("text/html"));
