@@ -20,7 +20,7 @@ namespace DAL.Repository
             context = new RCBTimerDBContext();
         }
 
-        public string ProcessWorkDay(int id, int employeeId,string commentsFromEmployee)
+        public string ProcessWorkDay(int id, int employeeId, string commentsFromEmployee)
         {
             var employee = context.Employee.Where(e => e.Id == employeeId).FirstOrDefault();
             var workDay = employee.Workdays.Where(w => w.IsActive && w.Id == id)
@@ -43,7 +43,7 @@ namespace DAL.Repository
             return employee.FirstName + " te has registrado con éxito";
         }
 
-        public string ProcessBreak(int id, int employeeId,string commentsFromEmployee)
+        public string ProcessBreak(int id, int employeeId, string commentsFromEmployee)
         {
             var employee = context.Employee.Where(e => e.Id == employeeId).FirstOrDefault();
             var workDay = context.Workday.Where(w => w.Id == id).FirstOrDefault();
@@ -101,7 +101,7 @@ namespace DAL.Repository
                         "CONVERT(TIME, W.EndTime - W.BeginningTime) AS 'TotalWorkedTime' " +
                         "FROM Workdays W " +
                         "LEFT JOIN BREAKS B ON W.ID = B.WorkdayId and B.ISACTIVE = 1 " +
-                        "LEFT JOIN Employees E ON W.EmployeeId = E.Id " +                        
+                        "LEFT JOIN Employees E ON W.EmployeeId = E.Id " +
                         "WHERE W.ID = " + id + " AND W.ISACTIVE = 1 " +
                         "GROUP BY W.Id, E.FIRSTNAME, E.LASTNAME,E.Position, " +
                                  "W.BeginningTime, W.EndTime, W.Comments," +
@@ -110,9 +110,9 @@ namespace DAL.Repository
             return result;
         }
 
-        public IList<WorkdayDTO> GetByDate(DateTime date)
+        public IList<WorkdayDTO> GetByDateOrEmployeeId(DateTime? date, int? id)
         {
-            var nextDay = date.AddDays(1).AddMinutes(-1);
+            
             var query = "SELECT  W.Id, E.FIRSTNAME + ' ' + E.LASTNAME as EmployeeInfo," +
                        "E.Position as EmployeePosition, W.BeginningTime, W.EndTime, W.Comments," +
                        "SUM(DATEDIFF(MINUTE, B.BeginningTime, B.EndTime)) AS BreakMinutes," +
@@ -120,9 +120,16 @@ namespace DAL.Repository
                        "FROM Workdays W " +
                        "LEFT JOIN BREAKS B ON W.ID = B.WorkdayId and B.ISACTIVE = 1 " +
                        "LEFT JOIN Employees E ON W.EmployeeId = E.Id " +
-                       "WHERE W.ISACTIVE = 1 AND W.BeginningTime >= '" + date.ToString("s") + "' AND " +
-                             "W.BeginningTime <= '" + nextDay.ToString("s") + "' " +
-                       "GROUP BY W.Id, E.FIRSTNAME, E.LASTNAME,E.Position, " +
+                       "WHERE W.ISACTIVE = 1 ";
+            if(date.HasValue)
+            {
+                var nextDay = date.Value.AddDays(1).AddMinutes(-1);
+                query += "AND W.BeginningTime >= '" + date.Value.ToString("s") + "' AND " +
+                             "W.BeginningTime <= '" + nextDay.ToString("s") + "' ";
+            } if (id.HasValue)
+                query += "AND W.EmployeeId = " + id.Value + " ";
+
+            query += "GROUP BY W.Id, E.FIRSTNAME, E.LASTNAME,E.Position, " +
                                 "W.BeginningTime, W.EndTime, W.Comments," +
                                 "CONVERT(TIME, W.EndTime - W.BeginningTime) ";
             var result = context.Database.SqlQuery<WorkdayDTO>(query).ToList();
@@ -163,7 +170,7 @@ namespace DAL.Repository
                 if (model.BreakEndTime.HasValue)
                     tBreak.EndTime = model.BreakEndTime.Value;
                 model.Breaks.Add(tBreak);
-            }               
+            }
             context.Workday.Add(model);
             context.SaveChanges();
         }
@@ -189,9 +196,9 @@ namespace DAL.Repository
                 var workday = employee.Workdays.Where(w => w.IsActive && w.EndTime == null).FirstOrDefault();
                 if (workday != null)
                 {
-                    dto.Id = workday.Id; 
+                    dto.Id = workday.Id;
                     dto.CommentsfromEmployee = workday.CommentsfromEmployee;
-                    dto.BeginningTime = workday.BeginningTime;                    
+                    dto.BeginningTime = workday.BeginningTime;
                     dto.Breaks = workday.Breaks.Where(b => b.IsActive).Select(b => new BreakDTO
                     {
                         BeginningTime = b.BeginningTime,
@@ -239,7 +246,7 @@ namespace DAL.Repository
         {
             var model = Get(id);
             model.DeActivate(userName);
-            foreach(var tBreak in model.Breaks)
+            foreach (var tBreak in model.Breaks)
             {
                 tBreak.DeActivate(userName);
                 context.Entry(tBreak).State = EntityState.Modified;

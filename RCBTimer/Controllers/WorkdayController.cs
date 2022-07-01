@@ -128,25 +128,23 @@ namespace RCBTimer.Controllers
             return JsonConvert.SerializeObject(workdays, Formatting.Indented, jsonConverterSettings);
         }
 
-        public string GetByDate(string date)
+        public string Search(string date, int? id)
         {
-            var beginDateFormatted = new DateTime();
-            try
-            {
-                beginDateFormatted = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            }
-            catch
-            {
-                //Today just in case
-                beginDateFormatted = DateTime.Now;
-            }
-            var workdays = workdayRepository.GetByDate(beginDateFormatted);
-            return JsonConvert.SerializeObject(workdays, Formatting.Indented, jsonConverterSettings);
-        }
 
-        public string GetByEmployee(int id)
-        {
-            var workdays = workdayRepository.GetByEmployee(id);
+            DateTime? dateFormated = null;
+            if (date != "null" && date.Length > 1)
+            {
+                try
+                {
+                    dateFormated = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                }
+                catch
+                {
+                    //Today just in case
+                    dateFormated = DateTime.Now;
+                }
+            }
+            var workdays = workdayRepository.GetByDateOrEmployeeId(dateFormated, id);
             return JsonConvert.SerializeObject(workdays, Formatting.Indented, jsonConverterSettings);
         }
 

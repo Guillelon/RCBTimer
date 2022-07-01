@@ -111,21 +111,5 @@
                 return false;
             }
         });
-
-        $('#BeginningTime').change(function () {
-            console.log($(this).val());
-            $('#BreakBeginningTime').val($(this).val());
-            $('#BreakEndTime').val($(this).val());
-            $('#EndTime').val($(this).val());
-        })
-
-        $('#BreakBeginningTime').change(function () {
-            $('#BreakEndTime').val($(this).val());
-            $('#EndTime').val($(this).val());
-        })
-
-        $('#BreakEndTime').change(function () {
-            $('#EndTime').val($(this).val());
-        })
     });
 </script>
