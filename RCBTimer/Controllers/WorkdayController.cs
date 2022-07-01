@@ -132,17 +132,14 @@ namespace RCBTimer.Controllers
         {
 
             DateTime? dateFormated = null;
-            if (date != "null" && date.Length > 1)
+            try
             {
-                try
-                {
-                    dateFormated = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                }
-                catch
-                {
-                    //Today just in case
-                    dateFormated = DateTime.Now;
-                }
+                dateFormated = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            }
+            catch
+            {
+                //Today just in case
+                dateFormated = null;
             }
             var workdays = workdayRepository.GetByDateOrEmployeeId(dateFormated, id);
             return JsonConvert.SerializeObject(workdays, Formatting.Indented, jsonConverterSettings);
