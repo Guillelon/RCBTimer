@@ -291,12 +291,12 @@
 
             self.GetData = function () {
                 self.Loading(true);
+                self.Workdays([]);
                 $.ajax({
                     url: '/Workday/GetData',
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
-                        console.log(data);
                         for (var i = 0; i < data.length; i++) {
                             self.Workdays.push(new WorkDay(data[i]));
                         }
