@@ -171,12 +171,13 @@ namespace RCBTimer.Controllers
             dto.EmployeeName = model.Employee.FullName();
             dto.BeginningTime = model.BeginningTime;
             dto.EndTime = model.EndTime;
-            foreach(var tBreak in model.Breaks)
+            foreach(var tBreak in model.Breaks.Where(b => b.IsActive))
             {
                 var breakDto = new BreakDTO();
                 breakDto.Id = tBreak.Id;
                 breakDto.BeginningTime = tBreak.BeginningTime;
                 breakDto.EndTime = tBreak.EndTime;
+                breakDto.ToDelete = false;
                 dto.Breaks.Add(breakDto);
             }
             return JsonConvert.SerializeObject(dto, Formatting.Indented, jsonConverterSettings);
@@ -185,9 +186,10 @@ namespace RCBTimer.Controllers
         [HttpPost]
         public string EditWorkday(string query)
         {
+            var userName = User.Identity.Name;
             var dto = new JavaScriptSerializer()
                       .Deserialize<WorkdayToEdit>(query);
-            workdayRepository.EditV2(dto);
+            workdayRepository.EditV2(dto, userName);
             var toReturn = workdayRepository.GetById(dto.Id);
             return JsonConvert.SerializeObject(toReturn, Formatting.Indented, jsonConverterSettings);
         }

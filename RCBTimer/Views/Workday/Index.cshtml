@@ -61,7 +61,7 @@
                 </div>
             </div>
             <hr />
-            <div data-bind="visible: !Loading()">                
+            <div data-bind="visible: !Loading()">
                 <div class="d-none d-xl-block">
                     <table class="table table-bordered">
                         <thead>
@@ -157,6 +157,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div data-bind="visible: ShowEditError" class="alert alert-danger" role="alert">
+                        Los campos de inicio del turno e inicio de los breaks son mandatorios
+                    </div>
                     <div class="d-none d-xl-block">
                         <table class="table table-bordered">
                             <tbody>
@@ -165,6 +168,8 @@
                                         <strong>Nombre: </strong> <span data-bind="text: EmployeeToEdit"></span>
                                         <br />
                                         <strong>Turno del:</strong> <span data-bind="text: WorkdayTimeToEdit"></span>
+                                        <br />
+                                        <small>(Los cambios se guardaran una vez se presione el botón de aceptar)</small>
                                     </td>
                                 </tr>
                                 <tr>
@@ -179,23 +184,35 @@
                                 </tr>
                             </tbody>
                             <tbody data-bind="foreach: BreaksToEdit">
-                                <tr>
+                                <tr data-bind="if: !ToDelete()">
                                     <td colspan="2" style="text-align:center">
                                         <strong>Break <span data-bind="text: $index() + 1"></span></strong>
+                                        - <strong data-bind="visible: !$root.DeleteMode(), click: $root.DeleteBreak"
+                                                  style="color:red;text-decoration:underline;cursor:pointer">
+                                            Eliminar
+                                        </strong>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr data-bind="if: !ToDelete()">
                                     <td>
                                         <strong>Inicio</strong>
-                                        <input data-bind="value: $data.BeginningTime, disable:$root.DeleteMode" class="form-control" type="datetime-local" />
+                                        <input data-bind="value: BeginningTime, disable:$root.DeleteMode" class="form-control" type="datetime-local" />
                                     </td>
                                     <td>
                                         <strong>Fin</strong>
-                                        <input data-bind="value: $data.EndTime, disable:$root.DeleteMode" class="form-control" type="datetime-local" />
-
+                                        <input data-bind="value: EndTime, disable:$root.DeleteMode" class="form-control" type="datetime-local" />
                                     </td>
                                 </tr>
                             </tbody>
+                            <tfoot data-bind="if: !DeleteMode()">
+                                <tr>
+                                    <td colspan="2" style="text-align:center">
+                                        <span data-bind="click: AddBreak" style="cursor:pointer" class="badge badge-primary">
+                                            Agregar otro break
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                     <div class="d-xs-block d-xl-none">
@@ -206,6 +223,8 @@
                                         <strong>Nombre: </strong> <span data-bind="text: EmployeeToEdit"></span>
                                         <br />
                                         <strong>Turno del:</strong> <span data-bind="text: WorkdayTimeToEdit"></span>
+                                        <br />
+                                        <small>(Los cambios se guardaran una vez se presione el botón de aceptar)</small>
                                     </td>
                                 </tr>
                                 <tr>
@@ -222,24 +241,37 @@
                                 </tr>
                             </tbody>
                             <tbody data-bind="foreach: BreaksToEdit">
-                                <tr>
+                                <tr data-bind="if: !ToDelete()">
                                     <td style="text-align:center">
                                         <strong>Break <span data-bind="text: $index() + 1"></span></strong>
+                                        - <strong data-bind="visible: !$root.DeleteMode(), click: $root.DeleteBreak"
+                                                  style="color:red;text-decoration:underline;cursor:pointer">
+                                            Eliminar
+                                        </strong>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr data-bind="if: !ToDelete()">
                                     <td>
                                         <strong>Inicio</strong>
                                         <input data-bind="value: $data.BeginningTime, disable:$root.DeleteMode" class="form-control" type="datetime-local" />
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr data-bind="if: !ToDelete()">
                                     <td>
                                         <strong>Fin</strong>
                                         <input data-bind="value: $data.EndTime, disable:$root.DeleteMode" class="form-control" type="datetime-local" />
                                     </td>
                                 </tr>
                             </tbody>
+                            <tfoot data-bind="if: !DeleteMode()">
+                                <tr>
+                                    <td colspan="2" style="text-align:center">
+                                        <span data-bind="click: AddBreak" style="cursor:pointer" class="badge badge-primary">
+                                            Agregar otro break
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
 
@@ -256,7 +288,7 @@
                                 <button data-bind="click: AcceptDelete" class="btn btn-danger btn-block">Eliminar</button>
                             </div>
                             <div data-bind="if: !DeleteMode()">
-                                <button data-bind="click: AcceptEdit" class="btn btn-primary btn-block">Editar</button>
+                                <button data-bind="click: AcceptEdit" class="btn btn-primary btn-block">Aceptar</button>
                             </div>
                         </div>
                     </div>
@@ -264,7 +296,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <script>
@@ -288,6 +319,7 @@
             self.EndTimeToEdit = ko.observable();
             self.BreaksToEdit = ko.observableArray();
             self.DeleteMode = ko.observable(false);
+            self.ShowEditError = ko.observable(false);
 
             self.GetData = function () {
                 self.Loading(true);
@@ -352,6 +384,11 @@
             }
 
             self.AcceptEdit = function () {
+                var validation = true;
+                self.ShowEditError(false);
+                if (self.BeginningTimeToEdit().length == 0)
+                    validation = false;
+
                 var dto = {
                     Id: self.WorkDayToEditId,
                     BeginningTime: self.BeginningTimeToEdit(),
@@ -359,24 +396,41 @@
                     Breaks: []
                 }
                 for (var i = 0; i < self.BreaksToEdit().length; i++) {
-                    dto.Breaks.push(self.BreaksToEdit()[i]);
-                }
-                var objJson = JSON.stringify(dto);
-
-                $.ajax({
-                    url: '/Workday/EditWorkday/',
-                    type: 'POST',
-                    data: { 'query': objJson },
-                    dataType: 'json',
-                    success: function (data) {
-                        var oldElement = ko.utils.arrayFirst(self.Workdays(), function (item) {
-                            return item.Id == data.Id;
-                        });
-                        var newElement = new WorkDay(data);
-                        self.Workdays.replace(oldElement, newElement);
-                        $('#editDeleteModal').modal('hide');
+                    console.log(self.BreaksToEdit()[i]);
+                    if (self.BreaksToEdit()[i].BeginningTime() == null
+                        || self.BreaksToEdit()[i].BeginningTime().length == 0) {
+                        validation = false;
+                        break;
                     }
-                });
+
+                    var breakToEdit = {
+                        Id: self.BreaksToEdit()[i].Id,
+                        BeginningTime: self.BreaksToEdit()[i].BeginningTime(),
+                        EndTime: self.BreaksToEdit()[i].EndTime(),
+                        ToDelete: self.BreaksToEdit()[i].ToDelete(),
+                        NewBreak: self.BreaksToEdit()[i].NewBreak
+                    };
+                    dto.Breaks.push(breakToEdit);
+                }
+                if (validation) {
+                    var objJson = JSON.stringify(dto);
+                    $.ajax({
+                        url: '/Workday/EditWorkday/',
+                        type: 'POST',
+                        data: { 'query': objJson },
+                        dataType: 'json',
+                        success: function (data) {
+                            var oldElement = ko.utils.arrayFirst(self.Workdays(), function (item) {
+                                return item.Id == data.Id;
+                            });
+                            var newElement = new WorkDay(data);
+                            self.Workdays.replace(oldElement, newElement);
+                            $('#editDeleteModal').modal('hide');
+                        }
+                    });
+                }
+                else
+                    self.ShowEditError(true);
             }
 
             self.AcceptDelete = function () {
@@ -406,7 +460,7 @@
                         self.WorkdayTimeToEdit(FormattedDate(formatDate));
                         self.BreaksToEdit([]);
                         for (var i = 0; i < data.Breaks.length; i++) {
-                            self.BreaksToEdit.push(data.Breaks[i]);
+                            self.BreaksToEdit.push(new Break(data.Breaks[i]));
                         }
                         $('#editDeleteModal').modal('show');
                     }
@@ -417,6 +471,10 @@
                 self.Date(null)
                 self.Employee(null);
                 self.GetData();
+            }
+
+            self.AddBreak = function () {
+                self.BreaksToEdit.push(new Break());
             }
 
             $('.employeeSearchInput').autocomplete({
@@ -439,6 +497,15 @@
                     return false;
                 }
             });
+
+            self.DeleteBreak = function (tBreak) {
+                if (confirm("¿Está seguro que desea eliminar el break?") == true) {
+                    if (tBreak.NewBreak)
+                        self.BreaksToEdit.remove(tBreak);
+                    else
+                        tBreak.ToDelete(!(tBreak.ToDelete()));
+                }
+            }
         }
 
         function WorkDay(data) {
@@ -462,6 +529,23 @@
             }
             else
                 self.TotalWorkedTime('--');
+        }
+
+        function Break(data) {
+            var self = this;
+            self.Id = 0;
+            self.BeginningTime = ko.observable();
+            self.EndTime = ko.observable();
+            self.NewBreak = true;
+
+            if (data != null) {
+                self.Id = data.Id;
+                self.BeginningTime(data.BeginningTime);
+                self.EndTime(data.EndTime);
+                self.NewBreak = false;
+            }
+
+            self.ToDelete = ko.observable(false);
         }
 
         var viewModel = new viewModel();

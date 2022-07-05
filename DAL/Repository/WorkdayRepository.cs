@@ -112,7 +112,7 @@ namespace DAL.Repository
 
         public IList<WorkdayDTO> GetByDateOrEmployeeId(DateTime? date, int? id)
         {
-            
+
             var query = "SELECT  W.Id, E.FIRSTNAME + ' ' + E.LASTNAME as EmployeeInfo," +
                        "E.Position as EmployeePosition, W.BeginningTime, W.EndTime, W.Comments," +
                        "SUM(DATEDIFF(MINUTE, B.BeginningTime, B.EndTime)) AS BreakMinutes," +
@@ -121,17 +121,19 @@ namespace DAL.Repository
                        "LEFT JOIN BREAKS B ON W.ID = B.WorkdayId and B.ISACTIVE = 1 " +
                        "LEFT JOIN Employees E ON W.EmployeeId = E.Id " +
                        "WHERE W.ISACTIVE = 1 ";
-            if(date.HasValue)
+            if (date.HasValue)
             {
                 var nextDay = date.Value.AddDays(1).AddMinutes(-1);
                 query += "AND W.BeginningTime >= '" + date.Value.ToString("s") + "' AND " +
                              "W.BeginningTime <= '" + nextDay.ToString("s") + "' ";
-            } if (id.HasValue)
+            }
+            if (id.HasValue)
                 query += "AND W.EmployeeId = " + id.Value + " ";
 
             query += "GROUP BY W.Id, E.FIRSTNAME, E.LASTNAME,E.Position, " +
                                 "W.BeginningTime, W.EndTime, W.Comments," +
-                                "CONVERT(TIME, W.EndTime - W.BeginningTime) ";
+                                "CONVERT(TIME, W.EndTime - W.BeginningTime) " +
+                     "ORDER BY W.BeginningTime DESC";
             var result = context.Database.SqlQuery<WorkdayDTO>(query).ToList();
             return result;
         }
@@ -224,7 +226,7 @@ namespace DAL.Repository
             return null;
         }
 
-        public void EditV2(WorkdayToEdit dto)
+        public void EditV2(WorkdayToEdit dto, string userName)
         {
             var model = Get(dto.Id);
             model.BeginningTime = dto.BeginningTime;
@@ -234,8 +236,23 @@ namespace DAL.Repository
                 var mBreak = model.Breaks.Where(b => b.Id == tBreak.Id).FirstOrDefault();
                 if (mBreak != null)
                 {
-                    mBreak.BeginningTime = tBreak.BeginningTime;
-                    mBreak.EndTime = tBreak.EndTime;
+                    if (tBreak.ToDelete)
+                    {
+                        mBreak.DeActivate(userName);
+                    }
+                    else
+                    {
+                        mBreak.BeginningTime = tBreak.BeginningTime;
+                        mBreak.EndTime = tBreak.EndTime;
+                    }
+                }
+                else if (tBreak.NewBreak)
+                {
+                    var newBreak = new Break();
+                    newBreak.WorkdayId = model.Id;
+                    newBreak.BeginningTime = tBreak.BeginningTime;
+                    newBreak.EndTime = tBreak.EndTime;
+                    model.Breaks.Add(newBreak);
                 }
             }
             context.Entry(model).State = EntityState.Modified;

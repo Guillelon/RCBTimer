@@ -138,5 +138,7 @@ namespace DAL.DTO
                     return string.Empty;
             }
         }
+        public bool ToDelete { get; set; }
+        public bool NewBreak { get; set; }
     }
 }
